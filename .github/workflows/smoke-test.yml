@@ -1,0 +1,38 @@
+name: RouteSaver smoke test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check live site
+        run: |
+          curl -fsSL --retry 5 --retry-delay 3 https://baiez82-stack.github.io/routesaver/ -o /tmp/routesaver.html
+          grep -q 'fromSuggestions' /tmp/routesaver.html
+          grep -q 'data-v="plugin"' /tmp/routesaver.html
+          echo "Live page contains autocomplete and plug-in hybrid UI"
+
+      - name: Check Photon autocomplete API and CORS
+        run: |
+          python - <<'PY'
+          import urllib.request, json
+          u='https://photon.komoot.io/api/?limit=5&lang=it&q=Via%20Roma%2012%20Verona'
+          req=urllib.request.Request(u,headers={'Origin':'https://baiez82-stack.github.io','User-Agent':'RouteSaver-Smoke-Test/1.0'})
+          with urllib.request.urlopen(req,timeout=20) as r:
+              data=json.load(r)
+              print('status:',r.status)
+              print('access-control-allow-origin:',r.headers.get('Access-Control-Allow-Origin'))
+              print('features:',len(data.get('features',[])))
+              if not data.get('features'):
+                  raise SystemExit('Photon returned no suggestions')
+          PY
+
+      - name: Check responsive viewport
+        run: |
+          grep -q 'width=device-width' /tmp/routesaver.html
+          grep -q '@media(max-width:720px)' /tmp/routesaver.html
+          echo "Mobile viewport and responsive breakpoint present"
