@@ -14,57 +14,18 @@ jobs:
   inspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect latest official EEA cars aggregate
+      - name: Inspect manufacturer names in latest aggregate EEA data
         run: |
           python - <<'PY'
-          import csv, io, re, urllib.parse, urllib.request
-          from html.parser import HTMLParser
-
-          PAGE="https://climate-energy.eea.europa.eu/topics/transport/real-world-emissions/additional_information"
-
-          class P(HTMLParser):
-              def __init__(self):
-                  super().__init__()
-                  self.links=[]
-                  self.cur=None
-              def handle_starttag(self, tag, attrs):
-                  if tag=="a":
-                      self.cur=dict(attrs).get("href")
-              def handle_data(self, data):
-                  if self.cur:
-                      self.links.append((data.strip(), self.cur))
-              def handle_endtag(self, tag):
-                  if tag=="a":
-                      self.cur=None
-
-          req=urllib.request.Request(PAGE, headers={"User-Agent":"RouteSaver/0.4"})
-          with urllib.request.urlopen(req, timeout=60) as r:
-              html=r.read().decode("utf-8","replace")
-          p=P(); p.feed(html)
-          links=[]
-          for text,href in p.links:
-              h=urllib.parse.urljoin(PAGE,href)
-              if "Cars" in text and "Raw" in text and "Real-world" in text:
-                  m=re.search(r"\[(20\d{2})\]", text)
-                  if m: links.append((int(m.group(1)), text, h))
-          links.sort(reverse=True)
-          print("FOUND="+repr(links[:8]))
-          if not links:
-              raise SystemExit("No official raw cars dataset link found")
-          year,text,url=links[0]
-          print("SELECTED_YEAR="+str(year))
-          print("SELECTED_URL="+url)
-          req=urllib.request.Request(url, headers={"User-Agent":"RouteSaver/0.4"})
-          with urllib.request.urlopen(req, timeout=120) as r:
-              wrapper=io.TextIOWrapper(r, encoding="utf-8-sig", errors="replace", newline="")
-              header=wrapper.readline()
-              first=wrapper.readline()
-              second=wrapper.readline()
-          sample=header+"\n"+first+"\n"+second
-          sn=csv.Sniffer()
-          try: delim=sn.sniff(sample, delimiters=";,\t|").delimiter
-          except: delim=";"
-          rd=csv.reader(io.StringIO(sample), delimiter=delim)
-          for i,row in enumerate(rd):
-              print("ROW"+str(i)+"="+repr(row))
+          import csv, io, urllib.request
+          url="https://sdi.eea.europa.eu/datashare/public.php/dav/files/sptXqwkQr5g7Bp5/eea_t_real-world-co2-emission_p_2024_v01_r00/2024_Cars_Aggregated.csv"
+          req=urllib.request.Request(url,headers={"User-Agent":"RouteSaver/0.5"})
+          with urllib.request.urlopen(req,timeout=120) as r:
+              txt=io.TextIOWrapper(r,encoding="utf-8-sig",errors="replace",newline="")
+              rd=csv.DictReader(txt)
+              for row in rd:
+                  m=(row.get("Manufacturer") or "").upper()
+                  f=(row.get("Fuel Type") or "").upper()
+                  if any(k in m for k in ("HYUNDAI","PEUGEOT","VOLKSWAGEN","BMW","TOYOTA","KIA","RENAULT","STELLANTIS")):
+                      print("MATCH="+repr({"Year":row.get("Year"),"Manufacturer":row.get("Manufacturer"),"Fuel Type":row.get("Fuel Type"),"N":row.get("Number of vehicles"),"OBFCM":row.get("OBFCM Fuel consumption (l/100 km)"),"WLTP":row.get("WLTP Fuel consumption (l/100 km)"),"weighted":row.get("OBFCM Fuel consumption weighted (l/100 km)")}))
           PY
