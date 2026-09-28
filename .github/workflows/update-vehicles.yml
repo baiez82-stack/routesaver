@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths:
       - "scripts/update_vehicles.py"
+      - "scripts/enrich_battery.py"
       - ".github/workflows/update-vehicles.yml"
 
 permissions:
@@ -28,14 +29,17 @@ jobs:
       - name: Build EEA vehicle catalog
         run: python scripts/update_vehicles.py
 
+      - name: Add EEA electric range and battery estimate
+        run: python scripts/enrich_battery.py
+
       - name: Commit updated vehicle data
         run: |
-          if [ -z "$(git status --porcelain -- data/vehicles.json)" ]; then
+          if [ -z "$(git status --porcelain -- data/vehicles.json data/battery-cache.json)" ]; then
             echo "No vehicle data changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/vehicles.json
+          git add data/vehicles.json data/battery-cache.json
           git commit -m "Update EEA vehicle catalog"
           git push
