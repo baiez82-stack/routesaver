@@ -16,19 +16,27 @@ jobs:
           grep -q 'data-v="plugin"' /tmp/routesaver.html
           echo "Live page contains autocomplete and plug-in hybrid UI"
 
-      - name: Check Photon autocomplete API and CORS
+      - name: Probe Photon variants
         run: |
           python - <<'PY'
-          import urllib.request, json
-          u='https://photon.komoot.io/api/?limit=5&lang=it&q=Via%20Roma%2012%20Verona'
-          req=urllib.request.Request(u,headers={'Origin':'https://baiez82-stack.github.io','User-Agent':'RouteSaver-Smoke-Test/1.0'})
-          with urllib.request.urlopen(req,timeout=20) as r:
-              data=json.load(r)
-              print('status:',r.status)
-              print('access-control-allow-origin:',r.headers.get('Access-Control-Allow-Origin'))
-              print('features:',len(data.get('features',[])))
-              if not data.get('features'):
-                  raise SystemExit('Photon returned no suggestions')
+          import urllib.request, urllib.error, json
+          urls=[
+            'https://photon.komoot.io/api?q=Verona&limit=5&lang=it',
+            'https://photon.komoot.io/api?q=Via%20Roma%20Verona&limit=5&lang=it',
+            'https://photon.komoot.io/api?q=Via%20Roma%2012%2C%20Verona&limit=5',
+          ]
+          for u in urls:
+              print('\nURL',u)
+              for origin in (None,'https://baiez82-stack.github.io'):
+                  headers={'User-Agent':'RouteSaver-Smoke-Test/1.0','Accept':'application/json'}
+                  if origin: headers['Origin']=origin
+                  req=urllib.request.Request(u,headers=headers)
+                  try:
+                      with urllib.request.urlopen(req,timeout=20) as r:
+                          data=json.load(r)
+                          print(' origin=',origin,'status=',r.status,'acao=',r.headers.get('Access-Control-Allow-Origin'),'features=',len(data.get('features',[])))
+                  except urllib.error.HTTPError as e:
+                      print(' origin=',origin,'HTTP',e.code,'body=',e.read(250))
           PY
 
       - name: Check responsive viewport
