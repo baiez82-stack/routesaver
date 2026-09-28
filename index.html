@@ -10,8 +10,8 @@
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#eef4ff 0,#f8fafc 260px,#f5f7fb 100%);color:var(--ink)}
 button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 70px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}.topright{display:flex;align-items:center;gap:8px}.privacyLink{font-size:12px;font-weight:850;color:#334155;text-decoration:none;background:#fff;border:1px solid #e2e8f0;padding:7px 10px;border-radius:999px}.brand{font-weight:950;font-size:24px;letter-spacing:-.8px}.brand span{color:var(--green)}.beta{font-size:12px;font-weight:850;background:#ecfdf5;color:#166534;border:1px solid #bbf7d0;padding:7px 10px;border-radius:999px}
 .hero{background:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.9);border-radius:28px;padding:28px;box-shadow:var(--shadow);margin-bottom:18px}.hero h1{font-size:clamp(31px,7vw,56px);line-height:.98;letter-spacing:-2px;margin:0 0 12px;max-width:820px}.hero p{margin:0;color:var(--muted);font-size:17px;max-width:720px;line-height:1.5}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:var(--shadow);margin-bottom:18px}.panel h2{margin:0 0 14px;font-size:20px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field label{font-size:13px;font-weight:850;color:#334155}.field input{width:100%;border:1px solid #cbd5e1;border-radius:14px;padding:13px 14px;background:#fff;color:var(--ink);outline:none}.field input:focus{border-color:#60a5fa;box-shadow:0 0 0 3px #dbeafe}.full{grid-column:1/-1}
-.locrow{display:flex;gap:8px}.locrow input{flex:1}.geo{border:1px solid #cbd5e1;background:white;border-radius:14px;padding:0 13px;font-weight:850;cursor:pointer;white-space:nowrap}.geo:disabled{opacity:.55;cursor:wait}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:var(--shadow);margin-bottom:18px}.panel h2{margin:0 0 14px;font-size:20px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:7px;position:relative}.field label{font-size:13px;font-weight:850;color:#334155}.field input{width:100%;border:1px solid #cbd5e1;border-radius:14px;padding:13px 14px;background:#fff;color:var(--ink);outline:none}.field input:focus{border-color:#60a5fa;box-shadow:0 0 0 3px #dbeafe}.full{grid-column:1/-1}
+.locrow{display:flex;gap:8px}.locrow input{flex:1}.suggestions{display:none;position:absolute;left:0;right:0;top:100%;margin-top:5px;background:#fff;border:1px solid #cbd5e1;border-radius:14px;box-shadow:0 14px 30px rgba(15,23,42,.14);z-index:50;overflow:hidden;max-height:260px;overflow-y:auto}.suggestions.show{display:block}.suggestion{display:block;width:100%;border:0;border-bottom:1px solid #eef2f7;background:#fff;text-align:left;padding:11px 12px;cursor:pointer;color:#0f172a}.suggestion:last-child{border-bottom:0}.suggestion:hover,.suggestion:focus{background:#f8fafc}.suggestion strong{display:block;font-size:13px}.suggestion span{display:block;font-size:11px;color:#64748b;margin-top:2px}.pluginFields{display:none}.geo{border:1px solid #cbd5e1;background:white;border-radius:14px;padding:0 13px;font-weight:850;cursor:pointer;white-space:nowrap}.geo:disabled{opacity:.55;cursor:wait}
 .switchrow{display:flex;gap:8px;flex-wrap:wrap}.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;font-size:13px;font-weight:850;cursor:pointer}.chip.active{background:#0f172a;color:white;border-color:#0f172a}.minutes{display:flex;gap:8px;flex-wrap:wrap}.minchip{border:1px solid #cbd5e1;background:#fff;border-radius:14px;padding:10px 13px;font-size:13px;font-weight:850;cursor:pointer}.minchip.active{background:#dcfce7;color:#166534;border-color:#86efac;box-shadow:0 0 0 2px #f0fdf4}
 .helper{font-size:12px;color:var(--muted);line-height:1.4}.notice{display:none;margin-top:12px;padding:11px 13px;border-radius:14px;font-size:13px;font-weight:700}.notice.info{display:block;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}.notice.warn{display:block;background:#fff7ed;color:#9a3412;border:1px solid #fed7aa}.notice.err{display:block;background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
 .calc{width:100%;border:0;border-radius:16px;padding:15px 18px;background:linear-gradient(135deg,var(--green),var(--green2));color:white;font-size:16px;font-weight:950;cursor:pointer;box-shadow:0 10px 20px rgba(22,163,74,.18)}.calc[disabled]{opacity:.65;cursor:wait}.calc:active{transform:translateY(1px)}
@@ -42,21 +42,24 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     <div class="grid">
       <div class="field">
         <label>Partenza</label>
-        <div class="locrow"><input id="from" value="Verona" placeholder="Città, indirizzo o luogo"><button class="geo" id="geoBtn" type="button">Usa posizione</button></div>
+        <div class="locrow"><input id="from" autocomplete="off" value="Verona" placeholder="Città, indirizzo o luogo"><button class="geo" id="geoBtn" type="button">Usa posizione</button></div><div id="fromSuggestions" class="suggestions"></div>
       </div>
-      <div class="field"><label>Destinazione</label><input id="to" value="Milano" placeholder="Città, indirizzo o luogo"></div>
+      <div class="field"><label>Destinazione</label><input id="to" autocomplete="off" value="Milano" placeholder="Città, indirizzo o luogo"><div id="toSuggestions" class="suggestions"></div></div>
 
       <div class="field full"><label>Veicolo</label>
         <div class="switchrow" id="vehicleChips">
           <button class="chip active" data-v="benzina" type="button">Benzina</button>
           <button class="chip" data-v="diesel" type="button">Diesel</button>
-          <button class="chip" data-v="ibrida" type="button">Ibrida</button>
+          <button class="chip" data-v="ibrida" type="button">Full hybrid</button>
+          <button class="chip" data-v="plugin" type="button">Plug-in hybrid</button>
           <button class="chip" data-v="elettrica" type="button">Elettrica</button>
         </div>
       </div>
 
       <div class="field"><label id="consLabel">Consumo medio (l/100 km)</label><input id="cons" type="number" min=".1" step=".1" value="6.2"></div>
       <div class="field"><label id="priceLabel">Prezzo carburante (€/l)</label><input id="price" type="number" min=".01" step=".01" value="1.78"><span class="helper">Puoi inserire il tuo prezzo reale oppure usare il riferimento MIMIT quando disponibile.</span></div>
+      <div class="field pluginFields" id="pluginEvConsField"><label>Consumo elettrico (kWh/100 km)</label><input id="pluginEvCons" type="number" min=".1" step=".1" value="18.5"></div>
+      <div class="field pluginFields" id="pluginEnergyPriceField"><label>Costo energia (€/kWh)</label><input id="pluginEnergyPrice" type="number" min=".01" step=".01" value="0.30"></div>
       <div class="field full"><div class="fuelbox" id="fuelBox"><strong id="fuelTitle">Prezzo carburante MIMIT</strong><span id="fuelText"></span><br><button class="fuelbtn" id="useFuelPrice" type="button">Usa questo prezzo</button></div></div>
       <div class="field full"><label>Quanto sei disposto ad allungare il viaggio per risparmiare?</label><div class="minutes" id="minuteChips"><button class="minchip" data-min="5" type="button">+5 min</button><button class="minchip active" data-min="10" type="button">+10 min</button><button class="minchip" data-min="20" type="button">+20 min</button><button class="minchip" data-min="30" type="button">+30 min</button><button class="minchip" data-min="45" type="button">+45 min</button></div><span class="helper">RouteSaver cercherà il percorso più economico che resta entro questo limite.</span></div>
       <div class="field" id="socField" style="display:none"><label>Batteria alla partenza (%)</label><input id="soc" type="number" min="5" max="100" value="80"></div>
@@ -97,7 +100,7 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
 <script>
 (function(){
   'use strict';
-  var vehicle='benzina', geoOrigin=null, lastResult=null, maxExtra=10, officialFuel=null, fuelRegion=null, priceTouched=false;
+  var vehicle='benzina', geoOrigin=null, lastResult=null, maxExtra=10, officialFuel=null, fuelRegion=null, priceTouched=false, selectedPlaces={from:null,to:null}, suggestTimers={from:null,to:null};
   var $=function(id){return document.getElementById(id)};
   var chips=document.querySelectorAll('.chip');
   var minuteChips=document.querySelectorAll('.minchip');
@@ -108,8 +111,8 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
   function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
   function setNotice(type,msg){var n=$('notice');n.className='notice '+type;n.textContent=msg}
   function clearNotice(){var n=$('notice');n.className='notice';n.textContent=''}
-  function savePrefs(){try{localStorage.setItem('routesaverPrefs',JSON.stringify({vehicle:vehicle,cons:$('cons').value,price:$('price').value,maxExtra:maxExtra,soc:$('soc').value,battery:$('battery').value}))}catch(e){}}
-  function loadPrefs(){try{var p=JSON.parse(localStorage.getItem('routesaverPrefs')||'{}'); if(p.vehicle){var c=document.querySelector('.chip[data-v="'+p.vehicle+'"]');if(c)c.click()} if(p.cons)$('cons').value=p.cons;if(p.price)$('price').value=p.price;if(p.maxExtra){maxExtra=parseInt(p.maxExtra,10)||10;minuteChips.forEach(function(x){x.classList.toggle('active',parseInt(x.dataset.min,10)===maxExtra)})}if(p.soc)$('soc').value=p.soc;if(p.battery)$('battery').value=p.battery}catch(e){}}
+  function savePrefs(){try{localStorage.setItem('routesaverPrefs',JSON.stringify({vehicle:vehicle,cons:$('cons').value,price:$('price').value,maxExtra:maxExtra,soc:$('soc').value,battery:$('battery').value,pluginEvCons:$('pluginEvCons').value,pluginEnergyPrice:$('pluginEnergyPrice').value}))}catch(e){}}
+  function loadPrefs(){try{var p=JSON.parse(localStorage.getItem('routesaverPrefs')||'{}'); if(p.vehicle){var c=document.querySelector('.chip[data-v="'+p.vehicle+'"]');if(c)c.click()} if(p.cons)$('cons').value=p.cons;if(p.price)$('price').value=p.price;if(p.maxExtra){maxExtra=parseInt(p.maxExtra,10)||10;minuteChips.forEach(function(x){x.classList.toggle('active',parseInt(x.dataset.min,10)===maxExtra)})}if(p.soc)$('soc').value=p.soc;if(p.battery)$('battery').value=p.battery;if(p.pluginEvCons)$('pluginEvCons').value=p.pluginEvCons;if(p.pluginEnergyPrice)$('pluginEnergyPrice').value=p.pluginEnergyPrice}catch(e){}}
   function normRegion(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]/g,'')}
   function findRegionData(region){if(!officialFuel||!officialFuel.regions)return null;var target=normRegion(region);var keys=Object.keys(officialFuel.regions);for(var i=0;i<keys.length;i++){if(normRegion(keys[i])===target)return {name:keys[i],data:officialFuel.regions[keys[i]]}}return null}
   function updateFuelBox(region){if(region)fuelRegion=region;var box=$('fuelBox');if(!officialFuel||vehicle==='elettrica'){box.style.display='none';return null}var fuel=(vehicle==='diesel'?'gasolio':'benzina'),match=findRegionData(fuelRegion),val=null,label='';if(match&&match.data) {val=match.data[fuel];label=match.name;}if(!val&&officialFuel.national){val=officialFuel.national[fuel];label='media indicativa nazionale';}if(!val){box.style.display='none';return null}box.style.display='block';$('fuelTitle').textContent='Riferimento MIMIT · '+(fuel==='gasolio'?'Gasolio':'Benzina')+' self';$('fuelText').textContent=euro(val)+'/l · '+label+(officialFuel.dataset_date?' · dati '+officialFuel.dataset_date:'');$('useFuelPrice').dataset.price=val;return val;}
@@ -117,26 +120,36 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
 
   chips.forEach(function(c){c.addEventListener('click',function(){
     chips.forEach(function(x){x.classList.remove('active')});c.classList.add('active');vehicle=c.dataset.v;
-    var ev=vehicle==='elettrica';
-    $('socField').style.display=ev?'flex':'none';$('batteryField').style.display=ev?'flex':'none';
-    $('consLabel').textContent=ev?'Consumo medio (kWh/100 km)':'Consumo medio (l/100 km)';
+    var ev=vehicle==='elettrica',plugin=vehicle==='plugin';
+    $('socField').style.display=(ev||plugin)?'flex':'none';$('batteryField').style.display=(ev||plugin)?'flex':'none';
+    $('pluginEvConsField').style.display=plugin?'flex':'none';$('pluginEnergyPriceField').style.display=plugin?'flex':'none';
+    $('consLabel').textContent=ev?'Consumo medio (kWh/100 km)':'Consumo carburante (l/100 km)';
     $('priceLabel').textContent=ev?'Prezzo energia (€/kWh)':'Prezzo carburante (€/l)';
-    var defaults={benzina:[6.2,1.78],diesel:[5.4,1.72],ibrida:[4.7,1.78],elettrica:[18.5,.55]};
-    $('cons').value=defaults[vehicle][0];$('price').value=defaults[vehicle][1];priceTouched=false;updateFuelBox();savePrefs();
+    var defaults={benzina:[6.2,1.78],diesel:[5.4,1.72],ibrida:[4.7,1.78],plugin:[5.5,1.78],elettrica:[18.5,.55]};
+    $('cons').value=defaults[vehicle][0];$('price').value=defaults[vehicle][1];
+    if(plugin){$('battery').value='14';$('soc').value='80';}
+    else if(ev){$('battery').value='60';}
+    priceTouched=false;updateFuelBox();savePrefs();
   })});
 
   minuteChips.forEach(function(c){c.addEventListener('click',function(){minuteChips.forEach(function(x){x.classList.remove('active')});c.classList.add('active');maxExtra=parseInt(c.dataset.min,10)||10;savePrefs()})});
 
-  ['cons','soc','battery'].forEach(function(id){$(id).addEventListener('change',savePrefs)});
+  ['cons','soc','battery','pluginEvCons','pluginEnergyPrice'].forEach(function(id){$(id).addEventListener('change',savePrefs)});
   $('price').addEventListener('input',function(){priceTouched=true;savePrefs()});
   $('useFuelPrice').addEventListener('click',function(){var p=parseFloat(this.dataset.price);if(p){$('price').value=p.toFixed(3);savePrefs();setNotice('info','Prezzo MIMIT inserito. Puoi comunque modificarlo manualmente.')}});
-  $('clearData').addEventListener('click',function(){try{localStorage.removeItem('routesaverPrefs')}catch(e){};geoOrigin=null;$('from').value='Verona';$('to').value='Milano';maxExtra=10;minuteChips.forEach(function(x){x.classList.toggle('active',parseInt(x.dataset.min,10)===10)});var b=document.querySelector('.chip[data-v="benzina"]');if(b)b.click();$('geoBtn').textContent='Usa posizione';setNotice('info','Preferenze locali cancellate. RouteSaver non conserva uno storico server dei tuoi percorsi.');window.scrollTo({top:0,behavior:'smooth'})});
+  $('clearData').addEventListener('click',function(){try{localStorage.removeItem('routesaverPrefs')}catch(e){};geoOrigin=null;selectedPlaces={from:null,to:null};$('from').value='Verona';$('to').value='Milano';maxExtra=10;minuteChips.forEach(function(x){x.classList.toggle('active',parseInt(x.dataset.min,10)===10)});var b=document.querySelector('.chip[data-v="benzina"]');if(b)b.click();$('geoBtn').textContent='Usa posizione';setNotice('info','Preferenze locali cancellate. RouteSaver non conserva uno storico server dei tuoi percorsi.');window.scrollTo({top:0,behavior:'smooth'})});
+
+  function formatPlace(f){var p=f.properties||{},parts=[p.name||p.street,p.housenumber,p.city||p.town||p.village,p.state].filter(Boolean);var primary=[p.name||p.street,p.housenumber].filter(Boolean).join(' ');var secondary=[p.city||p.town||p.village,p.state,p.country].filter(Boolean).filter(function(x,i,a){return a.indexOf(x)===i}).join(', ');return {primary:primary||parts.join(' ')||'Risultato',secondary:secondary,label:[primary,secondary].filter(Boolean).join(', '),region:p.state||p.county||'',lon:f.geometry.coordinates[0],lat:f.geometry.coordinates[1]}}
+  function hideSuggestions(id){var box=$(id+'Suggestions');if(box){box.classList.remove('show');box.innerHTML=''}}
+  async function loadSuggestions(id){var input=$(id),q=input.value.trim(),box=$(id+'Suggestions');if(q.length<3||q==='Posizione attuale'){hideSuggestions(id);return}try{var r=await fetch('https://photon.komoot.io/api/?limit=5&lang=it&q='+encodeURIComponent(q),{headers:{'Accept':'application/json'}});if(!r.ok)return;var j=await r.json(),items=(j.features||[]).map(formatPlace);if(!items.length){hideSuggestions(id);return}box.innerHTML=items.map(function(x,i){return '<button class="suggestion" type="button" data-i="'+i+'"><strong>'+escapeHtml(x.primary)+'</strong><span>'+escapeHtml(x.secondary)+'</span></button>'}).join('');box.classList.add('show');Array.prototype.forEach.call(box.querySelectorAll('.suggestion'),function(btn){btn.addEventListener('click',function(){var x=items[parseInt(btn.dataset.i,10)];input.value=x.label;selectedPlaces[id]={lat:x.lat,lon:x.lon,region:x.region,name:x.label};if(id==='from')geoOrigin=null;hideSuggestions(id)})})}catch(e){hideSuggestions(id)}}
+  ['from','to'].forEach(function(id){$(id).addEventListener('input',function(){selectedPlaces[id]=null;if(id==='from')geoOrigin=null;clearTimeout(suggestTimers[id]);if(this.value.trim().length<3){hideSuggestions(id);return}suggestTimers[id]=setTimeout(function(){loadSuggestions(id)},450)});$(id).addEventListener('keydown',function(e){if(e.key==='Escape')hideSuggestions(id)})});
+  document.addEventListener('click',function(e){if(!e.target.closest('.field')){hideSuggestions('from');hideSuggestions('to')}});
 
   $('geoBtn').addEventListener('click',function(){
     if(!navigator.geolocation){setNotice('warn','Il browser non supporta la geolocalizzazione. Inserisci la partenza manualmente.');return}
     var b=$('geoBtn');b.disabled=true;b.textContent='Cerco…';
     navigator.geolocation.getCurrentPosition(function(pos){
-      geoOrigin={lat:pos.coords.latitude,lon:pos.coords.longitude,name:'Posizione attuale'};
+      geoOrigin={lat:pos.coords.latitude,lon:pos.coords.longitude,region:'',name:'Posizione attuale'};selectedPlaces.from=geoOrigin;
       $('from').value='Posizione attuale';b.disabled=false;b.textContent='Posizione acquisita';setNotice('info','Posizione acquisita. Ora inserisci la destinazione e calcola.');
     },function(){b.disabled=false;b.textContent='Usa posizione';setNotice('warn','Non ho accesso alla posizione. Puoi scrivere manualmente città o indirizzo.');},{enableHighAccuracy:false,timeout:8000,maximumAge:300000});
   });
@@ -197,7 +210,14 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
   }
 
   function calcCost(route,type,cons,price){
-    var energy=route.km/100*cons*price,toll=tollEstimate(route,type);
+    var toll=tollEstimate(route,type);
+    if(vehicle==='plugin'){
+      var evCons=parseFloat($('pluginEvCons').value)||18.5,evPrice=parseFloat($('pluginEnergyPrice').value)||0.30,cap=parseFloat($('battery').value)||14,soc=parseFloat($('soc').value)||80;
+      var usableKwh=cap*Math.max(0,(soc-10)/100),electricKm=Math.min(route.km,usableKwh/evCons*100),fuelKm=Math.max(0,route.km-electricKm);
+      var electricCost=electricKm/100*evCons*evPrice,fuelCost=fuelKm/100*cons*price;
+      return {energy:electricCost+fuelCost,electricCost:electricCost,fuelCost:fuelCost,electricKm:electricKm,fuelKm:fuelKm,toll:toll,total:electricCost+fuelCost+toll};
+    }
+    var energy=route.km/100*cons*price;
     return {energy:energy,toll:toll,total:energy+toll};
   }
 
@@ -231,7 +251,7 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     var html='';
     data.forEach(function(x){
       var link='https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(from)+'&destination='+encodeURIComponent(to)+'&travelmode=driving';
-      html+='<article class="card '+(x.key===best.key?'best':'')+'"><div class="badge">'+(x.key===best.key?'CONSIGLIATO PER TE':'PERCORSO')+'</div><h3>'+x.name+'</h3><div class="big">'+euro(x.cost.total)+'</div><div class="stats"><div class="stat"><span>Durata</span><b>'+mins(x.route.sec)+'</b></div><div class="stat"><span>Distanza</span><b>'+x.route.km.toFixed(1)+' km</b></div><div class="stat"><span>Pedaggio stimato*</span><b>'+euro(x.cost.toll)+'</b></div><div class="stat"><span>'+(vehicle==='elettrica'?'Energia':'Carburante')+'</span><b>'+euro(x.cost.energy)+'</b></div></div><div class="delta">'+(x.key==='fast'?'Riferimento più veloce':('+'+Math.round(x.deltaSec/60)+' min · '+(x.save>=0?'risparmi '+euro(x.save):'costa '+euro(-x.save)+' in più')))+'<span class="subdelta">'+(x.same?'Percorso molto simile al precedente':'* Pedaggio beta stimato')+'</span></div><a class="openmaps" href="'+link+'" target="_blank" rel="noopener">Apri in Google Maps</a></article>';
+      html+='<article class="card '+(x.key===best.key?'best':'')+'"><div class="badge">'+(x.key===best.key?'CONSIGLIATO PER TE':'PERCORSO')+'</div><h3>'+x.name+'</h3><div class="big">'+euro(x.cost.total)+'</div><div class="stats"><div class="stat"><span>Durata</span><b>'+mins(x.route.sec)+'</b></div><div class="stat"><span>Distanza</span><b>'+x.route.km.toFixed(1)+' km</b></div><div class="stat"><span>Pedaggio stimato*</span><b>'+euro(x.cost.toll)+'</b></div>'+(vehicle==='plugin'?('<div class="stat"><span>Elettricità</span><b>'+euro(x.cost.electricCost)+'</b></div><div class="stat"><span>Carburante</span><b>'+euro(x.cost.fuelCost)+'</b></div>'):('<div class="stat"><span>'+(vehicle==='elettrica'?'Energia':'Carburante')+'</span><b>'+euro(x.cost.energy)+'</b></div>'))+'</div><div class="delta">'+(x.key==='fast'?'Riferimento più veloce':('+'+Math.round(x.deltaSec/60)+' min · '+(x.save>=0?'risparmi '+euro(x.save):'costa '+euro(-x.save)+' in più')))+'<span class="subdelta">'+(x.same?'Percorso molto simile al precedente':'* Pedaggio beta stimato')+'</span></div><a class="openmaps" href="'+link+'" target="_blank" rel="noopener">Apri in Google Maps</a></article>';
     });
     $('cards').innerHTML=html;
     var extra=Math.round(best.deltaSec/60),phrase;
@@ -247,6 +267,8 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     if(vehicle==='elettrica'){
       var soc=parseFloat($('soc').value)||80,cap=parseFloat($('battery').value)||60,need=best.route.km/100*cons,available=cap*soc/100,arr=soc-need/cap*100;
       ev.style.display='block';ev.innerHTML='<b>Stima EV sul percorso '+best.name+'</b><br>Energia viaggio: '+need.toFixed(1)+' kWh · Batteria disponibile alla partenza: '+available.toFixed(1)+' kWh · '+(arr>8?'SOC stimato all’arrivo: '+Math.max(0,arr).toFixed(0)+'%.':'Con questi dati è probabilmente necessaria una ricarica lungo il percorso. Le soste di ricarica reali saranno il prossimo step della beta.');
+    }else if(vehicle==='plugin'){
+      ev.style.display='block';ev.innerHTML='<b>Stima Plug-in Hybrid sul percorso '+best.name+'</b><br>Tratto elettrico stimato: '+best.cost.electricKm.toFixed(1)+' km · tratto a carburante: '+best.cost.fuelKm.toFixed(1)+' km. La beta usa la batteria fino a una riserva del 10%, poi calcola il resto a carburante.';
     }else ev.style.display='none';
     $('results').style.display='block';lastResult={from:from,to:to,best:best.name,cost:best.cost.total,time:best.route.sec};$('results').scrollIntoView({behavior:'smooth',block:'start'});
   }
@@ -264,8 +286,8 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     try{
       setNotice('info','Cerco i luoghi e confronto i percorsi. Può richiedere qualche secondo.');
       var a;
-      if(geoOrigin&&from.toLowerCase().indexOf('posizione attuale')===0)a=geoOrigin;else a=await geocode(from);
-      await sleep(250);var b=await geocode(to);
+      if(geoOrigin&&from.toLowerCase().indexOf('posizione attuale')===0)a=geoOrigin;else a=selectedPlaces.from||await geocode(from);
+      await sleep(250);var b=selectedPlaces.to||await geocode(to);
       if(Math.abs(a.lat-b.lat)<.001&&Math.abs(a.lon-b.lon)<.001)throw new Error('Partenza e destinazione risultano troppo vicine o uguali.');
       var mimitPrice=updateFuelBox(a.region);
       if(mimitPrice&&!priceTouched&&vehicle!=='elettrica'){$('price').value=Number(mimitPrice).toFixed(3);}
