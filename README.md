@@ -15,8 +15,11 @@ La beta non richiede account, non integra analytics o advertising e salva le pre
 
 ## Dati
 - Routing/geocoding: servizi basati su OpenStreetMap
+- Catalogo veicoli e consumi: European Environment Agency (EEA), dataset 2025 provisional
 - Carburanti: open data MIMIT
 - Pedaggi: stima beta, non tariffa ufficiale
+
+La selezione Marca → Modello usa una sola fonte per i dati auto: EEA. I valori vengono aggregati per modello e alimentazione e restano modificabili manualmente.
 
 ## Stato
 MVP/beta privata di test.
