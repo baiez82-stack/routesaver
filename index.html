@@ -97,7 +97,7 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
 <script>
 (function(){
   'use strict';
-  var vehicle='benzina', geoOrigin=null, lastResult=null, maxExtra=10, officialFuel=null;
+  var vehicle='benzina', geoOrigin=null, lastResult=null, maxExtra=10, officialFuel=null, fuelRegion=null, priceTouched=false;
   var $=function(id){return document.getElementById(id)};
   var chips=document.querySelectorAll('.chip');
   var minuteChips=document.querySelectorAll('.minchip');
@@ -110,7 +110,9 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
   function clearNotice(){var n=$('notice');n.className='notice';n.textContent=''}
   function savePrefs(){try{localStorage.setItem('routesaverPrefs',JSON.stringify({vehicle:vehicle,cons:$('cons').value,price:$('price').value,maxExtra:maxExtra,soc:$('soc').value,battery:$('battery').value}))}catch(e){}}
   function loadPrefs(){try{var p=JSON.parse(localStorage.getItem('routesaverPrefs')||'{}'); if(p.vehicle){var c=document.querySelector('.chip[data-v="'+p.vehicle+'"]');if(c)c.click()} if(p.cons)$('cons').value=p.cons;if(p.price)$('price').value=p.price;if(p.maxExtra){maxExtra=parseInt(p.maxExtra,10)||10;minuteChips.forEach(function(x){x.classList.toggle('active',parseInt(x.dataset.min,10)===maxExtra)})}if(p.soc)$('soc').value=p.soc;if(p.battery)$('battery').value=p.battery}catch(e){}}
-  function updateFuelBox(){var box=$('fuelBox');if(!officialFuel||vehicle==='elettrica'){box.style.display='none';return}var key=(vehicle==='diesel'?'gasolio':'benzina');var val=officialFuel.regions&&officialFuel.regions.ITALIA&&officialFuel.regions.ITALIA[key];if(!val&&officialFuel.national)val=officialFuel.national[key];if(!val){box.style.display='none';return}box.style.display='block';$('fuelTitle').textContent='Riferimento MIMIT · '+(key==='gasolio'?'Gasolio':'Benzina')+' self';$('fuelText').textContent=euro(val)+'/l'+(officialFuel.updated_at?' · aggiornato '+officialFuel.updated_at:'');$('useFuelPrice').dataset.price=val;}
+  function normRegion(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]/g,'')}
+  function findRegionData(region){if(!officialFuel||!officialFuel.regions)return null;var target=normRegion(region);var keys=Object.keys(officialFuel.regions);for(var i=0;i<keys.length;i++){if(normRegion(keys[i])===target)return {name:keys[i],data:officialFuel.regions[keys[i]]}}return null}
+  function updateFuelBox(region){if(region)fuelRegion=region;var box=$('fuelBox');if(!officialFuel||vehicle==='elettrica'){box.style.display='none';return null}var fuel=(vehicle==='diesel'?'gasolio':'benzina'),match=findRegionData(fuelRegion),val=null,label='';if(match&&match.data) {val=match.data[fuel];label=match.name;}if(!val&&officialFuel.national){val=officialFuel.national[fuel];label='media indicativa nazionale';}if(!val){box.style.display='none';return null}box.style.display='block';$('fuelTitle').textContent='Riferimento MIMIT · '+(fuel==='gasolio'?'Gasolio':'Benzina')+' self';$('fuelText').textContent=euro(val)+'/l · '+label+(officialFuel.dataset_date?' · dati '+officialFuel.dataset_date:'');$('useFuelPrice').dataset.price=val;return val;}
   async function loadOfficialFuel(){try{var r=await fetch('data/fuel.json',{cache:'no-store'});if(!r.ok)return;officialFuel=await r.json();updateFuelBox()}catch(e){}}
 
   chips.forEach(function(c){c.addEventListener('click',function(){
@@ -120,12 +122,13 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     $('consLabel').textContent=ev?'Consumo medio (kWh/100 km)':'Consumo medio (l/100 km)';
     $('priceLabel').textContent=ev?'Prezzo energia (€/kWh)':'Prezzo carburante (€/l)';
     var defaults={benzina:[6.2,1.78],diesel:[5.4,1.72],ibrida:[4.7,1.78],elettrica:[18.5,.55]};
-    $('cons').value=defaults[vehicle][0];$('price').value=defaults[vehicle][1];updateFuelBox();savePrefs();
+    $('cons').value=defaults[vehicle][0];$('price').value=defaults[vehicle][1];priceTouched=false;updateFuelBox();savePrefs();
   })});
 
   minuteChips.forEach(function(c){c.addEventListener('click',function(){minuteChips.forEach(function(x){x.classList.remove('active')});c.classList.add('active');maxExtra=parseInt(c.dataset.min,10)||10;savePrefs()})});
 
-  ['cons','price','soc','battery'].forEach(function(id){$(id).addEventListener('change',savePrefs)});
+  ['cons','soc','battery'].forEach(function(id){$(id).addEventListener('change',savePrefs)});
+  $('price').addEventListener('input',function(){priceTouched=true;savePrefs()});
   $('useFuelPrice').addEventListener('click',function(){var p=parseFloat(this.dataset.price);if(p){$('price').value=p.toFixed(3);savePrefs();setNotice('info','Prezzo MIMIT inserito. Puoi comunque modificarlo manualmente.')}});
   $('clearData').addEventListener('click',function(){try{localStorage.removeItem('routesaverPrefs')}catch(e){};geoOrigin=null;$('from').value='Verona';$('to').value='Milano';maxExtra=10;minuteChips.forEach(function(x){x.classList.toggle('active',parseInt(x.dataset.min,10)===10)});var b=document.querySelector('.chip[data-v="benzina"]');if(b)b.click();$('geoBtn').textContent='Usa posizione';setNotice('info','Preferenze locali cancellate. RouteSaver non conserva uno storico server dei tuoi percorsi.');window.scrollTo({top:0,behavior:'smooth'})});
 
@@ -143,13 +146,13 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     var url='https://photon.komoot.io/api/?limit=1&lang=it&q='+encodeURIComponent(q);
     try{
       var r=await fetch(url,{headers:{'Accept':'application/json'}});
-      if(r.ok){var j=await r.json();if(j.features&&j.features.length){var f=j.features[0],p=f.properties||{},c=f.geometry.coordinates;return {lon:c[0],lat:c[1],name:[p.name,p.city,p.state,p.country].filter(Boolean).filter(function(x,i,a){return a.indexOf(x)===i}).join(', ')||q}}}
+      if(r.ok){var j=await r.json();if(j.features&&j.features.length){var f=j.features[0],p=f.properties||{},c=f.geometry.coordinates;return {lon:c[0],lat:c[1],region:p.state||p.county||'',name:[p.name,p.city,p.state,p.country].filter(Boolean).filter(function(x,i,a){return a.indexOf(x)===i}).join(', ')||q}}}
     }catch(e){}
-    var nurl='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&accept-language=it&q='+encodeURIComponent(q);
+    var nurl='https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&addressdetails=1&accept-language=it&q='+encodeURIComponent(q);
     var nr=await fetch(nurl,{headers:{'Accept':'application/json'}});
     if(!nr.ok)throw new Error('Servizio di ricerca luoghi non disponibile.');
     var nj=await nr.json();if(!nj.length)throw new Error('Non trovo "'+q+'". Prova con città + provincia o un indirizzo più preciso.');
-    return {lon:+nj[0].lon,lat:+nj[0].lat,name:nj[0].display_name||q};
+    return {lon:+nj[0].lon,lat:+nj[0].lat,region:(nj[0].address&&(nj[0].address.state||nj[0].address.region||nj[0].address.county))||'',name:nj[0].display_name||q};
   }
 
   async function valhallaRoute(a,b,mode){
@@ -264,6 +267,8 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
       if(geoOrigin&&from.toLowerCase().indexOf('posizione attuale')===0)a=geoOrigin;else a=await geocode(from);
       await sleep(250);var b=await geocode(to);
       if(Math.abs(a.lat-b.lat)<.001&&Math.abs(a.lon-b.lon)<.001)throw new Error('Partenza e destinazione risultano troppo vicine o uguali.');
+      var mimitPrice=updateFuelBox(a.region);
+      if(mimitPrice&&!priceTouched&&vehicle!=='elettrica'){$('price').value=Number(mimitPrice).toFixed(3);}
       var rs;
       try{rs=await getRoutes(a,b);setNotice('info','Percorsi calcolati con routing live. Pedaggi ancora stimati in beta.');}
       catch(e){rs=demoFallback(from,to);setNotice('warn','Il routing gratuito non risponde in questo momento: mostro un fallback demo. Riprova tra poco per i dati reali.');$('liveBadge').textContent='FALLBACK DEMO';}
