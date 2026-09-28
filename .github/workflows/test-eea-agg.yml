@@ -14,21 +14,17 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Test composite aggregation
+      - name: Test multi terms aggregation
         run: |
           python - <<'PY'
           import json, urllib.parse, urllib.request
           q={
             "size":0,
-            "query":{"bool":{"must":[{"term":{"year":2025}}]}},
-            "aggs":{"vehicles":{"composite":{"size":5,"sources":[
-              {"make":{"terms":{"field":"Mk"}}},
-              {"model":{"terms":{"field":"Cn"}}},
-              {"fuel":{"terms":{"field":"Ft"}}},
-              {"mode":{"terms":{"field":"Fm"}}}
-            ]},
+            "query":{"bool":{"must":[{"term":{"year":2025}}],"should":[{"term":{"Fm":"E"}},{"term":{"Fm":"P"}}],"minimum_should_match":1}},
+            "aggs":{"vehicles":{"multi_terms":{"terms":[
+              {"field":"Mk"},{"field":"Cn"},{"field":"Ft"},{"field":"Fm"}
+            ],"size":20},
             "aggs":{
-              "avg_fc":{"avg":{"field":"Fc"}},
               "avg_wh":{"avg":{"field":"z__Wh_km_"}},
               "avg_range":{"avg":{"field":"Zr"}},
               "avg_kw":{"avg":{"field":"ep__KW_"}},
@@ -36,8 +32,8 @@ jobs:
             }}}
           }
           u="https://co2cars.apps.eea.europa.eu/tools/api?source="+urllib.parse.quote(json.dumps(q,separators=(",",":")))
-          req=urllib.request.Request(u,headers={"User-Agent":"RouteSaver/1.3","Accept":"application/json"})
+          req=urllib.request.Request(u,headers={"User-Agent":"RouteSaver/1.4","Accept":"application/json"})
           with urllib.request.urlopen(req,timeout=60) as r:
             data=json.load(r)
-          print(json.dumps(data,ensure_ascii=False)[:12000])
+          print(json.dumps(data,ensure_ascii=False)[:16000])
           PY
