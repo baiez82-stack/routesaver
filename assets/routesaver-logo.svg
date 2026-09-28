@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" role="img" aria-labelledby="title desc">
+<title id="title">RouteSaver</title>
+<desc id="desc">Logo RouteSaver con pin di navigazione, percorso e freccia di risparmio.</desc>
+<defs>
+  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#22c55e"/>
+    <stop offset="1" stop-color="#16a34a"/>
+  </linearGradient>
+</defs>
+<g transform="translate(16 12)">
+  <path d="M104 8c-49 0-88 39-88 87 0 63 88 113 88 113s88-50 88-113C192 47 153 8 104 8Z" fill="#0f2b5b"/>
+  <circle cx="104" cy="91" r="35" fill="#f8fafc"/>
+  <circle cx="104" cy="91" r="18" fill="url(#g)"/>
+  <path d="M34 154c34-21 53-39 71-63 14-19 30-24 54-19 16 3 28 2 38-4" fill="none" stroke="#0f2b5b" stroke-width="22" stroke-linecap="round"/>
+  <path d="M36 154c35-21 53-39 70-62 14-19 30-24 53-19 15 3 26 2 37-4" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="10 10" opacity=".9"/>
+  <path d="M142 122c12 15 21 29 27 44h-18l29 34 29-34h-18c-7-24-20-44-39-62Z" fill="url(#g)"/>
+</g>
+<g font-family="Inter,Arial,sans-serif" font-size="88" font-weight="800" letter-spacing="-4">
+  <text x="248" y="140" fill="#0f2b5b">Route</text>
+  <text x="485" y="140" fill="#16a34a">Saver</text>
+</g>
+</svg>
