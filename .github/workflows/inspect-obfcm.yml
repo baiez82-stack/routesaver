@@ -44,35 +44,27 @@ jobs:
           links=[]
           for text,href in p.links:
               h=urllib.parse.urljoin(PAGE,href)
-              if "Cars" in text and "Aggregate" in text and "Real-world" in text:
+              if "Cars" in text and "Raw" in text and "Real-world" in text:
                   m=re.search(r"\[(20\d{2})\]", text)
                   if m: links.append((int(m.group(1)), text, h))
           links.sort(reverse=True)
           print("FOUND="+repr(links[:8]))
           if not links:
-              raise SystemExit("No official aggregate cars dataset link found")
+              raise SystemExit("No official raw cars dataset link found")
           year,text,url=links[0]
           print("SELECTED_YEAR="+str(year))
           print("SELECTED_URL="+url)
           req=urllib.request.Request(url, headers={"User-Agent":"RouteSaver/0.4"})
           with urllib.request.urlopen(req, timeout=120) as r:
-              raw=r.read()
-          decoded=None
-          for enc in ("utf-8-sig","utf-8","cp1252","latin-1"):
-              try:
-                  decoded=raw.decode(enc); break
-              except UnicodeDecodeError:
-                  pass
-          if decoded is None: raise SystemExit("decode failed")
-          sample="\n".join(decoded.splitlines()[:10])
-          print("CSV_SAMPLE_START")
-          print(sample)
-          print("CSV_SAMPLE_END")
+              wrapper=io.TextIOWrapper(r, encoding="utf-8-sig", errors="replace", newline="")
+              header=wrapper.readline()
+              first=wrapper.readline()
+              second=wrapper.readline()
+          sample=header+"\n"+first+"\n"+second
           sn=csv.Sniffer()
           try: delim=sn.sniff(sample, delimiters=";,\t|").delimiter
           except: delim=";"
-          rd=csv.reader(io.StringIO(decoded), delimiter=delim)
+          rd=csv.reader(io.StringIO(sample), delimiter=delim)
           for i,row in enumerate(rd):
               print("ROW"+str(i)+"="+repr(row))
-              if i>=3: break
           PY
