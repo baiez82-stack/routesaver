@@ -22,7 +22,7 @@ SELECT TOP 6000
   [Cn] AS model,
   [Ft] AS fuel,
   [Fm] AS fuel_mode,
-  MAX([Mh]) AS manufacturer,
+  [Mh] AS manufacturer,
   ROUND(AVG(CASE WHEN [Fc] > 0 AND [Fc] < 30 THEN CAST([Fc] AS float) END), 2) AS fc,
   ROUND(AVG(CASE WHEN [Z (Wh/km)] > 0 AND [Z (Wh/km)] < 1000 THEN CAST([Z (Wh/km)] AS float) END), 0) AS whkm,
   ROUND(AVG(CASE WHEN [Ep (KW)] > 0 AND [Ep (KW)] < 1500 THEN CAST([Ep (KW)] AS float) END), 0) AS kw,
@@ -30,7 +30,7 @@ SELECT TOP 6000
 FROM {TABLE}
 WHERE [Mk] IS NOT NULL AND [Cn] IS NOT NULL
   AND LOWER([Ft]) IN ('petrol','diesel','electric','petrol/electric','diesel/electric')
-GROUP BY [Mk], [Cn], [Ft], [Fm]
+GROUP BY [Mk], [Cn], [Ft], [Fm], [Mh]
 ORDER BY registrations DESC
 """
 
