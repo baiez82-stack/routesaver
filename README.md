@@ -22,7 +22,7 @@ La beta non richiede account, non integra analytics o advertising e salva le pre
 La selezione Marca → Modello usa una sola fonte per i dati auto: EEA. I valori vengono aggregati per modello e alimentazione e restano modificabili manualmente.
 
 ## Consumo dinamico
-RouteSaver analizza le classi stradali restituite dal routing e stima la quota di percorso urbano, extraurbano e autostrada/strade veloci. Il consumo base viene quindi corretto con coefficienti diversi per benzina, diesel, full hybrid, plug-in hybrid ed elettrico. Se la classificazione dettagliata non è disponibile, l'interfaccia lo segnala e usa un mix stradale stimato.
+RouteSaver parte dal consumo base del modello selezionato nel catalogo EEA (oppure da quello inserito manualmente) e analizza le classi stradali e le velocità di riferimento dei tratti restituite dal routing. Il percorso viene suddiviso in urbano, extraurbano e autostrada/strade veloci e in fasce di velocità; la previsione viene calibrata in modo differente per benzina, diesel, full hybrid, plug-in hybrid ed elettrico. Se il dettaglio dei tratti non è disponibile, l'interfaccia lo segnala e usa un profilo stimato.
 
 ## Stato
 MVP/beta privata di test.
