@@ -1,0 +1,10 @@
+{
+  "updated_at": null,
+  "dataset_date": null,
+  "source": "Ministero delle Imprese e del Made in Italy (MIMIT)",
+  "source_url": "https://www.mimit.gov.it/images/stories/carburanti/MediaRegionaleStradale.csv",
+  "license": "IODL 2.0",
+  "note": "In attesa del primo aggiornamento automatico.",
+  "regions": {},
+  "national": {}
+}
