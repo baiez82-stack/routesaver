@@ -24,6 +24,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Validate static app
+        run: |
+          python - <<'PY'
+          import json, re
+          from pathlib import Path
+          html = Path("index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r"<script>(.*?)</script>", html, flags=re.S)
+          if not scripts:
+              raise SystemExit("No inline script found")
+          Path("/tmp/routesaver-app.js").write_text("\n".join(scripts), encoding="utf-8")
+          for path in ("data/fuel.json", "data/vehicles.json"):
+              with open(path, encoding="utf-8") as f:
+                  json.load(f)
+          PY
+          node --check /tmp/routesaver-app.js
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
