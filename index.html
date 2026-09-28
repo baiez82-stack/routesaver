@@ -19,7 +19,7 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
 .calc{width:100%;border:0;border-radius:16px;padding:15px 18px;background:linear-gradient(135deg,var(--green),var(--green2));color:white;font-size:16px;font-weight:950;cursor:pointer;box-shadow:0 10px 20px rgba(22,163,74,.18)}.calc[disabled]{opacity:.65;cursor:wait}.calc:active{transform:translateY(1px)}
 .routebox{display:none}.summary{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.summary h2{margin:0}.muted{color:var(--muted)}.small{font-size:12px}.resolved{margin-top:5px;font-size:12px;color:#64748b}
 .mapbox{border:1px solid #dbeafe;background:linear-gradient(135deg,#eff6ff,#f0fdf4);height:250px;border-radius:20px;overflow:hidden;margin-bottom:16px;position:relative}.mapbox svg{width:100%;height:100%;display:block}.maplegend{position:absolute;left:10px;bottom:10px;display:flex;gap:6px;flex-wrap:wrap}.legend{background:rgba(255,255,255,.92);border:1px solid #e2e8f0;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:850}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{border:1px solid var(--line);border-radius:20px;padding:16px;background:#fff;position:relative}.card.best{border:2px solid #22c55e;background:linear-gradient(180deg,#f0fdf4,#fff)}.badge{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:900;margin-bottom:10px;background:#e2e8f0}.best .badge{background:#dcfce7;color:#166534}.card h3{margin:0 0 4px;font-size:18px}.big{font-size:28px;font-weight:950;letter-spacing:-1px;margin:8px 0}.stats{display:grid;gap:7px;font-size:13px;color:#475569}.stat{display:flex;justify-content:space-between;gap:8px}.delta{margin-top:12px;border-radius:13px;padding:10px;font-weight:900;font-size:13px;background:#f8fafc}.best .delta{background:#dcfce7;color:#166534}.subdelta{display:block;font-size:11px;font-weight:650;margin-top:3px;opacity:.75}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{border:1px solid var(--line);border-radius:20px;padding:16px;background:#fff;position:relative}.card.best{border:2px solid #22c55e;background:linear-gradient(180deg,#f0fdf4,#fff)}.badge{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:900;margin-bottom:10px;background:#e2e8f0}.best .badge{background:#dcfce7;color:#166534}.card h3{margin:0 0 4px;font-size:18px}.big{font-size:28px;font-weight:950;letter-spacing:-1px;margin:8px 0}.stats{display:grid;gap:7px;font-size:13px;color:#475569}.stat{display:flex;justify-content:space-between;gap:8px}.mixbox{margin-top:12px;border:1px solid #e2e8f0;border-radius:14px;padding:10px;background:#f8fafc}.mixhead{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px}.mixhead b{color:#0f172a}.mixhead span{font-weight:900;color:#166534}.mixbar{display:flex;height:7px;border-radius:999px;overflow:hidden;margin:8px 0 6px;background:#e2e8f0}.mixbar i{display:block;height:100%}.mixbar .urban{background:#f59e0b}.mixbar .extra{background:#22c55e}.mixbar .highway{background:#2563eb}.mixlabels{display:flex;justify-content:space-between;gap:6px;font-size:10px;color:#64748b}.mixnote{font-size:10px;color:#94a3b8;margin-top:5px}.delta{margin-top:12px;border-radius:13px;padding:10px;font-weight:900;font-size:13px;background:#f8fafc}.best .delta{background:#dcfce7;color:#166534}.subdelta{display:block;font-size:11px;font-weight:650;margin-top:3px;opacity:.75}
 .openmaps{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;width:100%;margin-top:12px;border:1px solid #cbd5e1;border-radius:14px;padding:11px;color:#0f172a;font-weight:850;background:#fff}.insight{margin-top:14px;border-radius:18px;padding:16px;background:#0f172a;color:white}.insight strong{font-size:22px}.insight small{display:block;color:#cbd5e1;margin-top:5px;line-height:1.4}
 .evbox{display:none;margin-top:14px;border:1px dashed #93c5fd;background:#eff6ff;border-radius:16px;padding:13px;font-size:13px;line-height:1.5}.share{width:100%;border:1px solid #cbd5e1;background:white;border-radius:14px;padding:12px;font-weight:850;cursor:pointer;margin-top:12px}.fuelbox{display:none;border:1px solid #bbf7d0;background:#f0fdf4;border-radius:14px;padding:12px 13px}.fuelbox strong{display:block;margin-bottom:4px}.fuelbtn{border:1px solid #86efac;background:#fff;color:#166534;border-radius:11px;padding:8px 10px;font-size:12px;font-weight:900;cursor:pointer;margin-top:8px}.privacyActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.privacyActions button,.privacyActions a{border:1px solid #cbd5e1;background:#fff;color:#334155;border-radius:12px;padding:9px 11px;font-size:12px;font-weight:850;text-decoration:none;cursor:pointer}
 .explain{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.ex{padding:14px;border:1px solid var(--line);border-radius:16px;background:#fafafa}.ex b{display:block;margin-bottom:4px}.foot{font-size:12px;color:#64748b;text-align:center;margin-top:22px;line-height:1.5}
@@ -70,7 +70,7 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
         </div>
       </div>
 
-      <div class="field"><label id="consLabel">Consumo medio (l/100 km)</label><input id="cons" type="number" min=".1" step=".1" value="6.2"></div>
+      <div class="field"><label id="consLabel">Consumo medio (l/100 km)</label><input id="cons" type="number" min=".1" step=".1" value="6.2"><span class="helper">È il consumo base: RouteSaver lo adatta automaticamente al tipo di strada del percorso.</span></div>
       <div class="field"><label id="priceLabel">Prezzo carburante (€/l)</label><input id="price" type="number" min=".01" step=".01" value="1.78"><span class="helper">Puoi inserire il tuo prezzo reale oppure usare il riferimento MIMIT quando disponibile.</span></div>
       <div class="field pluginFields" id="pluginEvConsField"><label>Consumo elettrico (kWh/100 km)</label><input id="pluginEvCons" type="number" min=".1" step=".1" value="18.5"></div>
       <div class="field pluginFields" id="pluginEnergyPriceField"><label>Costo energia (€/kWh)</label><input id="pluginEnergyPrice" type="number" min=".01" step=".01" value="0.30"></div>
@@ -102,9 +102,9 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
   <section class="panel">
     <h2>Come viene calcolato</h2>
     <div class="explain">
-      <div class="ex"><b>1. Percorsi reali</b><span class="muted">La beta prova tre profili stradali: veloce, compromesso e minor uso di strade a pedaggio.</span></div>
-      <div class="ex"><b>2. Costo viaggio</b><span class="muted">Consumo × distanza × prezzo inserito + stima pedaggi.</span></div>
-      <div class="ex"><b>3. Il tuo limite di minuti</b><span class="muted">Tra i percorsi che rispettano il tempo extra che hai scelto, evidenziamo quello che ti fa spendere meno.</span></div>
+      <div class="ex"><b>1. Percorso e tipo di strada</b><span class="muted">RouteSaver confronta le alternative e analizza il mix tra urbano, extraurbano e autostrada/strade veloci.</span></div>
+      <div class="ex"><b>2. Consumo dinamico</b><span class="muted">Il consumo base del veicolo viene modulato in base al mix stradale e all'alimentazione: benzina, diesel, hybrid, plug-in o elettrica.</span></div>
+      <div class="ex"><b>3. Tempo contro costo</b><span class="muted">Carburante o energia + pedaggio stimato: tra i percorsi entro il tuo limite di minuti evidenziamo quello con il costo più basso.</span></div>
     </div>
   </section>
 
@@ -193,6 +193,42 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     return {lon:+nj[0].lon,lat:+nj[0].lat,region:(nj[0].address&&(nj[0].address.state||nj[0].address.region||nj[0].address.county))||'',name:nj[0].display_name||q};
   }
 
+  async function traceRoadMix(coords){
+    if(!coords||coords.length<2)throw new Error('Geometria insufficiente');
+    var original=coords,step=Math.max(1,Math.ceil(original.length/700)),sample=[];
+    for(var i=0;i<original.length;i+=step)sample.push(original[i]);
+    var last=original[original.length-1];
+    if(sample[sample.length-1]!==last)sample.push(last);
+    var payload={shape:sample.map(function(p){return {lat:p[1],lon:p[0]}}),costing:'auto',shape_match:'map_snap',filters:{action:'include',attributes:['edge.length','edge.road_class','edge.use','edge.speed']}};
+    var r=await fetch('https://valhalla1.openstreetmap.de/trace_attributes',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json','X-Client-Id':'routesaver-mvp'},body:JSON.stringify(payload)});
+    if(!r.ok)throw new Error('Classificazione stradale non disponibile');
+    var j=await r.json(),edges=j.edges||[],km={urban:0,extra:0,highway:0},total=0;
+    edges.forEach(function(e){
+      var len=parseFloat(e.length)||0,rc=String(e.road_class||''),use=String(e.use||''),speed=parseFloat(e.speed)||0,cat;
+      if(!len)return;
+      if(rc==='motorway'||rc==='trunk'||use==='ramp')cat='highway';
+      else if(rc==='residential'||rc==='service_other'||use==='living_street'||(speed>0&&speed<=50))cat='urban';
+      else cat='extra';
+      km[cat]+=len;total+=len;
+    });
+    if(total<=0)throw new Error('Mix stradale non disponibile');
+    return {urban:km.urban/total,extra:km.extra/total,highway:km.highway/total};
+  }
+
+  function normalizeMix(m){
+    var u=Math.max(0,Number(m&&m.urban)||0),e=Math.max(0,Number(m&&m.extra)||0),h=Math.max(0,Number(m&&m.highway)||0),t=u+e+h;
+    if(!t)return {urban:.20,extra:.45,highway:.35};
+    return {urban:u/t,extra:e/t,highway:h/t};
+  }
+
+  function heuristicRoadMix(route,type){
+    var base={fast:{urban:.10,extra:.20,highway:.70},smart:{urban:.15,extra:.38,highway:.47},cheap:{urban:.24,extra:.61,highway:.15}}[type]||{urban:.20,extra:.45,highway:.35};
+    var avg=route&&route.sec>0?route.km/(route.sec/3600):70,m={urban:base.urban,extra:base.extra,highway:base.highway};
+    if(avg>95){m.highway+=.10;m.extra-=.07;m.urban-=.03}
+    else if(avg<55){m.urban+=.12;m.extra-=.08;m.highway-=.04}
+    return normalizeMix(m);
+  }
+
   async function valhallaRoute(a,b,mode){
     var options={
       fast:{use_highways:1,use_tolls:1},
@@ -204,8 +240,10 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     if(!r.ok)throw new Error('Routing '+mode+' non disponibile');
     var j=await r.json(),rr=j.routes&&j.routes[0];
     if(!rr)throw new Error('Nessun percorso '+mode);
-    var coords=(rr.geometry&&rr.geometry.coordinates)||[];
-    return {km:rr.distance/1000,sec:rr.duration,coords:coords,live:true};
+    var coords=(rr.geometry&&rr.geometry.coordinates)||[],route={km:rr.distance/1000,sec:rr.duration,coords:coords,live:true},mix;
+    try{mix=await traceRoadMix(coords);route.roadMix=mix;route.roadMixSource='map';}
+    catch(e){route.roadMix=heuristicRoadMix(route,mode);route.roadMixSource='estimated';}
+    return route;
   }
 
   async function osrmFallback(a,b){
@@ -215,13 +253,14 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     var routes=j.routes.slice(0,3).map(function(x){return {km:x.distance/1000,sec:x.duration,coords:x.geometry.coordinates,live:true}});
     while(routes.length<3){var base=routes[0];routes.push({km:base.km*(1+.025*routes.length),sec:base.sec*(1+.08*routes.length),coords:base.coords,live:false})}
     routes.sort(function(a,b){return a.sec-b.sec});
+    ['fast','smart','cheap'].forEach(function(k,i){routes[i].roadMix=heuristicRoadMix(routes[i],k);routes[i].roadMixSource='estimated'});
     return {fast:routes[0],smart:routes[1],cheap:routes[2],source:'OSRM/OpenStreetMap'};
   }
 
   async function getRoutes(a,b){
     try{
-      var fast=await valhallaRoute(a,b,'fast'); await sleep(180);
-      var smart=await valhallaRoute(a,b,'smart'); await sleep(180);
+      var fast=await valhallaRoute(a,b,'fast'); await sleep(120);
+      var smart=await valhallaRoute(a,b,'smart'); await sleep(120);
       var cheap=await valhallaRoute(a,b,'cheap');
       return {fast:fast,smart:smart,cheap:cheap,source:'Valhalla / OpenStreetMap'};
     }catch(e){return await osrmFallback(a,b)}
@@ -234,16 +273,38 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     return route.km*rate*.08;
   }
 
+  function consumptionProfile(baseCons,route,type,mode){
+    var mix=normalizeMix(route.roadMix||heuristicRoadMix(route,type)),models={
+      benzina:{urban:1.20,extra:.90,highway:1.08},
+      diesel:{urban:1.17,extra:.89,highway:1.03},
+      ibrida:{urban:.88,extra:.98,highway:1.13},
+      elettrica:{urban:.82,extra:.94,highway:1.22},
+      pluginFuel:{urban:1.16,extra:.92,highway:1.10},
+      pluginEv:{urban:.84,extra:.95,highway:1.20}
+    },m=models[mode]||models.benzina,factor=mix.urban*m.urban+mix.extra*m.extra+mix.highway*m.highway;
+    return {base:baseCons,adjusted:baseCons*factor,factor:factor,mix:mix,source:route.roadMixSource||'estimated'};
+  }
+
   function calcCost(route,type,cons,price){
     var toll=tollEstimate(route,type);
     if(vehicle==='plugin'){
       var evCons=parseFloat($('pluginEvCons').value)||18.5,evPrice=parseFloat($('pluginEnergyPrice').value)||0.30,cap=parseFloat($('battery').value)||14,soc=parseFloat($('soc').value)||80;
-      var usableKwh=cap*Math.max(0,(soc-10)/100),electricKm=Math.min(route.km,usableKwh/evCons*100),fuelKm=Math.max(0,route.km-electricKm);
-      var electricCost=electricKm/100*evCons*evPrice,fuelCost=fuelKm/100*cons*price;
-      return {energy:electricCost+fuelCost,electricCost:electricCost,fuelCost:fuelCost,electricKm:electricKm,fuelKm:fuelKm,toll:toll,total:electricCost+fuelCost+toll};
+      var fuelProfile=consumptionProfile(cons,route,type,'pluginFuel'),evProfile=consumptionProfile(evCons,route,type,'pluginEv');
+      var usableKwh=cap*Math.max(0,(soc-10)/100),electricKm=Math.min(route.km,usableKwh/evProfile.adjusted*100),fuelKm=Math.max(0,route.km-electricKm);
+      var electricUse=electricKm/100*evProfile.adjusted,fuelUse=fuelKm/100*fuelProfile.adjusted,electricCost=electricUse*evPrice,fuelCost=fuelUse*price;
+      return {energy:electricCost+fuelCost,electricCost:electricCost,fuelCost:fuelCost,electricKm:electricKm,fuelKm:fuelKm,electricUse:electricUse,fuelUse:fuelUse,toll:toll,total:electricCost+fuelCost+toll,consumption:fuelProfile.adjusted,evConsumption:evProfile.adjusted,roadMix:fuelProfile.mix,mixSource:fuelProfile.source};
     }
-    var energy=route.km/100*cons*price;
-    return {energy:energy,toll:toll,total:energy+toll};
+    var profile=consumptionProfile(cons,route,type,vehicle),energyUse=route.km/100*profile.adjusted,energy=energyUse*price;
+    return {energy:energy,energyUse:energyUse,toll:toll,total:energy+toll,consumption:profile.adjusted,roadMix:profile.mix,mixSource:profile.source};
+  }
+
+  function pct(v){return Math.max(0,Math.min(100,Math.round((Number(v)||0)*100)))}
+  function consumptionUnit(){return vehicle==='elettrica'?'kWh/100 km':'l/100 km'}
+  function roadMixHtml(cost){
+    var m=normalizeMix(cost.roadMix),u=pct(m.urban),e=pct(m.extra),h=Math.max(0,100-u-e),value;
+    if(vehicle==='plugin')value=cost.consumption.toFixed(1).replace('.',',')+' l/100 km · '+cost.evConsumption.toFixed(1).replace('.',',')+' kWh/100 km';
+    else value=cost.consumption.toFixed(1).replace('.',',')+' '+consumptionUnit();
+    return '<div class="mixbox"><div class="mixhead"><b>Consumo sul percorso</b><span>'+value+'</span></div><div class="mixbar"><i class="urban" style="width:'+u+'%"></i><i class="extra" style="width:'+e+'%"></i><i class="highway" style="width:'+h+'%"></i></div><div class="mixlabels"><span>Città '+u+'%</span><span>Extra '+e+'%</span><span>Autostrada/veloci '+h+'%</span></div><div class="mixnote">'+(cost.mixSource==='map'?'Mix ricavato dalle classi stradali del percorso':'Mix stradale stimato: routing senza classificazione dettagliata')+'</div></div>';
   }
 
   function makeSvg(routeSet){
@@ -269,31 +330,38 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
 
   function render(from,to,a,b,rs){
     var cons=parseFloat($('cons').value)||6,price=parseFloat($('price').value)||1.7;
-    var data=uniqueRoutes(rs),fastCost=calcCost(rs.fast,'fast',cons,price);
-    data.forEach(function(x){x.cost=calcCost(x.route,x.key,cons,price);x.deltaSec=Math.max(0,x.route.sec-rs.fast.sec);x.save=fastCost.total-x.cost.total});
+    var data=uniqueRoutes(rs);
+    data.forEach(function(x){x.cost=calcCost(x.route,x.key,cons,price)});
+    var fastest=data.reduce(function(p,x){return x.route.sec<p.route.sec?x:p},data[0]);
+    var referenceCost=fastest.cost;
+    data.forEach(function(x){x.deltaSec=Math.max(0,x.route.sec-fastest.route.sec);x.save=referenceCost.total-x.cost.total});
     var eligible=data.filter(function(x){return x.deltaSec<=maxExtra*60});
     var best=eligible.reduce(function(p,x){if(x.cost.total<p.cost.total-.01)return x;if(Math.abs(x.cost.total-p.cost.total)<.01&&x.route.sec<p.route.sec)return x;return p},eligible[0]||data[0]);
     var html='';
     data.forEach(function(x){
       var link='https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(from)+'&destination='+encodeURIComponent(to)+'&travelmode=driving';
-      html+='<article class="card '+(x.key===best.key?'best':'')+'"><div class="badge">'+(x.key===best.key?'CONSIGLIATO PER TE':'PERCORSO')+'</div><h3>'+x.name+'</h3><div class="big">'+euro(x.cost.total)+'</div><div class="stats"><div class="stat"><span>Durata</span><b>'+mins(x.route.sec)+'</b></div><div class="stat"><span>Distanza</span><b>'+x.route.km.toFixed(1)+' km</b></div><div class="stat"><span>Pedaggio stimato*</span><b>'+euro(x.cost.toll)+'</b></div>'+(vehicle==='plugin'?('<div class="stat"><span>Elettricità</span><b>'+euro(x.cost.electricCost)+'</b></div><div class="stat"><span>Carburante</span><b>'+euro(x.cost.fuelCost)+'</b></div>'):('<div class="stat"><span>'+(vehicle==='elettrica'?'Energia':'Carburante')+'</span><b>'+euro(x.cost.energy)+'</b></div>'))+'</div><div class="delta">'+(x.key==='fast'?'Riferimento più veloce':('+'+Math.round(x.deltaSec/60)+' min · '+(x.save>=0?'risparmi '+euro(x.save):'costa '+euro(-x.save)+' in più')))+'<span class="subdelta">'+(x.same?'Percorso molto simile al precedente':'* Pedaggio beta stimato')+'</span></div><a class="openmaps" href="'+link+'" target="_blank" rel="noopener">Apri in Google Maps</a></article>';
+      var energyRows=vehicle==='plugin'?('<div class="stat"><span>Elettricità</span><b>'+euro(x.cost.electricCost)+'</b></div><div class="stat"><span>Carburante</span><b>'+euro(x.cost.fuelCost)+'</b></div>'):('<div class="stat"><span>'+(vehicle==='elettrica'?'Energia':'Carburante')+'</span><b>'+euro(x.cost.energy)+'</b></div>');
+      var delta=x.key===fastest.key?'Riferimento più veloce':('+'+Math.round(x.deltaSec/60)+' min · '+(x.save>=0?'risparmi '+euro(x.save):'costa '+euro(-x.save)+' in più'));
+      html+='<article class="card '+(x.key===best.key?'best':'')+'"><div class="badge">'+(x.key===best.key?'CONSIGLIATO PER TE':'PERCORSO')+'</div><h3>'+x.name+'</h3><div class="big">'+euro(x.cost.total)+'</div><div class="stats"><div class="stat"><span>Durata</span><b>'+mins(x.route.sec)+'</b></div><div class="stat"><span>Distanza</span><b>'+x.route.km.toFixed(1)+' km</b></div><div class="stat"><span>Pedaggio stimato*</span><b>'+euro(x.cost.toll)+'</b></div>'+energyRows+'</div>'+roadMixHtml(x.cost)+'<div class="delta">'+delta+'<span class="subdelta">'+(x.same?'Percorso molto simile al precedente':'* Pedaggio beta stimato')+'</span></div><a class="openmaps" href="'+link+'" target="_blank" rel="noopener">Apri in Google Maps</a></article>';
     });
     $('cards').innerHTML=html;
     var extra=Math.round(best.deltaSec/60),phrase;
-    if(best.key==='fast'){phrase='Con massimo +'+maxExtra+' minuti, il percorso veloce resta la scelta migliore';}
+    if(best.key===fastest.key){phrase='Con massimo +'+maxExtra+' minuti, il percorso più veloce resta anche quello più conveniente';}
     else if(best.save>=0){phrase='+'+extra+' minuti = risparmi '+euro(best.save);}
     else{phrase=best.name+' resta entro +'+maxExtra+' minuti, ma non fa risparmiare';}
-    $('insight').innerHTML='<strong>'+phrase+'</strong><small>Hai scelto di accettare al massimo +'+maxExtra+' minuti. Tra i percorsi entro questo limite, evidenziamo quello con il costo stimato più basso. Il pedaggio è ancora una stima beta.</small>';
-    $('tripTitle').textContent=from+' → '+to;$('resolved').textContent='Risolto come: '+a.name+' → '+b.name;$('resultSource').textContent='Routing live: '+rs.source;
+    $('insight').innerHTML='<strong>'+phrase+'</strong><small>Il costo usa un consumo dinamico adattato al mix città / extraurbano / autostrada del singolo percorso. Hai scelto di accettare al massimo +'+maxExtra+' minuti. Il pedaggio resta una stima beta.</small>';
+    $('tripTitle').textContent=from+' → '+to;$('resolved').textContent='Risolto come: '+a.name+' → '+b.name;
+    var mapped=data.some(function(x){return x.cost.mixSource==='map'});
+    $('resultSource').textContent='Routing live: '+rs.source+' · consumo '+(mapped?'adattato alle classi stradali':'con mix stradale stimato');
     $('liveBadge').textContent='LIVE ROUTING';$('liveBadge').style.background='#ecfdf5';$('liveBadge').style.color='#166534';
     makeSvg(rs);
 
     var ev=$('evbox');
     if(vehicle==='elettrica'){
-      var soc=parseFloat($('soc').value)||80,cap=parseFloat($('battery').value)||60,need=best.route.km/100*cons,available=cap*soc/100,arr=soc-need/cap*100;
-      ev.style.display='block';ev.innerHTML='<b>Stima EV sul percorso '+best.name+'</b><br>Energia viaggio: '+need.toFixed(1)+' kWh · Batteria disponibile alla partenza: '+available.toFixed(1)+' kWh · '+(arr>8?'SOC stimato all’arrivo: '+Math.max(0,arr).toFixed(0)+'%.':'Con questi dati è probabilmente necessaria una ricarica lungo il percorso. Le soste di ricarica reali saranno il prossimo step della beta.');
+      var soc=parseFloat($('soc').value)||80,cap=parseFloat($('battery').value)||60,need=best.cost.energyUse,available=cap*soc/100,arr=soc-need/cap*100;
+      ev.style.display='block';ev.innerHTML='<b>Stima EV sul percorso '+best.name+'</b><br>Consumo adattato: '+best.cost.consumption.toFixed(1).replace('.',',')+' kWh/100 km · energia viaggio: '+need.toFixed(1)+' kWh · batteria disponibile alla partenza: '+available.toFixed(1)+' kWh · '+(arr>8?'SOC stimato all’arrivo: '+Math.max(0,arr).toFixed(0)+'%.':'Con questi dati è probabilmente necessaria una ricarica lungo il percorso. Le soste di ricarica reali saranno il prossimo step della beta.');
     }else if(vehicle==='plugin'){
-      ev.style.display='block';ev.innerHTML='<b>Stima Plug-in Hybrid sul percorso '+best.name+'</b><br>Tratto elettrico stimato: '+best.cost.electricKm.toFixed(1)+' km · tratto a carburante: '+best.cost.fuelKm.toFixed(1)+' km. La beta usa la batteria fino a una riserva del 10%, poi calcola il resto a carburante.';
+      ev.style.display='block';ev.innerHTML='<b>Stima Plug-in Hybrid sul percorso '+best.name+'</b><br>Tratto elettrico stimato: '+best.cost.electricKm.toFixed(1)+' km · tratto a carburante: '+best.cost.fuelKm.toFixed(1)+' km. Consumi adattati al mix stradale: '+best.cost.evConsumption.toFixed(1).replace('.',',')+' kWh/100 km in elettrico e '+best.cost.consumption.toFixed(1).replace('.',',')+' l/100 km a carburante.';
     }else ev.style.display='none';
     $('results').style.display='block';lastResult={from:from,to:to,best:best.name,cost:best.cost.total,time:best.route.sec};$('results').scrollIntoView({behavior:'smooth',block:'start'});
   }
