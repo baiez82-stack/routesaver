@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f172a">
+<title>Privacy · RouteSaver Beta</title>
+<style>
+body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#eef4ff,#f8fafc 280px,#f5f7fb);color:#0f172a}
+main{max-width:820px;margin:auto;padding:28px 16px 70px}.card{background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:24px;box-shadow:0 14px 38px rgba(15,23,42,.07);margin-bottom:16px}
+h1{font-size:clamp(34px,7vw,48px);letter-spacing:-1.4px;margin:0 0 10px}h2{font-size:20px;margin:0 0 10px}p,li{line-height:1.6;color:#334155}.badge{display:inline-block;background:#ecfdf5;color:#166534;border:1px solid #bbf7d0;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:850;margin-bottom:14px}
+a{color:#166534}.btn{display:inline-block;text-decoration:none;background:#0f172a;color:#fff;border-radius:13px;padding:11px 14px;font-weight:850}.note{font-size:13px;color:#64748b}.warning{background:#fff7ed;border-color:#fed7aa}
+</style>
+</head>
+<body><main>
+<section class="card">
+<div class="badge">BETA PRIVATA DI TEST</div>
+<h1>Privacy di RouteSaver</h1>
+<p>RouteSaver è progettato per funzionare con il minimo numero possibile di dati personali. In questa beta non è richiesto un account, non esiste un profilo utente e non sono integrati strumenti pubblicitari o di profilazione.</p>
+<a class="btn" href="index.html">Torna a RouteSaver</a>
+</section>
+
+<section class="card">
+<h2>Dati salvati sul dispositivo</h2>
+<p>Tipo di veicolo, consumo, prezzo inserito, minuti extra accettati e dati EV possono essere salvati nel <strong>localStorage del browser</strong>. Queste preferenze restano sul dispositivo. Dalla pagina principale puoi usare “Cancella dati salvati sul dispositivo”.</p>
+</section>
+
+<section class="card">
+<h2>Posizione</h2>
+<p>La posizione GPS viene richiesta solo se premi volontariamente <strong>“Usa posizione”</strong>. RouteSaver non la richiede automaticamente e non mantiene un proprio database con la cronologia dei tuoi percorsi.</p>
+</section>
+
+<section class="card">
+<h2>Partenza, destinazione e servizi cartografici</h2>
+<p>Per cercare i luoghi e calcolare i percorsi il browser comunica con servizi esterni basati su OpenStreetMap, attualmente Photon, Nominatim, Valhalla e OSRM. Per fornire il servizio questi soggetti possono ricevere dati tecnicamente necessari alla richiesta, come indirizzo IP, termini di ricerca e coordinate di partenza/destinazione.</p>
+<p>La beta non invia questi dati a un database proprietario RouteSaver.</p>
+</section>
+
+<section class="card">
+<h2>Dati carburante</h2>
+<p>I riferimenti sui prezzi carburante sono ricavati dagli open data del <strong>Ministero delle Imprese e del Made in Italy (MIMIT)</strong>. Il progetto salva solo un piccolo riepilogo statico dei prezzi medi necessario all'interfaccia, non le ricerche degli utenti.</p>
+<p>Fonte: MIMIT, dati sui prezzi medi dei carburanti. Licenza dichiarata dal Ministero: IODL 2.0.</p>
+</section>
+
+<section class="card">
+<h2>Cookie, analytics e pubblicità</h2>
+<p>Questa beta non integra Google Analytics, Meta Pixel, reti pubblicitarie o strumenti di profilazione. Non vengono usati cookie pubblicitari. Il salvataggio locale delle preferenze serve esclusivamente al funzionamento dell'app.</p>
+</section>
+
+<section class="card warning">
+<h2>Stato dell'informativa</h2>
+<p>Questa pagina descrive il funzionamento tecnico della <strong>beta privata</strong>. Prima di una pubblicazione commerciale aperta al pubblico, l'informativa dovrà essere completata con i dati del titolare del trattamento, i contatti privacy, le basi giuridiche e una verifica documentale dei fornitori utilizzati.</p>
+<p class="note">Ultimo aggiornamento: 28 settembre 2026.</p>
+</section>
+</main></body></html>
