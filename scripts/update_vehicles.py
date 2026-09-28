@@ -23,6 +23,7 @@ SELECT TOP 6000
   SUM(CASE WHEN [R] > 0 THEN [R] ELSE 1 END) AS registrations
 FROM {TABLE}
 WHERE [Mk] IS NOT NULL AND [Cn] IS NOT NULL
+  AND LOWER([Ft]) IN ('petrol','diesel','electric','petrol/electric','diesel/electric')
 GROUP BY [Mk], [Cn], [Ft], [Fm]
 ORDER BY registrations DESC
 """
