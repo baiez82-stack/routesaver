@@ -455,9 +455,8 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     throw last||new Error('Colonnine non disponibili');
   }
   async function findEvStops(route,cost){
-    var cap=parseFloat($('battery').value)||60,soc=parseFloat($('soc').value)||80,reserve=10,items=[],used={},need=Number(cost.energyUse)||0;
-    if(!need||!route.coords||!route.coords.length)return {items:[],needed:false};
-    var startUsable=cap*Math.max(0,(soc-reserve)/100);
+    var cap=parseFloat($('battery').value)||60,soc=parseFloat($('soc').value)||80,reserve=10,items=[],used={};
+    if(!route.coords||!route.coords.length)return {items:[],needed:false};
     if(vehicle==='plugin'){
       var fraction=Math.max(.08,Math.min(.92,(cost.electricKm||0)/Math.max(route.km,1)));
       if(fraction>=.9)return {items:[],needed:false,optional:true};
@@ -468,6 +467,9 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
       }catch(e){}
       return {items:items,needed:false,optional:true};
     }
+    var need=Number(cost.energyUse)||0;
+    if(!need)return {items:[],needed:false};
+    var startUsable=cap*Math.max(0,(soc-reserve)/100);
     if(need<=startUsable)return {items:[],needed:false};
     var legEnergy=cap*.70,stops=Math.min(3,Math.max(1,Math.ceil((need-startUsable)/Math.max(legEnergy,1))));
     for(var i=0;i<stops;i++){
