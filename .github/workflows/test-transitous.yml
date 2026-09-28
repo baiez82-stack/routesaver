@@ -1,0 +1,39 @@
+name: Test Transitous route
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/test-transitous.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query Verona Milan public transport
+        run: |
+          python - <<'PY'
+          import json, urllib.parse, urllib.request
+          params={
+            "fromPlace":"45.4384,10.9916",
+            "toPlace":"45.4642,9.1900",
+            "time":"2026-09-29T08:00:00+02:00",
+            "transitModes":"TRANSIT",
+            "directModes":"",
+            "preTransitModes":"WALK",
+            "postTransitModes":"WALK",
+            "maxTransfers":"4",
+            "detailedLegs":"false",
+            "detailedTransfers":"false",
+          }
+          u="https://api.transitous.org/api/v6/plan?"+urllib.parse.urlencode(params)
+          req=urllib.request.Request(u,headers={"User-Agent":"RouteSaver/0.1 (https://baiez82-stack.github.io/routesaver/)","Accept":"application/json"})
+          with urllib.request.urlopen(req,timeout=90) as r:
+            data=json.load(r)
+          print("ITINERARIES="+str(len(data.get("itineraries",[]))))
+          print("SAMPLE="+json.dumps((data.get("itineraries") or [{}])[0],ensure_ascii=False)[:18000])
+          PY
