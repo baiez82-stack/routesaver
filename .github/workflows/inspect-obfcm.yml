@@ -14,18 +14,16 @@ jobs:
   inspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect manufacturer names in latest aggregate EEA data
+      - uses: actions/checkout@v4
+      - name: Inspect Tucson real-world entries
         run: |
           python - <<'PY'
-          import csv, io, urllib.request
-          url="https://sdi.eea.europa.eu/datashare/public.php/dav/files/sptXqwkQr5g7Bp5/eea_t_real-world-co2-emission_p_2024_v01_r00/2024_Cars_Aggregated.csv"
-          req=urllib.request.Request(url,headers={"User-Agent":"RouteSaver/0.5"})
-          with urllib.request.urlopen(req,timeout=120) as r:
-              txt=io.TextIOWrapper(r,encoding="utf-8-sig",errors="replace",newline="")
-              rd=csv.DictReader(txt)
-              for row in rd:
-                  m=(row.get("Manufacturer") or "").upper()
-                  f=(row.get("Fuel Type") or "").upper()
-                  if any(k in m for k in ("HYUNDAI","PEUGEOT","VOLKSWAGEN","BMW","TOYOTA","KIA","RENAULT","STELLANTIS")):
-                      print("MATCH="+repr({"Year":row.get("Year"),"Manufacturer":row.get("Manufacturer"),"Fuel Type":row.get("Fuel Type"),"N":row.get("Number of vehicles"),"OBFCM":row.get("OBFCM Fuel consumption (l/100 km)"),"WLTP":row.get("WLTP Fuel consumption (l/100 km)"),"weighted":row.get("OBFCM Fuel consumption weighted (l/100 km)")}))
+          import json
+          with open("data/vehicles.json", encoding="utf-8") as f:
+              data=json.load(f)
+          print("META="+repr({k:data.get(k) for k in ("year","real_world_reporting_year","note")}))
+          rows=[v for v in data.get("vehicles",[]) if "HYUNDAI" in v.get("make","") and "TUCSON" in v.get("model","")]
+          print("COUNT="+str(len(rows)))
+          for v in rows[:20]:
+              print("TUCSON="+repr(v))
           PY
