@@ -1,0 +1,31 @@
+name: Test EEA vehicle API
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/test-eea-api.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query EEA app API
+        run: |
+          python - <<'PY'
+          import json, urllib.parse, urllib.request
+          queries=[
+            {"query":{"bool":{"must":[{"term":{"year":2025}},{"match":{"Mk":"HYUNDAI"}},{"match_phrase":{"Cn":"TUCSON"}}]}},"size":5},
+            {"query":{"bool":{"must":[{"term":{"year":2025}},{"match":{"Mk":"TESLA"}},{"match_phrase":{"Cn":"MODEL Y"}}]}},"size":5}
+          ]
+          for q in queries:
+            u="https://co2cars.apps.eea.europa.eu/tools/api?source="+urllib.parse.quote(json.dumps(q,separators=(",",":")))
+            req=urllib.request.Request(u,headers={"User-Agent":"RouteSaver/1.2","Accept":"application/json"})
+            with urllib.request.urlopen(req,timeout=60) as r:
+              data=json.load(r)
+            print("RESP="+json.dumps(data,ensure_ascii=False)[:12000])
+          PY
