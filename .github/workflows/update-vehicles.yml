@@ -1,0 +1,41 @@
+name: Update EEA vehicle catalog
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "40 7 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/update_vehicles.py"
+      - ".github/workflows/update-vehicles.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build EEA vehicle catalog
+        run: python scripts/update_vehicles.py
+
+      - name: Commit updated vehicle data
+        run: |
+          if git diff --quiet -- data/vehicles.json; then
+            echo "No vehicle data changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/vehicles.json
+          git commit -m "Update EEA vehicle catalog"
+          git push
