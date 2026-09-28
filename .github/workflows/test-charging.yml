@@ -14,15 +14,23 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Query charging stations near sample route
+      - name: Query charging stations near one route point
         run: |
           python - <<'PY'
           import json, urllib.parse, urllib.request
-          q='[out:json][timeout:25];nwr["amenity"="charging_station"](around:5000,45.4384,10.9916,45.4642,9.1900);out center tags;'
+          q='[out:json][timeout:20];nwr["amenity"="charging_station"]["motorcar"!="no"](around:12000,45.5416,10.2118);out center tags;'
           data=urllib.parse.urlencode({"data":q}).encode()
-          req=urllib.request.Request("https://overpass-api.de/api/interpreter",data=data,headers={"User-Agent":"RouteSaver/0.5"})
-          with urllib.request.urlopen(req,timeout=60) as r:
-              j=json.load(r)
-          print("COUNT="+str(len(j.get("elements",[]))))
-          print("SAMPLE="+json.dumps(j.get("elements",[])[:3],ensure_ascii=False))
+          last=None
+          for endpoint in ("https://overpass-api.de/api/interpreter","https://overpass.kumi.systems/api/interpreter"):
+              try:
+                  req=urllib.request.Request(endpoint,data=data,headers={"User-Agent":"RouteSaver/0.6"})
+                  with urllib.request.urlopen(req,timeout=45) as r: j=json.load(r)
+                  print("ENDPOINT="+endpoint)
+                  print("COUNT="+str(len(j.get("elements",[]))))
+                  print("SAMPLE="+json.dumps(j.get("elements",[])[:3],ensure_ascii=False))
+                  break
+              except Exception as e:
+                  last=e
+          else:
+              raise last
           PY
