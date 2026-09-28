@@ -19,13 +19,6 @@ jobs:
           python - <<'PY'
           import json, urllib.parse, urllib.request
           H={"User-Agent":"RouteSaver/0.1 (https://baiez82-stack.github.io/routesaver/)","Accept":"application/json"}
-          def get(url):
-              req=urllib.request.Request(url,headers=H)
-              with urllib.request.urlopen(req,timeout=90) as r: return json.load(r)
-          for txt in ("Verona Porta Nuova","Milano Centrale"):
-              u="https://api.transitous.org/api/v1/geocode?"+urllib.parse.urlencode({"text":txt,"language":"it","type":"STOP","numResults":5})
-              j=get(u)
-              print("GEO "+txt+"="+json.dumps(j,ensure_ascii=False)[:7000])
           params={
             "fromPlace":"45.4384,10.9916",
             "toPlace":"45.4642,9.1900",
@@ -36,9 +29,16 @@ jobs:
             "maxTransfers":"4",
             "detailedLegs":"false",
             "detailedTransfers":"false",
+            "withFares":"true",
+            "passengers":"2",
           }
           u="https://api.transitous.org/api/v6/plan?"+urllib.parse.urlencode(params)
-          data=get(u)
-          print("COORD_ITINERARIES="+str(len(data.get("itineraries",[]))))
-          print("COORD_SAMPLE="+json.dumps((data.get("itineraries") or [{}])[0],ensure_ascii=False)[:18000])
+          req=urllib.request.Request(u,headers=H)
+          with urllib.request.urlopen(req,timeout=90) as r:
+            data=json.load(r)
+          it=(data.get("itineraries") or [{}])[0]
+          print("COUNT="+str(len(data.get("itineraries",[]))))
+          print("KEYS="+repr(list(it.keys())))
+          print("FARE_FIELDS="+json.dumps({k:v for k,v in it.items() if "fare" in k.lower() or "price" in k.lower() or "ticket" in k.lower()},ensure_ascii=False)[:12000])
+          print("LEGS="+json.dumps([{"mode":x.get("mode"),"agency":x.get("agencyName"),"name":x.get("displayName"),"from":(x.get("from") or {}).get("name"),"to":(x.get("to") or {}).get("name")} for x in it.get("legs",[])],ensure_ascii=False))
           PY
