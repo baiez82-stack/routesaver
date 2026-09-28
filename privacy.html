@@ -39,8 +39,8 @@ a{color:#166534}.btn{display:inline-block;text-decoration:none;background:#0f172
 <section class="card">
 <h2>Dati del veicolo</h2>
 <p>Il catalogo Marca → Modello è generato esclusivamente dai dati ufficiali della <strong>European Environment Agency (EEA)</strong> sul monitoraggio delle nuove autovetture registrate nell'Unione europea. RouteSaver utilizza una copia aggregata locale del catalogo: quando scegli la tua auto, il browser non invia la scelta all'EEA.</p>
-<p>I consumi mostrati sono valori medi aggregati per marca, nome commerciale, carburante e modalità di alimentazione e possono differire dal singolo allestimento reale. Puoi modificarli manualmente.</p>
-<p>Per stimare il consumo del singolo viaggio, RouteSaver combina il consumo base con le classi stradali del percorso (urbano, extraurbano, autostrada/strade veloci) restituite dal servizio di routing. I coefficienti di correzione sono un modello interno RouteSaver e non costituiscono dati ufficiali EEA.</p>
+<p>Il catalogo parte dai dati EEA 2025 per marca, nome commerciale e alimentazione. Quando l'EEA rende disponibile un riferimento real-world OBFCM compatibile, RouteSaver usa il divario osservato tra consumo reale e WLTP per il medesimo produttore/alimentazione per correggere il valore del modello. Il dato OBFCM utilizzato come correzione non è una misura diretta del singolo allestimento e nell'interfaccia viene indicato il numero di veicoli su cui si basa il riferimento.</p>
+<p>Per stimare il consumo del singolo viaggio, RouteSaver combina questa baseline con classi stradali e velocità di riferimento del percorso (urbano, extraurbano, autostrada/strade veloci). L'ulteriore adattamento al percorso è un modello interno RouteSaver e non costituisce un dato certificato EEA.</p>
 </section>
 
 <section class="card">
