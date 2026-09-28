@@ -30,7 +30,7 @@ jobs:
 
       - name: Commit updated vehicle data
         run: |
-          if git diff --quiet -- data/vehicles.json; then
+          if [ -z "$(git status --porcelain -- data/vehicles.json)" ]; then
             echo "No vehicle data changes"
             exit 0
           fi
