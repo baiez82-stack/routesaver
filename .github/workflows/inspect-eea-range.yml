@@ -14,18 +14,18 @@ jobs:
   inspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect EV and PHEV fields
+      - name: Inspect EV and PHEV rows
         run: |
           python - <<'PY'
           import json, urllib.parse, urllib.request
           queries=[
-            "SELECT TOP 3 [Mk],[Cn],[Ft],[Fm],[Z (Wh/km)],[Ernedc (g/km)],[Erwltp (g/km)],[E (g/km)],[Er (g/km)],[R],[Fc] FROM [CO2Emission].[latest].[co2cars_2025Pv31] WHERE [Ft]='electric' AND [Z (Wh/km)] IS NOT NULL",
-            "SELECT TOP 5 [Mk],[Cn],[Ft],[Fm],[Z (Wh/km)],[Ernedc (g/km)],[Erwltp (g/km)],[E (g/km)],[Er (g/km)],[R],[Fc] FROM [CO2Emission].[latest].[co2cars_2025Pv31] WHERE [Fm]='P' AND [Z (Wh/km)] IS NOT NULL"
+            "SELECT TOP 1 * FROM [CO2Emission].[latest].[co2cars_2025Pv31] WHERE [Mk]='TESLA' AND [Cn]='MODEL Y' AND [Z (Wh/km)] IS NOT NULL",
+            "SELECT TOP 1 * FROM [CO2Emission].[latest].[co2cars_2025Pv31] WHERE [Mk]='HYUNDAI' AND [Cn] LIKE '%TUCSON%' AND [Fm]='P' AND [Z (Wh/km)] IS NOT NULL"
           ]
           for q in queries:
-            url="https://discodata.eea.europa.eu/sql?"+urllib.parse.urlencode({"query":q,"p":1,"nrOfHits":20})
-            req=urllib.request.Request(url,headers={"User-Agent":"RouteSaver/0.7"})
+            url="https://discodata.eea.europa.eu/sql?"+urllib.parse.urlencode({"query":q,"p":1,"nrOfHits":5})
+            req=urllib.request.Request(url,headers={"User-Agent":"RouteSaver/0.8"})
             with urllib.request.urlopen(req,timeout=60) as r:
               data=json.load(r)
-            print(json.dumps(data.get("results",[]),ensure_ascii=False))
+            print("ROW="+json.dumps((data.get("results") or [{}])[0],ensure_ascii=False))
           PY
