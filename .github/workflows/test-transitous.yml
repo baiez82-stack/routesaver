@@ -14,31 +14,24 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Query Verona Milan public transport
+      - name: Verify browser CORS and sample route
         run: |
           python - <<'PY'
           import json, urllib.parse, urllib.request
-          H={"User-Agent":"RouteSaver/0.1 (https://baiez82-stack.github.io/routesaver/)","Accept":"application/json"}
           params={
-            "fromPlace":"45.4384,10.9916",
-            "toPlace":"45.4642,9.1900",
-            "time":"2026-09-29T08:00:00+02:00",
-            "radius":"3500",
-            "transitModes":"TRANSIT",
-            "directModes":"",
-            "maxTransfers":"4",
-            "detailedLegs":"false",
-            "detailedTransfers":"false",
-            "withFares":"true",
-            "passengers":"2",
+            "fromPlace":"45.4384,10.9916","toPlace":"45.4642,9.1900",
+            "time":"2026-09-29T08:00:00+02:00","radius":"3500",
+            "transitModes":"TRANSIT","directModes":"","maxTransfers":"4",
+            "detailedLegs":"false","detailedTransfers":"false","withFares":"true","passengers":"2","language":"it"
           }
           u="https://api.transitous.org/api/v6/plan?"+urllib.parse.urlencode(params)
-          req=urllib.request.Request(u,headers=H)
+          req=urllib.request.Request(u,headers={
+            "User-Agent":"RouteSaver/0.1 (https://baiez82-stack.github.io/routesaver/)",
+            "Accept":"application/json",
+            "Origin":"https://baiez82-stack.github.io"
+          })
           with urllib.request.urlopen(req,timeout=90) as r:
             data=json.load(r)
-          it=(data.get("itineraries") or [{}])[0]
+            print("ACAO="+str(r.headers.get("Access-Control-Allow-Origin")))
           print("COUNT="+str(len(data.get("itineraries",[]))))
-          print("KEYS="+repr(list(it.keys())))
-          print("FARE_FIELDS="+json.dumps({k:v for k,v in it.items() if "fare" in k.lower() or "price" in k.lower() or "ticket" in k.lower()},ensure_ascii=False)[:12000])
-          print("LEGS="+json.dumps([{"mode":x.get("mode"),"agency":x.get("agencyName"),"name":x.get("displayName"),"from":(x.get("from") or {}).get("name"),"to":(x.get("to") or {}).get("name")} for x in it.get("legs",[])],ensure_ascii=False))
           PY
