@@ -56,7 +56,7 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
             <div class="carcell"><label>Modello / alimentazione</label><select id="carModel" disabled><option value="">Prima scegli la marca</option></select></div>
           </div>
           <div class="carmatch" id="carMatch"></div>
-          <span class="helper">Fonte veicoli unica: European Environment Agency. Il consumo proposto è una media EEA 2025 per modello e alimentazione: puoi sempre correggerlo manualmente.</span>
+          <span class="helper">Fonte veicoli unica: European Environment Agency. Quando disponibile, RouteSaver corregge il dato WLTP del modello con i consumi real-world OBFCM EEA. Puoi sempre sostituirlo con il tuo consumo reale.</span>
         </div>
       </div>
 
@@ -135,9 +135,27 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
   function eeaVehicleType(r){var fm=String(r.fuel_mode||'').toUpperCase(),ft=String(r.fuel||'').toLowerCase();if(fm==='E'||ft==='electric')return 'elettrica';if(fm==='P')return 'plugin';if(fm==='H'||ft.indexOf('electric')>=0&&ft!=='electric')return 'ibrida';if(ft.indexOf('diesel')>=0)return 'diesel';return 'benzina'}
   function eeaTypeLabel(r){var t=eeaVehicleType(r);return {benzina:'Benzina',diesel:'Diesel',ibrida:'Full hybrid',plugin:'Plug-in hybrid',elettrica:'Elettrica'}[t]||'Veicolo'}
   function clearCarSelection(resetSelects){selectedCarKey='';if($('carMatch')){$('carMatch').className='carmatch';$('carMatch').innerHTML=''}if(resetSelects&&$('carMake')){$('carMake').value='';$('carModel').innerHTML='<option value="">Prima scegli la marca</option>';$('carModel').disabled=true}}
-  function showCarMatch(r){var bits=[eeaTypeLabel(r)];if(r.power_kw)bits.push(Math.round(r.power_kw)+' kW');if(eeaVehicleType(r)==='elettrica'&&r.electric_wh_km)bits.push((r.electric_wh_km/10).toFixed(1).replace('.',',')+' kWh/100 km');else if(r.fc_l_100km)bits.push(Number(r.fc_l_100km).toFixed(1).replace('.',',')+' l/100 km');if(eeaVehicleType(r)==='plugin'&&r.electric_wh_km)bits.push((r.electric_wh_km/10).toFixed(1).replace('.',',')+' kWh/100 km elettrico');$('carMatch').className='carmatch show';$('carMatch').innerHTML='<b>'+escapeHtml(r.make+' '+r.model)+'</b>'+escapeHtml(bits.join(' · '))+'<br><span class="muted">Valori aggregati EEA '+escapeHtml(String(vehicleCatalogMeta&&vehicleCatalogMeta.year||2025))+'; il singolo allestimento può differire.</span>'}
-  function populateCarModels(make,restoreKey){var sel=$('carModel');sel.innerHTML='<option value="">Scegli modello / alimentazione</option>';if(!make){sel.disabled=true;return}var rows=vehicleCatalog.filter(function(r){return r.make===make}),best={};rows.forEach(function(r){var k=r.model+'|'+eeaVehicleType(r);if(!best[k]||r.registrations>best[k].registrations)best[k]=r});Object.keys(best).sort(function(a,b){return best[a].model.localeCompare(best[b].model,'it')||eeaTypeLabel(best[a]).localeCompare(eeaTypeLabel(best[b]),'it')}).forEach(function(k){var r=best[k],idx=vehicleCatalog.indexOf(r),o=document.createElement('option');o.value=String(idx);o.textContent=r.model+' · '+eeaTypeLabel(r)+(r.power_kw?' · '+Math.round(r.power_kw)+' kW':'');sel.appendChild(o)});sel.disabled=false;if(restoreKey){var target=vehicleCatalog.findIndex(function(r){return makeCarKey(r)===restoreKey});if(target>=0){sel.value=String(target);selectedCarKey=restoreKey;showCarMatch(vehicleCatalog[target]);savePrefs()}}}
-  function applyEEACar(r){if(!r)return;selectedCarKey=makeCarKey(r);consumptionCustom=false;applyingCar=true;var type=eeaVehicleType(r),chip=document.querySelector('.chip[data-v="'+type+'"]');if(chip)chip.click();applyingCar=false;if(type==='elettrica'&&r.electric_wh_km){$('cons').value=(r.electric_wh_km/10).toFixed(1)}else if(r.fc_l_100km){$('cons').value=Number(r.fc_l_100km).toFixed(1)}if(type==='plugin'&&r.electric_wh_km){$('pluginEvCons').value=(r.electric_wh_km/10).toFixed(1)}showCarMatch(r);savePrefs()}
+  function currentCarData(){return selectedCarKey?vehicleCatalog.find(function(v){return makeCarKey(v)===selectedCarKey})||null:null}
+  function realWorldConfidence(n){n=Number(n)||0;if(n>=5000)return 'alta';if(n>=500)return 'media';return 'indicativa'}
+  function showCarMatch(r){
+    var bits=[eeaTypeLabel(r)];
+    if(r.power_kw)bits.push(Math.round(r.power_kw)+' kW');
+    if(eeaVehicleType(r)==='elettrica'&&r.electric_wh_km)bits.push('EEA '+(r.electric_wh_km/10).toFixed(1).replace('.',',')+' kWh/100 km');
+    else if(r.fc_l_100km)bits.push('WLTP '+Number(r.fc_l_100km).toFixed(1).replace('.',',')+' l/100 km');
+    if(eeaVehicleType(r)==='plugin'&&r.electric_wh_km)bits.push((r.electric_wh_km/10).toFixed(1).replace('.',',')+' kWh/100 km elettrico');
+    var extra='';
+    if(r.real_world&&r.real_world.l_100km){
+      var n=Number(r.real_world.vehicles)||0;
+      extra='<br><strong style="color:#166534">Base real-world RouteSaver: '+Number(r.real_world.l_100km).toFixed(1).replace('.',',')+' l/100 km</strong>'+
+        '<br><span class="muted">Correzione EEA OBFCM '+escapeHtml(String(r.real_world.reporting_year||''))+
+        ' · '+n.toLocaleString('it-IT')+' veicoli del produttore/alimentazione · affidabilità '+realWorldConfidence(n)+'. Non è una misura diretta del singolo allestimento.</span>';
+    }
+    $('carMatch').className='carmatch show';
+    $('carMatch').innerHTML='<b>'+escapeHtml(r.make+' '+r.model)+'</b>'+escapeHtml(bits.join(' · '))+extra+
+      '<br><span class="muted">Il valore finale viene poi adattato a velocità e tipo di strada del percorso.</span>';
+  }
+  function populateCarModels(make,restoreKey){var sel=$('carModel');sel.innerHTML='<option value="">Scegli modello / alimentazione</option>';if(!make){sel.disabled=true;return}var rows=vehicleCatalog.filter(function(r){return r.make===make}),best={};rows.forEach(function(r){var k=r.model+'|'+eeaVehicleType(r);if(!best[k]||r.registrations>best[k].registrations)best[k]=r});Object.keys(best).sort(function(a,b){return best[a].model.localeCompare(best[b].model,'it')||eeaTypeLabel(best[a]).localeCompare(eeaTypeLabel(best[b]),'it')}).forEach(function(k){var r=best[k],idx=vehicleCatalog.indexOf(r),o=document.createElement('option');o.value=String(idx);o.textContent=r.model+' · '+eeaTypeLabel(r)+(r.power_kw?' · '+Math.round(r.power_kw)+' kW':'');sel.appendChild(o)});sel.disabled=false;if(restoreKey){var target=vehicleCatalog.findIndex(function(r){return makeCarKey(r)===restoreKey});if(target>=0){sel.value=String(target);if(consumptionCustom){selectedCarKey=restoreKey;showCarMatch(vehicleCatalog[target]);savePrefs()}else applyEEACar(vehicleCatalog[target])}}}
+  function applyEEACar(r){if(!r)return;selectedCarKey=makeCarKey(r);consumptionCustom=false;applyingCar=true;var type=eeaVehicleType(r),chip=document.querySelector('.chip[data-v="'+type+'"]');if(chip)chip.click();applyingCar=false;if(type==='elettrica'&&r.electric_wh_km){$('cons').value=(r.electric_wh_km/10).toFixed(1)}else if(r.real_world&&r.real_world.l_100km){$('cons').value=Number(r.real_world.l_100km).toFixed(1)}else if(r.fc_l_100km){$('cons').value=Number(r.fc_l_100km).toFixed(1)}if(type==='plugin'&&r.electric_wh_km){$('pluginEvCons').value=(r.electric_wh_km/10).toFixed(1)}showCarMatch(r);savePrefs()}
   async function loadVehicleCatalog(){var makeSel=$('carMake');try{var r=await fetch('data/vehicles.json',{cache:'no-store'});if(!r.ok)throw new Error('catalogo non disponibile');vehicleCatalogMeta=await r.json();vehicleCatalog=Array.isArray(vehicleCatalogMeta.vehicles)?vehicleCatalogMeta.vehicles:[];var totals={};vehicleCatalog.forEach(function(v){totals[v.make]=(totals[v.make]||0)+(v.registrations||0)});var makes=Object.keys(totals).sort(function(a,b){return a.localeCompare(b,'it')});makeSel.innerHTML='<option value="">Scegli la marca</option>';makes.forEach(function(m){var o=document.createElement('option');o.value=m;o.textContent=m;makeSel.appendChild(o)});if(savedCarKey){var saved=vehicleCatalog.find(function(v){return makeCarKey(v)===savedCarKey});if(saved){makeSel.value=saved.make;populateCarModels(saved.make,savedCarKey)}}}catch(e){makeSel.innerHTML='<option value="">Catalogo EEA non disponibile</option>';makeSel.disabled=true;$('carModel').disabled=true}}
   $('carMake').addEventListener('change',function(){clearCarSelection(false);populateCarModels(this.value,'');savePrefs()});
   $('carModel').addEventListener('change',function(){var idx=parseInt(this.value,10);if(!isNaN(idx)&&vehicleCatalog[idx])applyEEACar(vehicleCatalog[idx]);else{clearCarSelection(false);savePrefs()}});
@@ -331,8 +349,10 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
   function pct(v){return Math.max(0,Math.min(100,Math.round((Number(v)||0)*100)))}
   function consumptionUnit(){return vehicle==='elettrica'?'kWh/100 km':'l/100 km'}
   function baseConsumptionSource(){
-    if(selectedCarKey&&!consumptionCustom)return 'Base EEA';
-    if(selectedCarKey&&consumptionCustom)return 'Base personalizzata';
+    var car=currentCarData();
+    if(car&&!consumptionCustom&&car.real_world&&car.real_world.l_100km)return 'Base EEA real-world';
+    if(car&&!consumptionCustom)return 'Base EEA WLTP';
+    if(car&&consumptionCustom)return 'Base personalizzata';
     return 'Base inserita';
   }
   function roadMixHtml(cost){
