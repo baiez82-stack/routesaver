@@ -14,25 +14,22 @@ jobs:
   inspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect EEA viewer bundle
+      - name: Inspect EEA viewer request format
         run: |
           python - <<'PY'
           import re, urllib.request, urllib.parse
           base="https://co2cars.apps.eea.europa.eu/"
-          urls=[
-            urllib.parse.urljoin(base,"esbootstrap_resources/min/bundle/07a79bb_index_page.js"),
-            urllib.parse.urljoin(base,"external_templates_scripts.js"),
+          files=[
+            "esbootstrap_resources/min/bundle/07a79bb_index_page.js",
+            "external_templates_scripts.js"
           ]
-          for u in urls:
-            req=urllib.request.Request(u,headers={"User-Agent":"RouteSaver/1.0"})
+          for rel in files:
+            u=urllib.parse.urljoin(base,rel)
+            req=urllib.request.Request(u,headers={"User-Agent":"RouteSaver/1.1"})
             with urllib.request.urlopen(req,timeout=60) as r:
               js=r.read().decode("utf-8","replace")
-            print("URL="+u+" LEN="+str(len(js)))
-            for pat in ("Electric range","Erwltp","electric_range","search_url","endpoint","_search","download","csv","elastic","index_name","field"):
-              hits=[]
-              for m in re.finditer(pat,js,re.I):
-                hits.append(js[max(0,m.start()-220):m.end()+320].replace("\n"," "))
-              if hits:
-                print("PATTERN",pat,"HITS",len(hits))
-                for h in hits[:30]: print(h)
+            print("FILE",rel)
+            for pat in ("tools/api","esbootstrap_options","search_index","search_url","source:",'"source"',"query_string","facets","Zr"):
+              for m in list(re.finditer(re.escape(pat),js,re.I))[:12]:
+                print("MATCH",pat,js[max(0,m.start()-700):m.end()+1200].replace("\n"," "))
           PY
