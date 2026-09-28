@@ -70,7 +70,7 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
         </div>
       </div>
 
-      <div class="field"><label id="consLabel">Consumo medio (l/100 km)</label><input id="cons" type="number" min=".1" step=".1" value="6.2"><span class="helper">È il consumo base: RouteSaver lo adatta automaticamente al tipo di strada del percorso.</span></div>
+      <div class="field"><label id="consLabel">Consumo base (l/100 km)</label><input id="cons" type="number" min=".1" step=".1" value="6.2"><span class="helper">È il consumo base: RouteSaver lo adatta automaticamente al tipo di strada del percorso.</span></div>
       <div class="field"><label id="priceLabel">Prezzo carburante (€/l)</label><input id="price" type="number" min=".01" step=".01" value="1.78"><span class="helper">Puoi inserire il tuo prezzo reale oppure usare il riferimento MIMIT quando disponibile.</span></div>
       <div class="field pluginFields" id="pluginEvConsField"><label>Consumo elettrico (kWh/100 km)</label><input id="pluginEvCons" type="number" min=".1" step=".1" value="18.5"></div>
       <div class="field pluginFields" id="pluginEnergyPriceField"><label>Costo energia (€/kWh)</label><input id="pluginEnergyPrice" type="number" min=".01" step=".01" value="0.30"></div>
@@ -114,7 +114,7 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
 <script>
 (function(){
   'use strict';
-  var vehicle='benzina', geoOrigin=null, lastResult=null, maxExtra=10, officialFuel=null, fuelRegion=null, priceTouched=false, selectedPlaces={from:null,to:null}, suggestTimers={from:null,to:null}, vehicleCatalog=[], vehicleCatalogMeta=null, selectedCarKey='', savedCarKey='', applyingCar=false;
+  var vehicle='benzina', geoOrigin=null, lastResult=null, maxExtra=10, officialFuel=null, fuelRegion=null, priceTouched=false, selectedPlaces={from:null,to:null}, suggestTimers={from:null,to:null}, vehicleCatalog=[], vehicleCatalogMeta=null, selectedCarKey='', savedCarKey='', applyingCar=false, consumptionCustom=false;
   var $=function(id){return document.getElementById(id)};
   var chips=document.querySelectorAll('.chip');
   var minuteChips=document.querySelectorAll('.minchip');
@@ -125,8 +125,8 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
   function escapeHtml(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
   function setNotice(type,msg){var n=$('notice');n.className='notice '+type;n.textContent=msg}
   function clearNotice(){var n=$('notice');n.className='notice';n.textContent=''}
-  function savePrefs(){try{localStorage.setItem('routesaverPrefs',JSON.stringify({vehicle:vehicle,cons:$('cons').value,price:$('price').value,maxExtra:maxExtra,soc:$('soc').value,battery:$('battery').value,pluginEvCons:$('pluginEvCons').value,pluginEnergyPrice:$('pluginEnergyPrice').value,carKey:selectedCarKey}))}catch(e){}}
-  function loadPrefs(){try{var p=JSON.parse(localStorage.getItem('routesaverPrefs')||'{}');savedCarKey=p.carKey||''; if(p.vehicle){var c=document.querySelector('.chip[data-v="'+p.vehicle+'"]');if(c)c.click()} if(p.cons)$('cons').value=p.cons;if(p.price)$('price').value=p.price;if(p.maxExtra){maxExtra=parseInt(p.maxExtra,10)||10;minuteChips.forEach(function(x){x.classList.toggle('active',parseInt(x.dataset.min,10)===maxExtra)})}if(p.soc)$('soc').value=p.soc;if(p.battery)$('battery').value=p.battery;if(p.pluginEvCons)$('pluginEvCons').value=p.pluginEvCons;if(p.pluginEnergyPrice)$('pluginEnergyPrice').value=p.pluginEnergyPrice}catch(e){}}
+  function savePrefs(){try{localStorage.setItem('routesaverPrefs',JSON.stringify({vehicle:vehicle,cons:$('cons').value,price:$('price').value,maxExtra:maxExtra,soc:$('soc').value,battery:$('battery').value,pluginEvCons:$('pluginEvCons').value,pluginEnergyPrice:$('pluginEnergyPrice').value,carKey:selectedCarKey,consumptionCustom:consumptionCustom}))}catch(e){}}
+  function loadPrefs(){try{var p=JSON.parse(localStorage.getItem('routesaverPrefs')||'{}');savedCarKey=p.carKey||'';consumptionCustom=!!p.consumptionCustom; if(p.vehicle){var c=document.querySelector('.chip[data-v="'+p.vehicle+'"]');if(c)c.click()} if(p.cons)$('cons').value=p.cons;if(p.price)$('price').value=p.price;if(p.maxExtra){maxExtra=parseInt(p.maxExtra,10)||10;minuteChips.forEach(function(x){x.classList.toggle('active',parseInt(x.dataset.min,10)===maxExtra)})}if(p.soc)$('soc').value=p.soc;if(p.battery)$('battery').value=p.battery;if(p.pluginEvCons)$('pluginEvCons').value=p.pluginEvCons;if(p.pluginEnergyPrice)$('pluginEnergyPrice').value=p.pluginEnergyPrice}catch(e){}}
   function normRegion(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]/g,'')}
   function findRegionData(region){if(!officialFuel||!officialFuel.regions)return null;var target=normRegion(region);var keys=Object.keys(officialFuel.regions);for(var i=0;i<keys.length;i++){if(normRegion(keys[i])===target)return {name:keys[i],data:officialFuel.regions[keys[i]]}}return null}
   function updateFuelBox(region){if(region)fuelRegion=region;var box=$('fuelBox');if(!officialFuel||vehicle==='elettrica'){box.style.display='none';return null}var fuel=(vehicle==='diesel'?'gasolio':'benzina'),match=findRegionData(fuelRegion),val=null,label='';if(match&&match.data) {val=match.data[fuel];label=match.name;}if(!val&&officialFuel.national){val=officialFuel.national[fuel];label='media indicativa nazionale';}if(!val){box.style.display='none';return null}box.style.display='block';$('fuelTitle').textContent='Riferimento MIMIT · '+(fuel==='gasolio'?'Gasolio':'Benzina')+' self';$('fuelText').textContent=euro(val)+'/l · '+label+(officialFuel.dataset_date?' · dati '+officialFuel.dataset_date:'');$('useFuelPrice').dataset.price=val;return val;}
@@ -137,7 +137,7 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
   function clearCarSelection(resetSelects){selectedCarKey='';if($('carMatch')){$('carMatch').className='carmatch';$('carMatch').innerHTML=''}if(resetSelects&&$('carMake')){$('carMake').value='';$('carModel').innerHTML='<option value="">Prima scegli la marca</option>';$('carModel').disabled=true}}
   function showCarMatch(r){var bits=[eeaTypeLabel(r)];if(r.power_kw)bits.push(Math.round(r.power_kw)+' kW');if(eeaVehicleType(r)==='elettrica'&&r.electric_wh_km)bits.push((r.electric_wh_km/10).toFixed(1).replace('.',',')+' kWh/100 km');else if(r.fc_l_100km)bits.push(Number(r.fc_l_100km).toFixed(1).replace('.',',')+' l/100 km');if(eeaVehicleType(r)==='plugin'&&r.electric_wh_km)bits.push((r.electric_wh_km/10).toFixed(1).replace('.',',')+' kWh/100 km elettrico');$('carMatch').className='carmatch show';$('carMatch').innerHTML='<b>'+escapeHtml(r.make+' '+r.model)+'</b>'+escapeHtml(bits.join(' · '))+'<br><span class="muted">Valori aggregati EEA '+escapeHtml(String(vehicleCatalogMeta&&vehicleCatalogMeta.year||2025))+'; il singolo allestimento può differire.</span>'}
   function populateCarModels(make,restoreKey){var sel=$('carModel');sel.innerHTML='<option value="">Scegli modello / alimentazione</option>';if(!make){sel.disabled=true;return}var rows=vehicleCatalog.filter(function(r){return r.make===make}),best={};rows.forEach(function(r){var k=r.model+'|'+eeaVehicleType(r);if(!best[k]||r.registrations>best[k].registrations)best[k]=r});Object.keys(best).sort(function(a,b){return best[a].model.localeCompare(best[b].model,'it')||eeaTypeLabel(best[a]).localeCompare(eeaTypeLabel(best[b]),'it')}).forEach(function(k){var r=best[k],idx=vehicleCatalog.indexOf(r),o=document.createElement('option');o.value=String(idx);o.textContent=r.model+' · '+eeaTypeLabel(r)+(r.power_kw?' · '+Math.round(r.power_kw)+' kW':'');sel.appendChild(o)});sel.disabled=false;if(restoreKey){var target=vehicleCatalog.findIndex(function(r){return makeCarKey(r)===restoreKey});if(target>=0){sel.value=String(target);selectedCarKey=restoreKey;showCarMatch(vehicleCatalog[target]);savePrefs()}}}
-  function applyEEACar(r){if(!r)return;selectedCarKey=makeCarKey(r);applyingCar=true;var type=eeaVehicleType(r),chip=document.querySelector('.chip[data-v="'+type+'"]');if(chip)chip.click();applyingCar=false;if(type==='elettrica'&&r.electric_wh_km){$('cons').value=(r.electric_wh_km/10).toFixed(1)}else if(r.fc_l_100km){$('cons').value=Number(r.fc_l_100km).toFixed(1)}if(type==='plugin'&&r.electric_wh_km){$('pluginEvCons').value=(r.electric_wh_km/10).toFixed(1)}showCarMatch(r);savePrefs()}
+  function applyEEACar(r){if(!r)return;selectedCarKey=makeCarKey(r);consumptionCustom=false;applyingCar=true;var type=eeaVehicleType(r),chip=document.querySelector('.chip[data-v="'+type+'"]');if(chip)chip.click();applyingCar=false;if(type==='elettrica'&&r.electric_wh_km){$('cons').value=(r.electric_wh_km/10).toFixed(1)}else if(r.fc_l_100km){$('cons').value=Number(r.fc_l_100km).toFixed(1)}if(type==='plugin'&&r.electric_wh_km){$('pluginEvCons').value=(r.electric_wh_km/10).toFixed(1)}showCarMatch(r);savePrefs()}
   async function loadVehicleCatalog(){var makeSel=$('carMake');try{var r=await fetch('data/vehicles.json',{cache:'no-store'});if(!r.ok)throw new Error('catalogo non disponibile');vehicleCatalogMeta=await r.json();vehicleCatalog=Array.isArray(vehicleCatalogMeta.vehicles)?vehicleCatalogMeta.vehicles:[];var totals={};vehicleCatalog.forEach(function(v){totals[v.make]=(totals[v.make]||0)+(v.registrations||0)});var makes=Object.keys(totals).sort(function(a,b){return a.localeCompare(b,'it')});makeSel.innerHTML='<option value="">Scegli la marca</option>';makes.forEach(function(m){var o=document.createElement('option');o.value=m;o.textContent=m;makeSel.appendChild(o)});if(savedCarKey){var saved=vehicleCatalog.find(function(v){return makeCarKey(v)===savedCarKey});if(saved){makeSel.value=saved.make;populateCarModels(saved.make,savedCarKey)}}}catch(e){makeSel.innerHTML='<option value="">Catalogo EEA non disponibile</option>';makeSel.disabled=true;$('carModel').disabled=true}}
   $('carMake').addEventListener('change',function(){clearCarSelection(false);populateCarModels(this.value,'');savePrefs()});
   $('carModel').addEventListener('change',function(){var idx=parseInt(this.value,10);if(!isNaN(idx)&&vehicleCatalog[idx])applyEEACar(vehicleCatalog[idx]);else{clearCarSelection(false);savePrefs()}});
@@ -148,7 +148,7 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     var ev=vehicle==='elettrica',plugin=vehicle==='plugin';
     $('socField').style.display=(ev||plugin)?'flex':'none';$('batteryField').style.display=(ev||plugin)?'flex':'none';
     $('pluginEvConsField').style.display=plugin?'flex':'none';$('pluginEnergyPriceField').style.display=plugin?'flex':'none';
-    $('consLabel').textContent=ev?'Consumo medio (kWh/100 km)':'Consumo carburante (l/100 km)';
+    $('consLabel').textContent=ev?'Consumo base (kWh/100 km)':'Consumo base carburante (l/100 km)';
     $('priceLabel').textContent=ev?'Prezzo energia (€/kWh)':'Prezzo carburante (€/l)';
     var defaults={benzina:[6.2,1.78],diesel:[5.4,1.72],ibrida:[4.7,1.78],plugin:[5.5,1.78],elettrica:[18.5,.55]};
     $('cons').value=defaults[vehicle][0];$('price').value=defaults[vehicle][1];
@@ -159,7 +159,8 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
 
   minuteChips.forEach(function(c){c.addEventListener('click',function(){minuteChips.forEach(function(x){x.classList.remove('active')});c.classList.add('active');maxExtra=parseInt(c.dataset.min,10)||10;savePrefs()})});
 
-  ['cons','soc','battery','pluginEvCons','pluginEnergyPrice'].forEach(function(id){$(id).addEventListener('change',savePrefs)});
+  ['soc','battery','pluginEnergyPrice'].forEach(function(id){$(id).addEventListener('change',savePrefs)});
+  ['cons','pluginEvCons'].forEach(function(id){$(id).addEventListener('input',function(){consumptionCustom=true;savePrefs()})});
   $('price').addEventListener('input',function(){priceTouched=true;savePrefs()});
   $('useFuelPrice').addEventListener('click',function(){var p=parseFloat(this.dataset.price);if(p){$('price').value=p.toFixed(3);savePrefs();setNotice('info','Prezzo MIMIT inserito. Puoi comunque modificarlo manualmente.')}});
   $('clearData').addEventListener('click',function(){try{localStorage.removeItem('routesaverPrefs')}catch(e){};geoOrigin=null;selectedPlaces={from:null,to:null};clearCarSelection(true);$('from').value='Verona';$('to').value='Milano';maxExtra=10;minuteChips.forEach(function(x){x.classList.toggle('active',parseInt(x.dataset.min,10)===10)});var b=document.querySelector('.chip[data-v="benzina"]');if(b)b.click();$('geoBtn').textContent='Usa posizione';setNotice('info','Preferenze locali cancellate. RouteSaver non conserva uno storico server dei tuoi percorsi.');window.scrollTo({top:0,behavior:'smooth'})});
@@ -201,18 +202,20 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     if(sample[sample.length-1]!==last)sample.push(last);
     var payload={shape:sample.map(function(p){return {lat:p[1],lon:p[0]}}),costing:'auto',shape_match:'map_snap',filters:{action:'include',attributes:['edge.length','edge.road_class','edge.use','edge.speed']}};
     var r=await fetch('https://valhalla1.openstreetmap.de/trace_attributes',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json','X-Client-Id':'routesaver-mvp'},body:JSON.stringify(payload)});
-    if(!r.ok)throw new Error('Classificazione stradale non disponibile');
-    var j=await r.json(),edges=j.edges||[],km={urban:0,extra:0,highway:0},total=0;
+    if(!r.ok)throw new Error('Profilo stradale non disponibile');
+    var j=await r.json(),edges=j.edges||[],km={urban:0,extra:0,highway:0},bands={slow:0,city:0,medium:0,fast:0,highway:0,veryfast:0},total=0,speedKm=0;
     edges.forEach(function(e){
-      var len=parseFloat(e.length)||0,rc=String(e.road_class||''),use=String(e.use||''),speed=parseFloat(e.speed)||0,cat;
+      var len=parseFloat(e.length)||0,rc=String(e.road_class||''),use=String(e.use||''),speed=parseFloat(e.speed)||0,cat,band;
       if(!len)return;
       if(rc==='motorway'||rc==='trunk'||use==='ramp')cat='highway';
       else if(rc==='residential'||rc==='service_other'||use==='living_street'||(speed>0&&speed<=50))cat='urban';
       else cat='extra';
-      km[cat]+=len;total+=len;
+      if(speed<=30)band='slow';else if(speed<=50)band='city';else if(speed<=70)band='medium';else if(speed<=90)band='fast';else if(speed<=110)band='highway';else band='veryfast';
+      km[cat]+=len;bands[band]+=len;total+=len;speedKm+=len*speed;
     });
-    if(total<=0)throw new Error('Mix stradale non disponibile');
-    return {urban:km.urban/total,extra:km.extra/total,highway:km.highway/total};
+    if(total<=0)throw new Error('Profilo stradale non disponibile');
+    Object.keys(bands).forEach(function(k){bands[k]/=total});
+    return {urban:km.urban/total,extra:km.extra/total,highway:km.highway/total,speedBands:bands,avgRoadSpeed:speedKm/total};
   }
 
   function normalizeMix(m){
@@ -221,12 +224,29 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     return {urban:u/t,extra:e/t,highway:h/t};
   }
 
+  function normalizeBands(b){
+    var keys=['slow','city','medium','fast','highway','veryfast'],out={},total=0;
+    keys.forEach(function(k){out[k]=Math.max(0,Number(b&&b[k])||0);total+=out[k]});
+    if(!total)return {slow:.05,city:.15,medium:.25,fast:.25,highway:.20,veryfast:.10};
+    keys.forEach(function(k){out[k]/=total});
+    return out;
+  }
+
   function heuristicRoadMix(route,type){
     var base={fast:{urban:.10,extra:.20,highway:.70},smart:{urban:.15,extra:.38,highway:.47},cheap:{urban:.24,extra:.61,highway:.15}}[type]||{urban:.20,extra:.45,highway:.35};
     var avg=route&&route.sec>0?route.km/(route.sec/3600):70,m={urban:base.urban,extra:base.extra,highway:base.highway};
     if(avg>95){m.highway+=.10;m.extra-=.07;m.urban-=.03}
     else if(avg<55){m.urban+=.12;m.extra-=.08;m.highway-=.04}
-    return normalizeMix(m);
+    m=normalizeMix(m);
+    var bands={
+      slow:m.urban*.22,
+      city:m.urban*.78,
+      medium:m.extra*.45,
+      fast:m.extra*.55,
+      highway:m.highway*.55,
+      veryfast:m.highway*.45
+    };
+    return {urban:m.urban,extra:m.extra,highway:m.highway,speedBands:normalizeBands(bands),avgRoadSpeed:avg};
   }
 
   async function valhallaRoute(a,b,mode){
@@ -273,16 +293,26 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     return route.km*rate*.08;
   }
 
+  function curveFor(mode){
+    return {
+      benzina:{slow:1.34,city:1.18,medium:.98,fast:.91,highway:1.00,veryfast:1.16},
+      diesel:{slow:1.28,city:1.14,medium:.97,fast:.90,highway:.96,veryfast:1.08},
+      ibrida:{slow:.88,city:.86,medium:.91,fast:.98,highway:1.08,veryfast:1.22},
+      elettrica:{slow:.78,city:.81,medium:.87,fast:.95,highway:1.08,veryfast:1.27},
+      pluginFuel:{slow:1.30,city:1.15,medium:.98,fast:.92,highway:1.01,veryfast:1.15},
+      pluginEv:{slow:.80,city:.82,medium:.88,fast:.95,highway:1.07,veryfast:1.25}
+    }[mode]||{slow:1.34,city:1.18,medium:.98,fast:.91,highway:1.00,veryfast:1.16};
+  }
+
   function consumptionProfile(baseCons,route,type,mode){
-    var mix=normalizeMix(route.roadMix||heuristicRoadMix(route,type)),models={
-      benzina:{urban:1.20,extra:.90,highway:1.08},
-      diesel:{urban:1.17,extra:.89,highway:1.03},
-      ibrida:{urban:.88,extra:.98,highway:1.13},
-      elettrica:{urban:.82,extra:.94,highway:1.22},
-      pluginFuel:{urban:1.16,extra:.92,highway:1.10},
-      pluginEv:{urban:.84,extra:.95,highway:1.20}
-    },m=models[mode]||models.benzina,factor=mix.urban*m.urban+mix.extra*m.extra+mix.highway*m.highway;
-    return {base:baseCons,adjusted:baseCons*factor,factor:factor,mix:mix,source:route.roadMixSource||'estimated'};
+    var road=route.roadMix||heuristicRoadMix(route,type),mix=normalizeMix(road),bands=normalizeBands(road.speedBands),curve=curveFor(mode),factor=0;
+    Object.keys(bands).forEach(function(k){factor+=bands[k]*(curve[k]||1)});
+    var classAdjust=1;
+    if(mode==='benzina'||mode==='diesel'||mode==='pluginFuel')classAdjust+=mix.urban*.035;
+    if(mode==='ibrida'||mode==='elettrica'||mode==='pluginEv')classAdjust-=mix.urban*.025;
+    factor*=classAdjust;
+    factor=Math.max(.72,Math.min(1.45,factor));
+    return {base:baseCons,adjusted:baseCons*factor,factor:factor,mix:mix,bands:bands,avgRoadSpeed:Number(road.avgRoadSpeed)||0,source:route.roadMixSource||'estimated'};
   }
 
   function calcCost(route,type,cons,price){
@@ -292,19 +322,30 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
       var fuelProfile=consumptionProfile(cons,route,type,'pluginFuel'),evProfile=consumptionProfile(evCons,route,type,'pluginEv');
       var usableKwh=cap*Math.max(0,(soc-10)/100),electricKm=Math.min(route.km,usableKwh/evProfile.adjusted*100),fuelKm=Math.max(0,route.km-electricKm);
       var electricUse=electricKm/100*evProfile.adjusted,fuelUse=fuelKm/100*fuelProfile.adjusted,electricCost=electricUse*evPrice,fuelCost=fuelUse*price;
-      return {energy:electricCost+fuelCost,electricCost:electricCost,fuelCost:fuelCost,electricKm:electricKm,fuelKm:fuelKm,electricUse:electricUse,fuelUse:fuelUse,toll:toll,total:electricCost+fuelCost+toll,consumption:fuelProfile.adjusted,evConsumption:evProfile.adjusted,roadMix:fuelProfile.mix,mixSource:fuelProfile.source};
+      return {energy:electricCost+fuelCost,electricCost:electricCost,fuelCost:fuelCost,electricKm:electricKm,fuelKm:fuelKm,electricUse:electricUse,fuelUse:fuelUse,toll:toll,total:electricCost+fuelCost+toll,baseConsumption:fuelProfile.base,baseEvConsumption:evProfile.base,consumption:fuelProfile.adjusted,evConsumption:evProfile.adjusted,roadMix:fuelProfile.mix,speedBands:fuelProfile.bands,avgRoadSpeed:fuelProfile.avgRoadSpeed,mixSource:fuelProfile.source};
     }
     var profile=consumptionProfile(cons,route,type,vehicle),energyUse=route.km/100*profile.adjusted,energy=energyUse*price;
-    return {energy:energy,energyUse:energyUse,toll:toll,total:energy+toll,consumption:profile.adjusted,roadMix:profile.mix,mixSource:profile.source};
+    return {energy:energy,energyUse:energyUse,toll:toll,total:energy+toll,baseConsumption:profile.base,consumption:profile.adjusted,roadMix:profile.mix,speedBands:profile.bands,avgRoadSpeed:profile.avgRoadSpeed,mixSource:profile.source};
   }
 
   function pct(v){return Math.max(0,Math.min(100,Math.round((Number(v)||0)*100)))}
   function consumptionUnit(){return vehicle==='elettrica'?'kWh/100 km':'l/100 km'}
+  function baseConsumptionSource(){
+    if(selectedCarKey&&!consumptionCustom)return 'Base EEA';
+    if(selectedCarKey&&consumptionCustom)return 'Base personalizzata';
+    return 'Base inserita';
+  }
   function roadMixHtml(cost){
-    var m=normalizeMix(cost.roadMix),u=pct(m.urban),e=pct(m.extra),h=Math.max(0,100-u-e),value;
-    if(vehicle==='plugin')value=cost.consumption.toFixed(1).replace('.',',')+' l/100 km · '+cost.evConsumption.toFixed(1).replace('.',',')+' kWh/100 km';
-    else value=cost.consumption.toFixed(1).replace('.',',')+' '+consumptionUnit();
-    return '<div class="mixbox"><div class="mixhead"><b>Consumo sul percorso</b><span>'+value+'</span></div><div class="mixbar"><i class="urban" style="width:'+u+'%"></i><i class="extra" style="width:'+e+'%"></i><i class="highway" style="width:'+h+'%"></i></div><div class="mixlabels"><span>Città '+u+'%</span><span>Extra '+e+'%</span><span>Autostrada/veloci '+h+'%</span></div><div class="mixnote">'+(cost.mixSource==='map'?'Mix ricavato dalle classi stradali del percorso':'Mix stradale stimato: routing senza classificazione dettagliata')+'</div></div>';
+    var m=normalizeMix(cost.roadMix),u=pct(m.urban),e=pct(m.extra),h=Math.max(0,100-u-e),value,base;
+    if(vehicle==='plugin'){
+      value=cost.consumption.toFixed(1).replace('.',',')+' l/100 km · '+cost.evConsumption.toFixed(1).replace('.',',')+' kWh/100 km';
+      base=cost.baseConsumption.toFixed(1).replace('.',',')+' l + '+cost.baseEvConsumption.toFixed(1).replace('.',',')+' kWh';
+    }else{
+      value=cost.consumption.toFixed(1).replace('.',',')+' '+consumptionUnit();
+      base=cost.baseConsumption.toFixed(1).replace('.',',')+' '+consumptionUnit();
+    }
+    var speed=cost.avgRoadSpeed?(' · velocità stradale media '+Math.round(cost.avgRoadSpeed)+' km/h'):'';
+    return '<div class="mixbox"><div class="mixhead"><b>Consumo previsto</b><span>'+value+'</span></div><div class="mixnote">'+baseConsumptionSource()+': '+base+' → adattato al profilo del percorso'+speed+'</div><div class="mixbar"><i class="urban" style="width:'+u+'%"></i><i class="extra" style="width:'+e+'%"></i><i class="highway" style="width:'+h+'%"></i></div><div class="mixlabels"><span>Città '+u+'%</span><span>Extra '+e+'%</span><span>Autostrada/veloci '+h+'%</span></div><div class="mixnote">'+(cost.mixSource==='map'?'Profilo ricavato da classe e velocità dei tratti stradali':'Profilo stimato: routing senza dettaglio completo dei tratti')+'</div></div>';
   }
 
   function makeSvg(routeSet){
