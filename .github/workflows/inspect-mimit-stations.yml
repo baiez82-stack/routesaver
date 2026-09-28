@@ -1,0 +1,36 @@
+name: Inspect MIMIT stations schema
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/inspect-mimit-stations.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect official MIMIT station datasets
+        run: |
+          python - <<'PY'
+          import urllib.request
+          urls={
+            "registry":"https://www.mimit.gov.it/images/exportCSV/anagrafica_impianti_attivi.csv",
+            "prices":"https://www.mimit.gov.it/images/exportCSV/prezzo_alle_8.csv",
+          }
+          for name,url in urls.items():
+              req=urllib.request.Request(url,headers={"User-Agent":"RouteSaver/0.5"})
+              with urllib.request.urlopen(req,timeout=90) as r:
+                  raw=r.read(12000)
+              text=None
+              for enc in ("utf-8-sig","utf-8","cp1252","latin-1"):
+                  try: text=raw.decode(enc); break
+                  except UnicodeDecodeError: pass
+              print("###",name,url)
+              for i,line in enumerate((text or "").splitlines()[:8]):
+                  print(f"{name.upper()}_{i}={line!r}")
+          PY
