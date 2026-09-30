@@ -5,6 +5,10 @@ on:
     branches: [main]
     paths:
       - "index.html"
+      - "plus.html"
+      - "billing/**"
+      - "tests/**"
+      - "assets/merchant.mjs"
       - "privacy.html"
       - "terms.html"
       - "data/**"
@@ -38,3 +42,6 @@ jobs:
           print("Static files and JSON are valid")
           PY
           node --check /tmp/routesaver-app.js
+
+      - name: Validate billing preparation
+        run: node --test tests/billing.test.mjs

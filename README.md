@@ -39,3 +39,5 @@ MVP/beta privata di test.
 Per i viaggi medio-lunghi la beta può confrontare il percorso auto consigliato con un itinerario pubblico porta-a-porta. Il confronto considera durata, cambi, linee/mezzi, numero di viaggiatori, parcheggio auto opzionale e prezzo biglietto per persona quando disponibile o inserito manualmente.
 
 Transitous/MOTIS viene usato esclusivamente nella beta non commerciale e con una singola richiesta per calcolo. Per una futura versione commerciale servirà una fonte tariffaria/routing con licenza e condizioni compatibili (ad esempio un partner/API commerciale).
+## Predisposizione incassi
+Identità del fornitore e ipotesi fiscale domestica centralizzate in `billing/config.mjs`. Pagamenti disattivati; nessun checkout, archivio clienti o invio SdI attivo. Utility di riconciliazione e bozze con test (`node --test tests/billing.test.mjs`). Procedura di completamento: `docs/billing-readiness.md`.

@@ -154,3 +154,6 @@ Prima di investire:
 
 ## Vincolo tecnico
 Gli endpoint routing/open usati nella beta non sono adatti a traffico commerciale elevato. Prima di una crescita significativa bisogna passare a infrastruttura/API con SLA o a servizi propri. Non va comprata prima che il prodotto dimostri domanda.
+
+## Incassi tramite attività esistente
+RouteSaver è predisposto come progetto di attività individuale di Samuele Baietta, senza creare una società separata. Pagamenti disattivati. Configurazione e limiti in `docs/billing-readiness.md`; compatibilità dell’attività da verificare prima della vendita. Gli scenari sopra non sono una verifica dei limiti del regime forfettario: considerare anche tutti gli altri ricavi del titolare.
