@@ -2,11 +2,72 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="refresh" content="0;url=index.html">
-<title>RouteSaver · Demo gratuita</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
 <link rel="icon" href="assets/routesaver-icon.svg" type="image/svg+xml">
-<style>body{font-family:system-ui,sans-serif;background:#f6f8f7;color:#0f172a;max-width:640px;margin:10vh auto;padding:24px}a{color:#15803d;font-weight:700}</style>
+<title>RouteSaver Plus</title>
+<style>
+:root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--green:#16a34a;--green2:#15803d;--bg:#f5f7fb;--shadow:0 14px 38px rgba(15,23,42,.08)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#eef4ff 0,#f8fafc 260px,#f5f7fb 100%);color:var(--ink)}
+.wrap{max-width:1000px;margin:auto;padding:22px 16px 70px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand img{width:205px;max-width:48vw}.back{font-size:12px;font-weight:850;color:#334155;text-decoration:none;background:#fff;border:1px solid var(--line);padding:8px 11px;border-radius:999px}
+.hero{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:28px;padding:30px;box-shadow:var(--shadow)}.hero h1{font-size:clamp(34px,7vw,58px);line-height:.98;letter-spacing:-2px;margin:0 0 12px}.hero p{max-width:760px;color:var(--muted);font-size:17px;line-height:1.55;margin:0}.founder{display:inline-block;margin-bottom:12px;background:#dcfce7;color:#166534;border:1px solid #86efac;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.plan{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow);position:relative}.plan.featured{border:2px solid #22c55e;background:linear-gradient(180deg,#f0fdf4,#fff)}.plan h2{margin:0 0 4px}.price{font-size:36px;font-weight:950;letter-spacing:-1px;margin:12px 0}.price small{font-size:13px;font-weight:700;color:var(--muted)}ul{padding-left:18px;color:#334155;line-height:1.6}.cta{display:block;text-align:center;text-decoration:none;border-radius:14px;padding:12px 14px;font-weight:900;margin-top:14px;background:#0f172a;color:#fff}.featured .cta{background:linear-gradient(135deg,var(--green),var(--green2))}.note{font-size:11px;color:#64748b;line-height:1.45;margin-top:10px}.section{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px}.section h2{margin-top:0}.badge{display:inline-block;font-size:10px;font-weight:900;border-radius:999px;padding:5px 8px;background:#f1f5f9;color:#475569}.principle{background:#0f172a;color:#fff}.principle p{color:#cbd5e1}.principle strong{color:#fff}.foot{text-align:center;color:#64748b;font-size:12px;margin-top:24px;line-height:1.5}
+@media(max-width:780px){.grid{grid-template-columns:1fr}.hero{padding:22px}.wrap{padding:14px 12px 50px}}
+</style>
 </head>
-<body><h1>La demo di RouteSaver è gratuita.</h1><p><a href="index.html">Apri il confronto dei percorsi →</a></p></body>
-</html>
+<body><div class="wrap">
+<div class="top"><div class="brand"><img src="assets/routesaver-logo.svg" alt="RouteSaver"></div><a class="back" href="index.html">Torna al calcolo</a></div>
+
+<section class="hero">
+<span class="founder">PRE-LANCIO</span>
+<h1>RouteSaver Plus</h1>
+<p>Il core di RouteSaver resta gratuito. Plus è pensato per chi usa spesso l'auto e vuole trasformare ogni viaggio in una decisione economica più precisa.</p>
+</section>
+
+<div class="grid">
+<section class="plan">
+<span class="badge">FREE</span>
+<h2>RouteSaver</h2>
+<div class="price">€0 <small>per sempre</small></div>
+<ul><li>Confronto percorsi</li><li>Consumo dinamico</li><li>Prezzi carburante MIMIT</li><li>Soste rifornimento / ricarica in beta</li><li>1 veicolo</li></ul>
+<a class="cta" href="index.html">Usa RouteSaver</a>
+</section>
+
+<section class="plan featured">
+<span class="founder">FOUNDING MEMBER</span>
+<h2>Plus</h2>
+<div class="price">€19,99 <small>/ primo anno · prezzo proposto</small></div>
+<ul><li>Più veicoli salvati</li><li>Storico viaggi e risparmio cumulato</li><li>Profilo consumi personalizzato</li><li>Preferenze rifornimento / ricarica</li><li>Export PDF/CSV</li><li>Accesso anticipato alle nuove funzioni</li></ul>
+<a class="cta" href="#checkout">Voglio Plus</a>
+<div class="note">Prezzo Founding previsto per i primi 500 utenti. Il checkout non è ancora attivo: nessun addebito viene effettuato da questa pagina.</div>
+</section>
+
+<section class="plan">
+<span class="badge">B2B</span>
+<h2>Business</h2>
+<div class="price">da €39 <small>/ mese</small></div>
+<ul><li>Fino a 10 veicoli</li><li>Dashboard costo/km</li><li>Tratte ricorrenti</li><li>Report mensili</li><li>Export per amministrazione</li><li>Utenti multipli</li></ul>
+<a class="cta" href="#business">Accesso Business</a>
+<div class="note">Pricing iniziale da validare con le prime flotte pilota.</div>
+</section>
+</div>
+
+<section class="section principle">
+<h2>Una regola non si tocca</h2>
+<p><strong>Chi paga non compra il ranking.</strong> Se in futuro RouteSaver guadagnerà da operatori di ricarica, telepedaggio, parcheggi o altri partner, le proposte sponsorizzate saranno indicate separatamente. Il percorso o il punto di rifornimento più conveniente continuerà a essere calcolato in modo indipendente.</p>
+</section>
+
+<section class="section" id="checkout">
+<h2>Pagamenti non ancora disponibili</h2>
+<p>RouteSaver è un progetto di <strong data-merchant></strong>. Gli abbonamenti saranno venduti dalla stessa attività individuale.</p>
+<p>La beta è gratuita e questa pagina non raccoglie dati di pagamento o fatturazione. Prezzo finale, durata, rinnovo e modalità di disdetta saranno indicati prima dell'acquisto quando il servizio sarà disponibile.</p>
+</section>
+
+<section class="section" id="business">
+<h2>Perché esiste il piano Business</h2>
+<p>Il valore cresce rapidamente quando una società ripete molte tratte con più veicoli: anche pochi euro risparmiati a viaggio possono diventare una voce di costo significativa su base mensile. RouteSaver Business sarà costruito intorno a questo caso d'uso.</p>
+</section>
+
+<div class="foot">Prezzi e funzioni della fase pre-lancio possono cambiare prima dell'apertura commerciale. RouteSaver Beta.</div>
+<p class="foot"><a href="privacy.html">Privacy</a> · <a href="terms.html">Termini d’uso</a></p>
+</div><script type="module" src="assets/merchant.mjs"></script></body></html>
