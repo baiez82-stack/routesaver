@@ -9,6 +9,21 @@ on:
       - "billing/**"
       - "tests/**"
       - "assets/merchant.mjs"
+      - "assets/routing-config.js"
+      - "privacy.html"
+      - "terms.html"
+      - "data/**"
+      - "scripts/**"
+      - ".github/workflows/validate.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "plus.html"
+      - "billing/**"
+      - "tests/**"
+      - "assets/merchant.mjs"
+      - "assets/routing-config.js"
       - "privacy.html"
       - "terms.html"
       - "data/**"
@@ -30,18 +45,35 @@ jobs:
         run: |
           python - <<'PY'
           import json, re
+          from html.parser import HTMLParser
           from pathlib import Path
+
+          class StrictEnoughParser(HTMLParser):
+              pass
+
           html = Path("index.html").read_text(encoding="utf-8")
           scripts = re.findall(r"<script>(.*?)</script>", html, flags=re.S)
           if not scripts:
               raise SystemExit("No inline JavaScript found")
           Path("/tmp/routesaver-app.js").write_text("\n".join(scripts), encoding="utf-8")
+
+          for path in ("plus.html", "privacy.html", "terms.html"):
+              text = Path(path).read_text(encoding="utf-8")
+              parser = StrictEnoughParser()
+              parser.feed(text)
+              parser.close()
+
           for path in ("data/fuel.json", "data/vehicles.json"):
               with open(path, encoding="utf-8") as f:
                   json.load(f)
-          print("Static files and JSON are valid")
+
+          print("Static files, launch pages and JSON are valid")
           PY
           node --check /tmp/routesaver-app.js
+          node --check assets/routing-config.js
+          node --check assets/merchant.mjs
+          node --check billing/config.mjs
+          node --check billing/accounting.mjs
 
-      - name: Validate billing preparation
-        run: node --test tests/billing.test.mjs
+      - name: Run regression tests
+        run: node --test tests/*.test.*
