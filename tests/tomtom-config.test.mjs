@@ -21,13 +21,13 @@ function execute(source, initialConfig = {}) {
   return context;
 }
 
-test('repository version contains no TomTom key and stays disabled without a proxy', async () => {
+test('repository version enables the production proxy without containing a TomTom key', async () => {
   const source = await readFile(configUrl, 'utf8');
   assert.doesNotMatch(source, /tomtomApiKey|__TOMTOM_API_KEY__/);
   const context = execute(source);
-  assert.equal(context.window.RouteSaverConfig.tomtomProxyUrl, '');
-  assert.equal(context.window.RouteSaverConfig.tomtomTrafficEnabled, false);
-  assert.equal(context.document.documentElement.dataset.tomtomTraffic, 'not-configured');
+  assert.equal(context.window.RouteSaverConfig.tomtomProxyUrl, 'https://routesaver-pi.vercel.app/api/tomtom');
+  assert.equal(context.window.RouteSaverConfig.tomtomTrafficEnabled, true);
+  assert.equal(context.document.documentElement.dataset.tomtomTraffic, 'configured');
 });
 
 test('an HTTPS proxy runtime override enables live traffic without exposing a key', async () => {

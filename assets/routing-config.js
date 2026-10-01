@@ -4,7 +4,7 @@
 
   var existing=window.RouteSaverConfig||{};
   window.RouteSaverConfig=Object.assign({
-    tomtomProxyUrl:'',
+    tomtomProxyUrl:'https://routesaver-pi.vercel.app/api/tomtom',
     tomtomTrafficEnabled:false,
     tomtomKeySource:'server-proxy'
   },existing);

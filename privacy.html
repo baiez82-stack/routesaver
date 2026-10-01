@@ -61,14 +61,15 @@ a{color:#166534}.btn{display:inline-block;text-decoration:none;background:#0f172
 
 <section class="card">
 <h2>Servizi cartografici e destinatari</h2>
-<p>Per offrire le funzioni richieste, il browser può comunicare direttamente con servizi esterni. Questi soggetti ricevono i dati tecnicamente necessari, compreso l’indirizzo IP e, a seconda della funzione, termini di ricerca o coordinate.</p>
+<p>Per offrire le funzioni richieste, il browser può comunicare direttamente con servizi esterni oppure con il proxy tecnico RouteSaver. Questi soggetti ricevono i dati tecnicamente necessari, compreso l’indirizzo IP e, a seconda della funzione, termini di ricerca o coordinate.</p>
 <ul class="compact">
 <li><strong>GitHub Pages:</strong> hosting del sito e sicurezza dell’infrastruttura.</li>
 <li><strong>Photon e Nominatim:</strong> ricerca e risoluzione dei luoghi.</li>
 <li><strong>Valhalla e OSRM:</strong> calcolo dei percorsi alternativi.</li>
 <li><strong>OpenStreetMap:</strong> sfondo cartografico e dati della mappa.</li>
 <li><strong>Overpass:</strong> ricerca delle colonnine in prossimità del percorso.</li>
-<li><strong>TomTom:</strong> solo quando il gestore abilita la relativa configurazione per traffico e routing.</li>
+<li><strong>Vercel:</strong> esecuzione del proxy tecnico che protegge la chiave del servizio di routing; riceve le coordinate necessarie alla richiesta e i normali dati tecnici di connessione.</li>
+<li><strong>TomTom:</strong> calcolo dei percorsi e dei tempi con traffico; riceve dal proxy le coordinate di partenza e destinazione necessarie alla richiesta.</li>
 <li><strong>Transitous/MOTIS:</strong> soltanto quando attivi il confronto facoltativo con treno e bus.</li>
 <li><strong>Google Maps, Waze e Mappe Apple:</strong> soltanto quando scegli di aprire il percorso nel relativo servizio.</li>
 </ul>
