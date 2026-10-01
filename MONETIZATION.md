@@ -1,159 +1,204 @@
-# RouteSaver - Piano di monetizzazione
+# RouteSaver — Piano di monetizzazione e validazione
 
 ## Tesi
-RouteSaver non deve monetizzare vendendo dati di posizione o riempiendo l'interfaccia di pubblicità. Il valore economico è nel far risparmiare denaro e tempo su ogni viaggio e nel trasformare questo risparmio in:
-1. abbonamenti B2C;
-2. ricavi B2B per veicolo;
-3. API / white-label;
-4. commissioni affiliate o lead commerciali, sempre separate dal ranking dei risultati.
 
-## Benchmark
-- ViaMichelin offre già costo carburante, pedaggi e itinerario economico: RouteSaver deve differenziarsi con il vincolo esplicito "quanti minuti sei disposto a perdere per risparmiare?", consumo previsto per auto/percorso e confronto soste/rifornimento.
-- ABRP utilizza un modello freemium: core gratuito e Premium. Nel 2026 ABRP mostra Premium a 5 EUR/mese e dichiara milioni di utenti.
-- Chargeprice dichiara di poter ricevere commissioni da link affiliati senza alterare l'ordinamento per prezzo.
-- Fleetio utilizza pricing per veicolo, da circa 4 USD/veicolo/mese per il piano Essential.
-- Stripe Standard in Italia non richiede canone mensile e applica 1,5% + 0,25 EUR alle carte standard SEE.
+RouteSaver non deve monetizzare vendendo dati di posizione o riempiendo l'interfaccia di pubblicità. Il valore economico è aiutare persone e imprese a valutare il compromesso tra tempo aggiuntivo e costo stimato del viaggio.
 
-Fonti:
-- https://www.viamichelin.com/routes
-- https://abetterrouteplanner.com/home
-- https://www.chargeprice.app/
-- https://www.fleetio.com/pricing
-- https://stripe.com/it/pricing
+Le linee di ricavo previste sono:
 
-## Offerta RouteSaver
+1. abbonamento B2C Plus;
+2. abbonamento B2B per flotte leggere;
+3. API e white-label dopo la validazione;
+4. commissioni affiliate o lead commerciali, sempre separati dal ranking dei risultati.
 
-### Free - 0 EUR
-Obiettivo: acquisizione.
-- confronto Veloce / Bilanciato / Risparmio;
-- costo stimato viaggio;
+## Posizionamento
+
+ViaMichelin e altri strumenti mostrano già carburante, pedaggi e itinerari economici. RouteSaver deve differenziarsi con una domanda semplice e controllabile dall'utente:
+
+> **Quanti minuti in più sei disposto a guidare per spendere meno?**
+
+RouteSaver non viene venduto come navigatore. È il comparatore economico da usare prima della partenza; la guida resta affidata al navigatore scelto dall'utente.
+
+## Offerta di validazione
+
+### Free — 0 EUR durante la beta
+
+Obiettivo: acquisizione e verifica dell'utilità reale.
+
+- confronto tra percorsi disponibili;
+- limite personale di minuti extra;
+- costo stimato del viaggio;
 - consumo dinamico per percorso;
 - prezzi carburante MIMIT;
-- soste carburante / ricarica disponibili in beta;
+- soste carburante o ricarica disponibili in beta;
 - un veicolo;
-- nessun account obbligatorio.
+- nessun account obbligatorio;
+- utilizzo soggetto a fair use e disponibilità dei servizi esterni.
 
-### Plus
-Prezzo di lancio:
-- Founding: 19,99 EUR / anno per i primi 500 utenti;
-- Standard: 29,99 EUR / anno;
-- mensile: 3,99 EUR / mese.
+### Plus Founding
 
-Funzioni:
+Proposta di lancio:
+
+- 19,99 EUR per il primo anno;
+- disponibilità limitata ai primi 100 utenti;
+- nessun pagamento finché infrastruttura, condizioni e fatturazione non sono pronte;
+- richiesta di accesso via email, non vincolante.
+
+Prezzo obiettivo successivo:
+
+- 29,99 EUR/anno;
+- 3,49 EUR/mese.
+
+Funzioni previste:
+
 - più veicoli salvati;
 - storico viaggi e risparmio cumulato;
+- tratte preferite e ricorrenti;
 - profilo consumi calibrato dall'utente;
 - preferenze rifornimento e ricarica;
 - confronto avanzato delle soste;
 - export PDF/CSV;
-- niente sponsorizzazioni nel flusso principale;
-- funzioni premium future: traffico/meteo/live charger quando disponibili.
+- accesso anticipato alle nuove funzioni.
 
-### Business
-Prezzo iniziale da validare:
-- 39 EUR / mese fino a 10 veicoli;
-- 2,90 EUR / mese per ogni veicolo aggiuntivo.
+### Business Pilot
 
-Funzioni:
-- flotta e profili veicolo;
-- politiche di costo;
+Prima offerta commerciale da validare:
+
+- 99 EUR per 90 giorni;
+- fino a 10 veicoli;
+- configurazione iniziale assistita;
+- dashboard costo/km;
+- tratte ricorrenti;
 - report mensile;
-- export;
-- confronto tratte ricorrenti;
-- utenti multipli;
-- dashboard costo/km.
+- export per amministrazione;
+- assistenza diretta durante il pilot.
 
-### API / White label
-Dopo validazione:
-- Starter API: 99 EUR / mese;
-- Pro/API e white-label: da 299 EUR / mese;
+Prezzo obiettivo dopo il pilot, soltanto se il prodotto dimostra valore:
+
+- 39 EUR/mese;
+- oppure 390 EUR/anno;
+- eventuali veicoli aggiuntivi da quotare dopo aver misurato il costo reale del servizio.
+
+Target iniziali:
+
+- agenti di commercio;
+- installatori e manutentori;
+- tecnici in trasferta;
+- fotografi e videomaker;
+- imprese con 2–10 veicoli;
+- studi professionali con trasferte ricorrenti;
+- piccole attività turistiche o di noleggio.
+
+I corrieri e le flotte complesse non sono il target iniziale: richiedono ottimizzazione multistop, dispatching, tracciamento e funzioni operative che la beta non offre.
+
+### API e white-label
+
+Solo dopo la validazione di utilizzo e costi:
+
+- Starter API: ipotesi 99 EUR/mese;
+- Pro/API e white-label: ipotesi da 299 EUR/mese;
 - enterprise: preventivo.
 
-Clienti target:
-- NCC;
-- piccole flotte commerciali;
-- autonoleggi;
-- travel management;
-- aziende con tecnici/commerciali in trasferta;
-- comparatori e portali travel.
+## Regola commerciale
 
-## Affiliate / Lead
-Da attivare solo dopo traffico misurabile:
-- operatori di ricarica;
-- abbonamenti/tariffe EV;
-- pedaggi/telepedaggio;
-- parcheggi;
-- assicurazioni auto;
-- noleggio.
+Un partner sponsorizzato non deve mai risultare migliore soltanto perché paga. Eventuali proposte di ricarica, telepedaggio, parcheggio, assicurazione o noleggio devono essere:
 
-Regola prodotto: un partner sponsorizzato non deve mai risultare "migliore" solo perché paga. La raccomandazione economica resta indipendente. Gli elementi sponsorizzati devono essere marcati chiaramente.
+- separate dal ranking dei percorsi;
+- identificate chiaramente come sponsorizzate o affiliate;
+- misurate senza usare posizione individuale o storico identificabile per pubblicità comportamentale.
 
-## Cosa NON monetizzare
+## Cosa non monetizzare
+
 - posizione individuale;
 - storico spostamenti identificabile;
 - vendita di dati personali;
-- ranking alterato da sponsor.
+- ranking alterato da sponsor;
+- promesse di risparmio garantito.
 
 ## Checkout
-Fase 1: Stripe Payment Links / Checkout.
-Motivo:
-- nessun costo fisso mensile per Stripe Standard;
-- rapido da integrare;
-- carte e wallet;
-- commissione per transazione.
 
-A 19,99 EUR/anno una carta SEE standard costa circa 0,55 EUR di commissione Stripe.
-A 29,99 EUR/anno circa 0,70 EUR.
+Nella beta non è attivo alcun checkout.
 
-## Obiettivi economici indicativi
-Questi sono scenari, non previsioni.
+Quando tutti i requisiti saranno confermati, la prima integrazione prevista è Stripe Checkout o Payment Links, con:
 
-- 500 Founding x 19,99 EUR = 9.995 EUR lordi una tantum nel primo anno.
-- 2.000 Plus annuali x 29,99 EUR = 59.980 EUR ARR.
-- 100 clienti Business x 39 EUR/mese = 46.800 EUR ARR.
-- 20 clienti API x 99 EUR/mese = 23.760 EUR ARR.
+- pagamento ospitato dal provider;
+- portale cliente per gestione del piano;
+- webhook verificato lato server;
+- emissione e riconciliazione documenti fiscali;
+- nessuna chiave privata nel frontend;
+- condizioni economiche mostrate prima dell'acquisto.
 
-Mix indicativo: circa 130.000 EUR ARR prima di IVA/imposte, commissioni, rimborsi e costi operativi.
+L'attivazione resta bloccata finché `billing/config.mjs` non segnala come completati i controlli fiscali, legali, privacy, fornitori, fatturazione e backend.
 
-A scala maggiore il vero upside è B2B/API: non dipendere soltanto da migliaia di utenti consumer.
+## Obiettivi di validazione
 
-## Piano di lancio a costo quasi zero
+Prima di investire in app native o advertising:
 
-### Fase 0 - adesso
+- almeno 50 persone effettuano un calcolo reale;
+- almeno 30% degli utenti test torna a effettuare una seconda ricerca entro 30 giorni;
+- almeno 10 richieste qualificate per Plus;
+- almeno 3 aziende accettano di discutere un Business Pilot;
+- almeno un pilot produce dati misurabili su utilizzo e risparmio stimato;
+- costo API medio per calcolo conosciuto;
+- nessuna dipendenza commerciale da endpoint pubblici senza SLA.
+
+## Scenari economici indicativi
+
+Questi sono esercizi di validazione, non previsioni.
+
+- 100 Founding × 19,99 EUR = 1.999 EUR lordi nel primo anno;
+- 10 clienti Business × 39 EUR × 12 mesi = 4.680 EUR di ricavi ricorrenti annui;
+- totale iniziale dei due scenari: 6.679 EUR lordi, prima di commissioni, rimborsi, API, imposte e costi operativi.
+
+A scala maggiore il potenziale principale è B2B/API, ma soltanto dopo aver dimostrato domanda e affidabilità.
+
+## Piano di lancio
+
+### Fase 0 — beta pubblica gratuita
+
 - GitHub Pages;
 - open data;
-- nessuna advertising;
-- niente app store;
-- raccogliere test qualitativi.
+- nessun advertising;
+- nessun pagamento;
+- pagina piani con candidature via email;
+- raccolta di test qualitativi e tratte reali.
 
-### Fase 1 - primi paganti
-- attivare Stripe;
-- aprire 500 Founding Member;
-- misurare conversione e retention;
-- nessuna spesa ads finché non vediamo uso ripetuto.
+### Fase 1 — validazione dell'offerta
 
-### Fase 2 - acquisizione organica
-- contenuti SEO: costo viaggio, costo carburante tratta, conviene autostrada o statale;
-- Reel/TikTok con casi reali: "+11 minuti = -7,40 EUR";
-- landing per tratte ad alta domanda;
-- referral: 1 mese Plus per ogni amico pagante.
+- primi 100 potenziali Founding Member;
+- selezione di 3–5 aziende pilota;
+- demo costruita su tratte reali del cliente;
+- misurazione di utilizzo, errori, costi provider e valore percepito;
+- nessuna spesa ads finché non emerge uso ripetuto.
 
-### Fase 3 - B2B
-- contatto diretto a NCC, agenti, imprese con flotte leggere;
-- demo su loro tratte reali;
-- prova gratuita 14 giorni;
-- prezzo per veicolo.
+### Fase 2 — infrastruttura commerciale
 
-## KPI
-Prima di investire:
-- >=30% utenti che effettuano una seconda ricerca entro 30 giorni;
-- >=10% utenti attivi che cliccano su una sosta/rifornimento;
-- >=3% conversione Free -> Plus come primo obiettivo di test;
-- CAC organico vicino a zero nella fase iniziale;
-- payback immediato sull'annuale.
+- dominio proprietario;
+- backend account e organizzazioni;
+- provider routing/geocoding con condizioni commerciali compatibili;
+- pedaggi affidabili o chiaramente verificabili;
+- Stripe e fatturazione;
+- privacy e termini commerciali aggiornati;
+- rate limiting, monitoraggio e backup.
+
+### Fase 3 — acquisizione organica
+
+- contenuti SEO su costo viaggio e confronto autostrada/statale;
+- Reel e TikTok con casi reali, senza promettere risultati garantiti;
+- LinkedIn orientato a tecnici, commerciali e flotte leggere;
+- pagine per tratte ad alta domanda;
+- referral soltanto dopo la prima retention misurata.
+
+### Fase 4 — distribuzione
+
+- PWA installabile prima delle app native;
+- store soltanto dopo richiesta concreta degli utenti e unit economics sostenibili;
+- API/white-label solo dopo stabilità del servizio.
 
 ## Vincolo tecnico
-Gli endpoint routing/open usati nella beta non sono adatti a traffico commerciale elevato. Prima di una crescita significativa bisogna passare a infrastruttura/API con SLA o a servizi propri. Non va comprata prima che il prodotto dimostri domanda.
+
+Gli endpoint pubblici usati nella beta non sono una base sufficiente per traffico commerciale significativo. Prima di far pagare o aumentare il volume occorre passare a provider con condizioni compatibili, quote controllate e, dove necessario, SLA o infrastruttura propria.
 
 ## Incassi tramite attività esistente
-RouteSaver è predisposto come progetto di attività individuale di Samuele Baietta, senza creare una società separata. Pagamenti disattivati. Configurazione e limiti in `docs/billing-readiness.md`; compatibilità dell’attività da verificare prima della vendita. Gli scenari sopra non sono una verifica dei limiti del regime forfettario: considerare anche tutti gli altri ricavi del titolare.
+
+RouteSaver è predisposto come progetto dell'attività individuale di Samuele Baietta. Pagamenti disattivati. Prima della vendita devono essere confermati dal professionista fiscale almeno compatibilità dell'attività, codice attività, fatturazione, contributi e impatto del fatturato complessivo sul regime applicato.
