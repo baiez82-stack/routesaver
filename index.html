@@ -562,7 +562,7 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
         names={fast:'Percorso 1',smart:'Percorso 2',cheap:'Percorso 3',extra0:'Percorso 4'},
         dashes={fast:null,smart:'14 9',cheap:'4 8'},
         bounds=[],
-        order=['fast','smart','cheap','extra0'].filter(function(k){return k!==bestKey}).concat([bestKey]);
+        order=uniqueRoutes(routeSet).map(function(x){return x.key}).filter(function(k){return k!==bestKey}).concat([bestKey]);
     order.forEach(function(k){
       var coords=(routeSet[k]&&routeSet[k].coords)||[];if(!coords.length)return;
       var latlngs=coords.map(function(p){return [p[1],p[0]]});latlngs.forEach(function(p){bounds.push(p)});
@@ -689,6 +689,7 @@ button,input{font:inherit}.wrap{max-width:1000px;margin:auto;padding:22px 16px 7
     document.querySelector('.mapbox').style.display=simulated?'none':'block';
     document.querySelectorAll('.maplegend .legend').forEach(function(el){el.style.display=data.some(function(x){return el.classList.contains(x.key)})?'inline-flex':'none'});
     $('cards').style.gridTemplateColumns='repeat('+Math.min(3,data.length)+',minmax(0,1fr))';
+    $('results').style.display='block';
     if(!simulated&&!quiet){makeMap(rs,best.key);if(complete)renderTransitComparison(a,b,best);renderTravelStops(best.route,best.cost);}else if(!simulated){makeMap(rs,best.key);renderTravelStops(best.route,best.cost);if(lastTransitContext){lastTransitContext.auto=best;if(complete)renderTransitCards();}}
     if(!complete){$('transitBox').className='transitcompare';$('transitBox').innerHTML='';}
 
