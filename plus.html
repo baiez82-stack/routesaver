@@ -5,69 +5,112 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f172a">
 <link rel="icon" href="assets/routesaver-icon.svg" type="image/svg+xml">
-<title>RouteSaver Plus</title>
+<title>RouteSaver · Piani e accesso anticipato</title>
+<meta name="description" content="Scopri RouteSaver Free, il programma Founding Member e il pilot Business per flotte leggere e professionisti.">
 <style>
 :root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--green:#16a34a;--green2:#15803d;--bg:#f5f7fb;--shadow:0 14px 38px rgba(15,23,42,.08)}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#eef4ff 0,#f8fafc 260px,#f5f7fb 100%);color:var(--ink)}
-.wrap{max-width:1000px;margin:auto;padding:22px 16px 70px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand img{width:205px;max-width:48vw}.back{font-size:12px;font-weight:850;color:#334155;text-decoration:none;background:#fff;border:1px solid var(--line);padding:8px 11px;border-radius:999px}
-.hero{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:28px;padding:30px;box-shadow:var(--shadow)}.hero h1{font-size:clamp(34px,7vw,58px);line-height:.98;letter-spacing:-2px;margin:0 0 12px}.hero p{max-width:760px;color:var(--muted);font-size:17px;line-height:1.55;margin:0}.founder{display:inline-block;margin-bottom:12px;background:#dcfce7;color:#166534;border:1px solid #86efac;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.plan{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow);position:relative}.plan.featured{border:2px solid #22c55e;background:linear-gradient(180deg,#f0fdf4,#fff)}.plan h2{margin:0 0 4px}.price{font-size:36px;font-weight:950;letter-spacing:-1px;margin:12px 0}.price small{font-size:13px;font-weight:700;color:var(--muted)}ul{padding-left:18px;color:#334155;line-height:1.6}.cta{display:block;text-align:center;text-decoration:none;border-radius:14px;padding:12px 14px;font-weight:900;margin-top:14px;background:#0f172a;color:#fff}.featured .cta{background:linear-gradient(135deg,var(--green),var(--green2))}.note{font-size:11px;color:#64748b;line-height:1.45;margin-top:10px}.section{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px}.section h2{margin-top:0}.badge{display:inline-block;font-size:10px;font-weight:900;border-radius:999px;padding:5px 8px;background:#f1f5f9;color:#475569}.principle{background:#0f172a;color:#fff}.principle p{color:#cbd5e1}.principle strong{color:#fff}.foot{text-align:center;color:#64748b;font-size:12px;margin-top:24px;line-height:1.5}
-@media(max-width:780px){.grid{grid-template-columns:1fr}.hero{padding:22px}.wrap{padding:14px 12px 50px}}
+a{color:inherit}.wrap{max-width:1040px;margin:auto;padding:22px 16px 70px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand img{display:block;width:205px;max-width:48vw}.back{font-size:12px;font-weight:850;color:#334155;text-decoration:none;background:#fff;border:1px solid var(--line);padding:8px 11px;border-radius:999px}
+.hero{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:28px;padding:30px;box-shadow:var(--shadow)}.hero h1{font-size:clamp(34px,7vw,58px);line-height:.98;letter-spacing:-2px;margin:0 0 12px;max-width:850px}.hero p{max-width:780px;color:var(--muted);font-size:17px;line-height:1.55;margin:0}.founder{display:inline-block;margin-bottom:12px;background:#dcfce7;color:#166534;border:1px solid #86efac;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900}.hero-note{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.hero-note span{font-size:12px;font-weight:850;background:#f8fafc;border:1px solid var(--line);border-radius:999px;padding:7px 10px;color:#475569}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.plan{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow);position:relative;display:flex;flex-direction:column}.plan.featured{border:2px solid #22c55e;background:linear-gradient(180deg,#f0fdf4,#fff)}.plan h2{margin:0 0 4px}.price{font-size:36px;font-weight:950;letter-spacing:-1px;margin:12px 0 2px}.price small{font-size:13px;font-weight:700;color:var(--muted)}.price-caption{font-size:12px;color:#64748b;min-height:34px;line-height:1.4}ul{padding-left:18px;color:#334155;line-height:1.58;flex:1}.cta{display:block;text-align:center;text-decoration:none;border-radius:14px;padding:12px 14px;font-weight:900;margin-top:14px;background:#0f172a;color:#fff}.featured .cta{background:linear-gradient(135deg,var(--green),var(--green2))}.note{font-size:11px;color:#64748b;line-height:1.45;margin-top:10px}.section{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px}.section h2{margin-top:0}.section p,.section li{color:#334155;line-height:1.6}.badge{display:inline-block;font-size:10px;font-weight:900;border-radius:999px;padding:5px 8px;background:#f1f5f9;color:#475569}.principle{background:#0f172a;color:#fff}.principle p{color:#cbd5e1}.principle strong{color:#fff}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.step{border:1px solid var(--line);border-radius:16px;padding:16px;background:#f8fafc}.step b{display:block;margin-bottom:6px}.step span{display:block;font-size:13px;line-height:1.5;color:#64748b}.contact{display:flex;align-items:center;justify-content:space-between;gap:16px}.contact .cta{margin:0;min-width:220px}.legal-alert{background:#fff7ed;border-color:#fed7aa}.foot{text-align:center;color:#64748b;font-size:12px;margin-top:24px;line-height:1.5}.foot a{color:#166534}
+@media(max-width:820px){.grid,.steps{grid-template-columns:1fr}.hero{padding:22px}.wrap{padding:14px 12px 50px}.contact{align-items:flex-start;flex-direction:column}.contact .cta{width:100%}}
 </style>
 </head>
 <body><div class="wrap">
 <div class="top"><div class="brand"><img src="assets/routesaver-logo.svg" alt="RouteSaver"></div><a class="back" href="index.html">Torna al calcolo</a></div>
 
 <section class="hero">
-<span class="founder">PRE-LANCIO</span>
-<h1>RouteSaver Plus</h1>
-<p>Il core di RouteSaver resta gratuito. Plus è pensato per chi usa spesso l'auto e vuole trasformare ogni viaggio in una decisione economica più precisa.</p>
+<span class="founder">BETA PUBBLICA GRATUITA</span>
+<h1>Prova il calcolo. Entra prima nel prodotto.</h1>
+<p>RouteSaver confronta quanto spendi e quanto tempo impieghi: sei tu a stabilire quanti minuti in più accettare per cercare un percorso economicamente più conveniente.</p>
+<div class="hero-note"><span>Nessun pagamento attivo</span><span>Richiesta non vincolante</span><span>Primi pilot selezionati</span></div>
 </section>
 
 <div class="grid">
 <section class="plan">
 <span class="badge">FREE</span>
 <h2>RouteSaver</h2>
-<div class="price">€0 <small>per sempre</small></div>
-<ul><li>Confronto percorsi</li><li>Consumo dinamico</li><li>Prezzi carburante MIMIT</li><li>Soste rifornimento / ricarica in beta</li><li>1 veicolo</li></ul>
-<a class="cta" href="index.html">Usa RouteSaver</a>
+<div class="price">€0 <small>durante la beta</small></div>
+<div class="price-caption">Per provare il valore del confronto prima di partire.</div>
+<ul>
+<li>Un veicolo</li>
+<li>Limite personale di minuti extra</li>
+<li>Confronto dei percorsi disponibili</li>
+<li>Consumi adattati alla composizione del tragitto</li>
+<li>Prezzi carburante MIMIT</li>
+<li>Nessun account obbligatorio</li>
+</ul>
+<a class="cta" href="index.html">Calcola un viaggio</a>
+<div class="note">La beta gratuita è soggetta a uso corretto e alla disponibilità dei servizi cartografici esterni.</div>
 </section>
 
-<section class="plan featured">
-<span class="founder">FOUNDING MEMBER</span>
-<h2>Plus</h2>
-<div class="price">€19,99 <small>/ primo anno · prezzo proposto</small></div>
-<ul><li>Più veicoli salvati</li><li>Storico viaggi e risparmio cumulato</li><li>Profilo consumi personalizzato</li><li>Preferenze rifornimento / ricarica</li><li>Export PDF/CSV</li><li>Accesso anticipato alle nuove funzioni</li></ul>
-<a class="cta" href="#checkout">Voglio Plus</a>
-<div class="note">Prezzo Founding previsto per i primi 500 utenti. Il checkout non è ancora attivo: nessun addebito viene effettuato da questa pagina.</div>
+<section class="plan featured" id="founding">
+<span class="founder">PRIMI 100 FOUNDING MEMBER</span>
+<h2>Plus Founding</h2>
+<div class="price">€19,99 <small>/ primo anno</small></div>
+<div class="price-caption">Prezzo di lancio proposto. Si paga soltanto quando il servizio commerciale sarà pronto e accettato.</div>
+<ul>
+<li>Più veicoli salvati</li>
+<li>Storico viaggi e risparmio cumulato</li>
+<li>Tratte preferite e ricorrenti</li>
+<li>Profilo consumi personalizzato</li>
+<li>Preferenze di rifornimento e ricarica</li>
+<li>Export PDF e CSV</li>
+<li>Accesso anticipato alle nuove funzioni</li>
+</ul>
+<a class="cta" href="mailto:dovesibaeccociqua@gmail.com?subject=RouteSaver%20-%20richiesta%20Founding%20Member&body=Ciao%2C%20vorrei%20candidarmi%20come%20Founding%20Member%20di%20RouteSaver.%0A%0ANome%3A%0ACome%20userei%20RouteSaver%3A%0AVeicoli%20utilizzati%3A">Richiedi accesso Founding</a>
+<div class="note">Dopo i primi 100 utenti, il prezzo obiettivo è €29,99/anno oppure €3,49/mese. La richiesta via email non è un ordine e non comporta addebiti.</div>
 </section>
 
-<section class="plan">
-<span class="badge">B2B</span>
-<h2>Business</h2>
-<div class="price">da €39 <small>/ mese</small></div>
-<ul><li>Fino a 10 veicoli</li><li>Dashboard costo/km</li><li>Tratte ricorrenti</li><li>Report mensili</li><li>Export per amministrazione</li><li>Utenti multipli</li></ul>
-<a class="cta" href="#business">Accesso Business</a>
-<div class="note">Pricing iniziale da validare con le prime flotte pilota.</div>
+<section class="plan" id="business">
+<span class="badge">B2B PILOT</span>
+<h2>Business Pilot</h2>
+<div class="price">€99 <small>/ 90 giorni</small></div>
+<div class="price-caption">Pilot proposto per professionisti e imprese con flotte leggere.</div>
+<ul>
+<li>Fino a 10 veicoli</li>
+<li>Configurazione iniziale assistita</li>
+<li>Dashboard costo/km</li>
+<li>Tratte ricorrenti</li>
+<li>Report mensile</li>
+<li>Export per amministrazione</li>
+<li>Assistenza diretta durante il test</li>
+</ul>
+<a class="cta" href="mailto:dovesibaeccociqua@gmail.com?subject=RouteSaver%20-%20candidatura%20Business%20Pilot&body=Ciao%2C%20vorrei%20valutare%20il%20Business%20Pilot%20di%20RouteSaver.%0A%0AAzienda%3A%0ANumero%20veicoli%3A%0ATratte%20ricorrenti%3A%0AContatto%3A">Candidati al pilot</a>
+<div class="note">Dopo il pilot, il prezzo obiettivo è €39/mese oppure €390/anno, solo se il prodotto dimostra valore. Nessun checkout è attivo oggi.</div>
 </section>
 </div>
 
+<section class="section">
+<h2>Cosa succede dopo la richiesta</h2>
+<div class="steps">
+<div class="step"><b>1. Racconti il caso d’uso</b><span>Indichi come viaggi, quanti veicoli utilizzi e quali tratte vuoi confrontare.</span></div>
+<div class="step"><b>2. Verifichiamo il pilot</b><span>RouteSaver seleziona casi compatibili con le funzioni realmente disponibili nella beta.</span></div>
+<div class="step"><b>3. Decidi con condizioni chiare</b><span>Prezzo finale, funzioni, durata, assistenza e disdetta saranno mostrati prima di qualsiasi pagamento.</span></div>
+</div>
+</section>
+
+<section class="section principle">
+<h2>Non è un altro navigatore</h2>
+<p><strong>RouteSaver è il comparatore economico da usare prima di partire.</strong> Il navigatore scelto dall’utente resta lo strumento per la guida. RouteSaver serve a capire se qualche minuto in più può ridurre il costo stimato del viaggio.</p>
+</section>
+
 <section class="section principle">
 <h2>Una regola non si tocca</h2>
-<p><strong>Chi paga non compra il ranking.</strong> Se in futuro RouteSaver guadagnerà da operatori di ricarica, telepedaggio, parcheggi o altri partner, le proposte sponsorizzate saranno indicate separatamente. Il percorso o il punto di rifornimento più conveniente continuerà a essere calcolato in modo indipendente.</p>
+<p><strong>Chi paga non compra il ranking.</strong> Eventuali offerte sponsorizzate di ricarica, telepedaggio, parcheggio o altri partner saranno separate e riconoscibili. Il confronto economico dei percorsi non verrà alterato perché un operatore paga.</p>
 </section>
 
-<section class="section" id="checkout">
-<h2>Pagamenti non ancora disponibili</h2>
-<p>RouteSaver è un progetto di <strong data-merchant></strong>. Gli abbonamenti saranno venduti dalla stessa attività individuale.</p>
-<p>La beta è gratuita e questa pagina non raccoglie dati di pagamento o fatturazione. Prezzo finale, durata, rinnovo e modalità di disdetta saranno indicati prima dell'acquisto quando il servizio sarà disponibile.</p>
+<section class="section legal-alert">
+<h2>Nessun pagamento attivo</h2>
+<p>RouteSaver è un progetto di <strong data-merchant></strong>. Questa pagina raccoglie soltanto manifestazioni di interesse tramite il programma email dell’utente. Non chiede carte, non attiva abbonamenti e non genera ordini.</p>
+<p>Prima dell’apertura commerciale saranno completati termini di vendita, informativa privacy, dati del fornitore, fatturazione e verifica delle licenze dei servizi utilizzati.</p>
 </section>
 
-<section class="section" id="business">
-<h2>Perché esiste il piano Business</h2>
-<p>Il valore cresce rapidamente quando una società ripete molte tratte con più veicoli: anche pochi euro risparmiati a viaggio possono diventare una voce di costo significativa su base mensile. RouteSaver Business sarà costruito intorno a questo caso d'uso.</p>
+<section class="section contact">
+<div><h2>Hai un caso reale da testare?</h2><p>Scrivi a <a data-support-email href="mailto:dovesibaeccociqua@gmail.com">dovesibaeccociqua@gmail.com</a> indicando tratta, veicolo e frequenza dei viaggi.</p></div>
+<a class="cta" href="mailto:dovesibaeccociqua@gmail.com?subject=RouteSaver%20-%20richiesta%20informazioni">Contatta RouteSaver</a>
 </section>
 
-<div class="foot">Prezzi e funzioni della fase pre-lancio possono cambiare prima dell'apertura commerciale. RouteSaver Beta.</div>
+<div class="foot">Offerta pre-lancio aggiornata al 1 ottobre 2026. Prezzi e funzioni potranno essere modificati prima dell’apertura commerciale.</div>
 <p class="foot"><a href="privacy.html">Privacy</a> · <a href="terms.html">Termini d’uso</a></p>
 </div><script type="module" src="assets/merchant.mjs"></script></body></html>
