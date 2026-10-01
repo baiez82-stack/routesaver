@@ -4,51 +4,104 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f172a">
-<title>Termini d'uso · RouteSaver Beta</title>
+<link rel="icon" href="assets/routesaver-icon.svg" type="image/svg+xml">
+<title>Termini d'uso · RouteSaver</title>
+<meta name="description" content="Termini d'uso della beta pubblica gratuita di RouteSaver.">
 <style>
 body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#eef4ff,#f8fafc 280px,#f5f7fb);color:#0f172a}
-main{max-width:820px;margin:auto;padding:28px 16px 70px}.card{background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:24px;box-shadow:0 14px 38px rgba(15,23,42,.07);margin-bottom:16px}
-h1{font-size:clamp(34px,7vw,48px);letter-spacing:-1.4px;margin:0 0 10px}h2{font-size:20px;margin:0 0 10px}p,li{line-height:1.6;color:#334155}.badge{display:inline-block;background:#ecfdf5;color:#166534;border:1px solid #bbf7d0;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:850;margin-bottom:14px}
-a{color:#166534}.btn{display:inline-block;text-decoration:none;background:#0f172a;color:#fff;border-radius:13px;padding:11px 14px;font-weight:850}.note{font-size:13px;color:#64748b}.warning{background:#fff7ed;border-color:#fed7aa}
+main{max-width:860px;margin:auto;padding:28px 16px 70px}.card{background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:24px;box-shadow:0 14px 38px rgba(15,23,42,.07);margin-bottom:16px}
+h1{font-size:clamp(34px,7vw,48px);letter-spacing:-1.4px;margin:0 0 10px}h2{font-size:20px;margin:0 0 10px}p,li{line-height:1.62;color:#334155}.badge{display:inline-block;background:#ecfdf5;color:#166534;border:1px solid #bbf7d0;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:850;margin-bottom:14px}
+a{color:#166534}.btn{display:inline-block;text-decoration:none;background:#0f172a;color:#fff;border-radius:13px;padding:11px 14px;font-weight:850}.note{font-size:13px;color:#64748b}.warning{background:#fff7ed;border-color:#fed7aa}.compact li{margin-bottom:8px}
+@media(max-width:620px){main{padding:16px 12px 50px}.card{padding:19px}}
 </style>
 </head>
 <body><main>
 <section class="card">
-<div class="badge">BETA PRIVATA DI TEST</div>
-<h1>Termini d'uso</h1>
-<p>RouteSaver è attualmente un prototipo sperimentale destinato a test e valutazione del servizio.</p>
+<div class="badge">BETA PUBBLICA GRATUITA</div>
+<h1>Termini d’uso</h1>
+<p>RouteSaver è un comparatore sperimentale che aiuta a valutare, prima della partenza, il rapporto tra tempo di viaggio e costo stimato. L’uso della beta è gratuito e non attiva account, abbonamenti o acquisti.</p>
 <a class="btn" href="index.html">Torna a RouteSaver</a>
 </section>
 
 <section class="card">
-<h2>1. Natura del servizio</h2>
-<p>RouteSaver confronta percorsi alternativi e produce stime di durata, distanza, carburante o energia e pedaggi. Il servizio non sostituisce un navigatore stradale, la segnaletica, le informazioni ufficiali degli operatori autostradali o le indicazioni delle autorità.</p>
+<h2>1. Gestore e contatti</h2>
+<p>RouteSaver è un progetto gestito da <strong>Samuele Baietta</strong>. Per assistenza, segnalazioni o richieste relative alla beta puoi scrivere a <a href="mailto:dovesibaeccociqua@gmail.com?subject=Assistenza%20RouteSaver">dovesibaeccociqua@gmail.com</a>.</p>
+<p class="note">I dati fiscali e le condizioni di vendita complete saranno pubblicati prima dell’eventuale apertura commerciale.</p>
 </section>
 
 <section class="card">
-<h2>2. Stime e accuratezza</h2>
-<p>Distanze e tempi dipendono da servizi cartografici esterni. I consumi sono stime: RouteSaver parte dal dato del modello EEA oppure dal valore inserito dall'utente. Quando disponibile, applica una correzione real-world basata sui dati OBFCM EEA del medesimo produttore e alimentazione; questa correzione non equivale a una misurazione diretta del singolo modello. La baseline viene poi modulata in base alla composizione del percorso, alle classi stradali e alle velocità di riferimento dei tratti. Traffico, temperatura, stile di guida, carico, pneumatici, pendenza e velocità reale possono modificare sensibilmente il consumo effettivo. Per EV e plug-in, l'eventuale capacità batteria compilata automaticamente è una stima energetica derivata da consumo elettrico e autonomia EEA, non una specifica certificata del costruttore. I pedaggi della beta sono stime algoritmiche e non tariffe ufficiali. I prezzi carburante possono derivare da open data MIMIT e possono essere variati dopo l'ultimo aggiornamento.</p>
+<h2>2. Natura del servizio</h2>
+<p>RouteSaver confronta percorsi alternativi e produce stime di durata, distanza, carburante o energia, pedaggi e possibile risparmio. L’utente stabilisce il limite massimo di minuti aggiuntivi che è disposto ad accettare.</p>
+<p><strong>RouteSaver non è un navigatore.</strong> Non sostituisce la segnaletica, le indicazioni delle autorità, le informazioni dei concessionari autostradali o un’app di navigazione aggiornata durante la guida.</p>
 </section>
 
 <section class="card">
-<h2>3. Uso durante la guida</h2>
-<p>RouteSaver deve essere configurato prima della partenza o quando il veicolo è fermo in condizioni di sicurezza. Non utilizzare l'interfaccia in modo da distrarre il conducente.</p>
+<h2>3. Beta gratuita e assenza di acquisti</h2>
+<ul class="compact">
+<li>La beta è fornita gratuitamente, senza garanzia di continuità o livelli di servizio.</li>
+<li>I pulsanti “Founding Member” e “Business Pilot” aprono una normale email e raccolgono soltanto una manifestazione di interesse non vincolante.</li>
+<li>Nessun pulsante della beta attiva un ordine, un rinnovo automatico o un addebito.</li>
+<li>Prezzi e funzioni mostrati nella pagina dei piani sono proposte pre-lancio e potranno cambiare prima dell’apertura commerciale.</li>
+</ul>
 </section>
 
 <section class="card">
-<h2>4. Servizi di terzi</h2>
-<p>La beta utilizza servizi esterni per geocoding, routing, confronto con il trasporto pubblico e ricerca delle colonnine. Transitous/MOTIS viene utilizzato esclusivamente per il confronto sperimentale non commerciale di itinerari pubblici; prima di un utilizzo commerciale dovrà essere sostituito o regolato con una fonte/accordo compatibile. La disponibilità del servizio può quindi dipendere da infrastrutture di terzi e può subire interruzioni, limiti o modifiche. I distributori vengono individuati su una copia degli open data MIMIT; le colonnine sono ricercate tramite OpenStreetMap/Overpass. Distanza dalla linea del percorso, necessità di ricarica e punto di sosta sono stime di pianificazione: prima del viaggio vanno verificati accessibilità, orari, connettore, potenza, prezzo e disponibilità effettiva.</p>
+<h2>4. Stime e accuratezza</h2>
+<p>Distanze, geometrie e tempi dipendono da servizi cartografici esterni. I consumi sono stime costruite a partire dal dato selezionato o inserito dall’utente e adattate alla composizione del percorso. Traffico, temperatura, stile di guida, carico, pneumatici, pendenza, velocità effettiva e condizioni del veicolo possono produrre risultati diversi.</p>
+<p>Quando disponibile, RouteSaver usa dati EEA e riferimenti real-world aggregati; tali riferimenti non equivalgono a una misurazione diretta dello specifico allestimento. Per EV e plug-in, eventuali capacità batteria precompilate sono stime energetiche modificabili e non specifiche certificate dal costruttore.</p>
+<p>I pedaggi possono essere stime algoritmiche o valori inseriti manualmente. Un pedaggio mancante non equivale a zero. Prezzi carburante, distributori e colonnine possono essere incompleti, non aggiornati o non disponibili.</p>
 </section>
 
 <section class="card">
-<h2>5. Dati e privacy</h2>
-<p>Le modalità di trattamento dei dati nella beta sono descritte nella <a href="privacy.html">pagina Privacy</a>.</p>
+<h2>5. Traffico e navigatori esterni</h2>
+<p>I tempi includono il traffico soltanto quando l’interfaccia lo indica espressamente. I dati possono diventare rapidamente obsoleti e devono essere aggiornati prima della partenza. Il maggior consumo associato ai rallentamenti è una stima interna, non una misura certificata del veicolo.</p>
+<p>Google Maps, Waze, Mappe Apple e altre applicazioni possono ricalcolare la strada. Le stime di RouteSaver si riferiscono alla traccia visualizzata nell’app e non restano automaticamente valide se il navigatore sceglie un percorso diverso.</p>
+</section>
+
+<section class="card">
+<h2>6. Uso sicuro</h2>
+<p>Configura RouteSaver prima di partire o quando il veicolo è fermo in condizioni di sicurezza. Non interagire con l’app durante la guida e non seguire indicazioni incompatibili con segnaletica, chiusure, limitazioni, condizioni della strada o istruzioni delle autorità.</p>
+<p>L’utente resta responsabile della verifica di autonomia, carburante, ricarica, accessibilità delle strade, pedaggi, vignette, traghetti, parcheggi e ogni altro requisito del viaggio.</p>
+</section>
+
+<section class="card">
+<h2>7. Servizi e dati di terzi</h2>
+<p>La beta utilizza o può utilizzare servizi esterni per hosting, geocodifica, routing, mappe, traffico, trasporto pubblico e ricerca delle colonnine. La disponibilità del servizio dipende anche da tali infrastrutture e può subire interruzioni, limiti o modifiche.</p>
+<p>Transitous/MOTIS è usato esclusivamente per il confronto sperimentale nella beta gratuita e non commerciale. Prima di un utilizzo commerciale dovrà essere sostituito o regolato tramite una fonte o un accordo compatibile.</p>
+<p>I distributori sono individuati tramite una copia degli open data MIMIT; le colonnine tramite OpenStreetMap/Overpass. Distanza dalla linea del percorso, necessità di ricarica e punto di sosta sono stime di pianificazione. Prima del viaggio occorre verificare accesso, orari, connettori, potenza, prezzo e disponibilità.</p>
+</section>
+
+<section class="card">
+<h2>8. Uso corretto della beta</h2>
+<p>È vietato usare RouteSaver per attività illecite, tentare di superare limiti tecnici, automatizzare richieste massive, interferire con il servizio o con i fornitori esterni, estrarre sistematicamente i dati o presentare le stime come certificazioni ufficiali.</p>
+<p>Il gestore può limitare o sospendere funzioni quando necessario per sicurezza, manutenzione, rispetto delle condizioni dei fornitori o prevenzione di abusi.</p>
+</section>
+
+<section class="card">
+<h2>9. Proprietà intellettuale e fonti</h2>
+<p>Nome, interfaccia, logica applicativa e materiali originali di RouteSaver restano del rispettivo titolare. Dati, mappe, librerie e servizi di terzi restano soggetti alle rispettive licenze, attribuzioni e condizioni d’uso.</p>
+<p>La disponibilità pubblica del codice o del sito non concede automaticamente il diritto di ripubblicare il servizio, il marchio o i materiali commerciali come prodotto proprio.</p>
+</section>
+
+<section class="card">
+<h2>10. Disponibilità e responsabilità</h2>
+<p>La beta viene fornita nello stato in cui si trova, a scopo di test. Non viene garantito che sia sempre disponibile, priva di errori o adatta a uno specifico viaggio o risultato economico.</p>
+<p>Nei limiti consentiti dalla legge, il gestore non risponde di decisioni prese affidandosi esclusivamente alle stime, di variazioni intervenute dopo il calcolo, di servizi di terzi o di costi non rilevati. Restano ferme le responsabilità che non possono essere escluse o limitate per legge.</p>
+</section>
+
+<section class="card">
+<h2>11. Privacy</h2>
+<p>Il trattamento dei dati nella beta è descritto nell’<a href="privacy.html">informativa privacy</a>. RouteSaver non richiede un account e non conserva un proprio storico server dei percorsi nella configurazione attuale.</p>
+</section>
+
+<section class="card">
+<h2>12. Modifiche alla beta</h2>
+<p>Funzioni, fonti dati, interfaccia e questi termini possono essere aggiornati durante la sperimentazione. La data dell’ultima revisione è riportata in fondo alla pagina. Modifiche sostanziali connesse a account, pagamenti o nuovi trattamenti saranno comunicate prima della relativa attivazione.</p>
 </section>
 
 <section class="card warning">
-<h2>6. Fornitore e stato pre-commerciale</h2>
-<p>RouteSaver è un progetto di <strong data-merchant></strong>. La beta è gratuita: nessun abbonamento viene attivato da questa pagina. La ricevuta di un futuro pagamento non sostituirà gli adempimenti fiscali italiani.</p>
-<p>Questi termini descrivono la beta tecnica e non sono ancora i termini definitivi di un servizio commerciale. Prima del lancio pubblico a pagamento dovranno essere integrati con i dati del fornitore, condizioni economiche, eventuali abbonamenti, recesso, assistenza, responsabilità e legge applicabile.</p>
-<p class="note">Ultimo aggiornamento: 30 settembre 2026.</p>
+<h2>Stato pre-commerciale</h2>
+<p>Questi termini disciplinano soltanto la <strong>beta pubblica gratuita</strong>. Prima di vendere abbonamenti saranno necessari condizioni economiche definitive, regole di rinnovo e disdetta, recesso quando applicabile, assistenza, fatturazione, dati completi del fornitore e verifica delle licenze dei servizi utilizzati.</p>
+<p class="note">Ultimo aggiornamento: 1 ottobre 2026.</p>
 </section>
-<section class="card"><h2>Traffico e navigazione esterna</h2><p>I tempi includono il traffico solo quando la schermata lo indica esplicitamente. I dati hanno un orario di richiesta e dopo cinque minuti richiedono aggiornamento. Il maggior consumo associato ai rallentamenti è una stima interna non certificata. Google Maps, Waze e Mappe Apple possono ricalcolare il percorso: le stime di RouteSaver si riferiscono alla traccia visualizzata e non restano valide automaticamente su strade diverse. La tariffa dei pedaggi può essere inserita manualmente quando manca; un importo mancante non equivale a zero.</p></section></main><script type="module" src="assets/merchant.mjs"></script></body></html>
+</main></body></html>
