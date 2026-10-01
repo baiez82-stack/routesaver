@@ -76,10 +76,11 @@
       baseConsumption:profile.base,consumption:route.km>0?energyUse/route.km*100:profile.adjusted,
       roadMix:profile.mix,speedBands:profile.bands,avgRoadSpeed:profile.avgRoadSpeed,mixSource:profile.source};
   }
-  function rank(data,maxExtra){
+  function rank(data,maxExtra,options){
     if(!data.length)throw new Error('Nessun percorso');
+    var requireLiveTraffic=!!(options&&options.requireLiveTraffic);
     var fastest=data.reduce(function(a,b){return b.route.sec<a.route.sec?b:a;});
-    var complete=data.every(function(x){return x.cost.tollKnown&&traffic(x.route).status!=='stale';});
+    var complete=data.every(function(x){var state=traffic(x.route).status;return x.cost.tollKnown&&state!=='stale'&&(!requireLiveTraffic||state==='live');});
     data.forEach(function(x){x.deltaSec=Math.max(0,x.route.sec-fastest.route.sec);x.save=complete?fastest.cost.total-x.cost.total:null;});
     var eligible=data.filter(function(x){return x.deltaSec<=maxExtra*60;});
     var best=complete?eligible.reduce(function(a,b){return b.cost.total<a.cost.total-.01||(Math.abs(b.cost.total-a.cost.total)<.01&&b.route.sec<a.route.sec)?b:a;}):fastest;
@@ -101,7 +102,7 @@
     return {km:s.lengthInMeters/1000,sec:s.travelTimeInSeconds,freeFlowSec:Number.isFinite(free)&&free>0?free:null,coords:coords,live:true,
       tollKm:specialToll?null:tollKm,id:routeId(coords),traffic:{status:hasTraffic?'live':'unavailable',delaySec:hasTraffic?delay:0,fetchedAt:fetchedAt},provider:'TomTom',roadMixSource:'estimated'};
   }
-  async function tomtomRoutes(a,b,proxyUrl,fetcher){
+  async function tomtomRoutes(a,b,proxyUrl,fetcher,options){
     if(!/^https:\/\//.test(proxyUrl))throw new Error('Proxy traffico non configurato');
     async function request(avoid){
       var q=new URLSearchParams({from:a.lat+','+a.lon,to:b.lat+','+b.lon,maxAlternatives:avoid?'0':'2'});
@@ -110,8 +111,9 @@
       if(!Array.isArray(j.routes)||!j.routes.length)throw new Error('Traffico non disponibile');return j.routes.map(function(x){return tomtomRoute(x,Date.now());});
     }
     var routes=await request(false);
-    // Both requests must succeed: don't mix geometries/times from different providers.
-    var noToll=await request(true);routes=routes.concat(noToll);
+    // The toll-free comparison is optional. If requested, both calls must succeed so
+    // geometries and traffic times always come from the same provider and instant.
+    if(options&&options.includeNoToll){var noToll=await request(true);routes=routes.concat(noToll);}
     if(routes.some(function(r){return r.traffic.status!=='live';}))throw new Error('Tempi di traffico incompleti');
     routes=routes.filter(function(r,i){return !routes.slice(0,i).some(function(x){return x.id===r.id;});}).sort(function(a,b){return a.sec-b.sec;});
     return {fast:routes[0],smart:routes[1],cheap:routes[2],extra:routes.slice(3),source:'TomTom',trafficStatus:'live'};

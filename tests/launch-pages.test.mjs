@@ -36,7 +36,11 @@ test('terms page makes the free and pre-commercial status explicit', async () =>
 });
 
 test('homepage bootstrap exposes public-beta labels', async () => {
+  const html = await load('index.html');
   const script = await load('assets/routing-config.js');
+  assert.match(html, /id="includeNoToll"/);
+  assert.match(html, /Traffico live non disponibile: nessun percorso consigliato/);
+  assert.match(html, /Conserva il percorso · GPX/);
   assert.match(script, /BETA GRATUITA/);
   assert.match(script, /Beta pubblica gratuita/);
   assert.match(script, /plans\.textContent\s*=\s*'Piani'/);

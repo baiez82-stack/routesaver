@@ -53,6 +53,12 @@ test('old traffic suspends recommendation without silently removing congestion c
  assert.equal(cost(route).total,fresh.total);assert.equal(core.rank([{route,cost:cost(route)}],10).complete,false);
  assert.equal(core.traffic({...base,traffic:live(NaN)}).status,'unavailable');
 });
+test('real recommendations require live traffic on every alternative',()=>{
+ const unavailable={...base},withTraffic={...base,traffic:live(0)};
+ assert.equal(core.rank([{route:unavailable,cost:cost(unavailable)}],10,{requireLiveTraffic:true}).complete,false);
+ assert.equal(core.rank([{route:withTraffic,cost:cost(withTraffic)}],10,{requireLiveTraffic:true}).complete,true);
+ assert.equal(core.rank([{route:unavailable,cost:cost(unavailable)}],10).complete,true);
+});
 function raw(sections=[]){return {summary:{lengthInMeters:50000,travelTimeInSeconds:2400,noTrafficTravelTimeInSeconds:1800},legs:[{points:coords.map(p=>({longitude:p[0],latitude:p[1]}))}],sections};}
 test('TomTom geometry/time are from one response; toll sections are unioned and foreign rates unknown',()=>{
  const sections=[{sectionType:'COUNTRY',countryCode:'ITA'},{sectionType:'TOLL_ROAD',startPointIndex:1,endPointIndex:4},{sectionType:'TOLL_ROAD',startPointIndex:2,endPointIndex:4}];
@@ -63,12 +69,14 @@ test('TomTom geometry/time are from one response; toll sections are unioned and 
  assert.equal(core.tomtomRoute(raw([{sectionType:'TOLL_ROAD',startPointIndex:-1,endPointIndex:4}]),Date.now()).tollKm,null);
  assert.throws(()=>core.tomtomRoute({summary:{},legs:[]},Date.now()));
 });
-test('provider calls request current traffic; a failed no-toll comparison rejects the whole set',async()=>{
+test('toll-free TomTom comparison is optional and uses the same live provider',async()=>{
  const urls=[];let fail=false;
  const fetcher=async url=>{urls.push(new URL(url));return {ok:!(fail&&urls.length===2),json:async()=>({routes:[raw()]})};};
  const a={lat:45,lon:10},b={lat:45,lon:11};
  const rs=await core.tomtomRoutes(a,b,'https://proxy.example/api/tomtom',fetcher);assert.equal(rs.source,'TomTom');assert.equal(rs.smart,undefined);
  assert.equal(urls[0].searchParams.get('from'),'45,10');assert.equal(urls[0].searchParams.get('to'),'45,11');
- assert.equal(urls[1].searchParams.get('avoid'),'tollRoads');assert.equal(urls[0].origin,'https://proxy.example');
- urls.length=0;fail=true;await assert.rejects(core.tomtomRoutes(a,b,'https://proxy.example/api/tomtom',fetcher));
+ assert.equal(urls.length,1);assert.equal(urls[0].searchParams.has('avoid'),false);assert.equal(urls[0].origin,'https://proxy.example');
+ urls.length=0;await core.tomtomRoutes(a,b,'https://proxy.example/api/tomtom',fetcher,{includeNoToll:true});
+ assert.equal(urls.length,2);assert.equal(urls[1].searchParams.get('avoid'),'tollRoads');
+ urls.length=0;fail=true;await assert.rejects(core.tomtomRoutes(a,b,'https://proxy.example/api/tomtom',fetcher,{includeNoToll:true}));
 });
