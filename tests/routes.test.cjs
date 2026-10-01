@@ -67,8 +67,8 @@ test('provider calls request current traffic; a failed no-toll comparison reject
  const urls=[];let fail=false;
  const fetcher=async url=>{urls.push(new URL(url));return {ok:!(fail&&urls.length===2),json:async()=>({routes:[raw()]})};};
  const a={lat:45,lon:10},b={lat:45,lon:11};
- const rs=await core.tomtomRoutes(a,b,'test',fetcher);assert.equal(rs.source,'TomTom');assert.equal(rs.smart,undefined);
- assert.equal(urls[0].searchParams.get('traffic'),'true');assert.equal(urls[0].searchParams.get('departAt'),'now');
- assert.equal(urls[1].searchParams.get('avoid'),'tollRoads');assert.ok(urls[0].searchParams.getAll('sectionType').includes('country'));
- urls.length=0;fail=true;await assert.rejects(core.tomtomRoutes(a,b,'test',fetcher));
+ const rs=await core.tomtomRoutes(a,b,'https://proxy.example/api/tomtom',fetcher);assert.equal(rs.source,'TomTom');assert.equal(rs.smart,undefined);
+ assert.equal(urls[0].searchParams.get('from'),'45,10');assert.equal(urls[0].searchParams.get('to'),'45,11');
+ assert.equal(urls[1].searchParams.get('avoid'),'tollRoads');assert.equal(urls[0].origin,'https://proxy.example');
+ urls.length=0;fail=true;await assert.rejects(core.tomtomRoutes(a,b,'https://proxy.example/api/tomtom',fetcher));
 });

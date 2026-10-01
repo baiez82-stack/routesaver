@@ -101,13 +101,12 @@
     return {km:s.lengthInMeters/1000,sec:s.travelTimeInSeconds,freeFlowSec:Number.isFinite(free)&&free>0?free:null,coords:coords,live:true,
       tollKm:specialToll?null:tollKm,id:routeId(coords),traffic:{status:hasTraffic?'live':'unavailable',delaySec:hasTraffic?delay:0,fetchedAt:fetchedAt},provider:'TomTom',roadMixSource:'estimated'};
   }
-  async function tomtomRoutes(a,b,key,fetcher){
-    var base='https://api.tomtom.com/routing/1/calculateRoute/'+a.lat+','+a.lon+':'+b.lat+','+b.lon+'/json';
+  async function tomtomRoutes(a,b,proxyUrl,fetcher){
+    if(!/^https:\/\//.test(proxyUrl))throw new Error('Proxy traffico non configurato');
     async function request(avoid){
-      var q=new URLSearchParams({key:key,traffic:'true',departAt:'now',travelMode:'car',routeType:'fastest',computeTravelTimeFor:'all',maxAlternatives:avoid?'0':'2',routeRepresentation:'polyline'});
-      ['tollRoad','tollVignette','ferry','carTrain','traffic','country'].forEach(function(t){q.append('sectionType',t);});
+      var q=new URLSearchParams({from:a.lat+','+a.lon,to:b.lat+','+b.lon,maxAlternatives:avoid?'0':'2'});
       if(avoid)q.set('avoid','tollRoads');
-      var r=await fetcher(base+'?'+q);if(!r.ok)throw new Error('Traffico non disponibile');var j=await r.json();
+      var r=await fetcher(proxyUrl+'?'+q);if(!r.ok)throw new Error('Traffico non disponibile');var j=await r.json();
       if(!Array.isArray(j.routes)||!j.routes.length)throw new Error('Traffico non disponibile');return j.routes.map(function(x){return tomtomRoute(x,Date.now());});
     }
     var routes=await request(false);

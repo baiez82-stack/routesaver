@@ -1,37 +1,22 @@
-/*
- * Runtime configuration for RouteSaver.
- *
- * During the GitHub Pages deployment, the TOMTOM_API_KEY repository secret
- * replaces the marker below. The key is never committed to the repository.
- * Because this is a browser application, the deployed key must also be
- * restricted in TomTom to the RouteSaver domain and to the Routing product.
- */
+/* Public runtime configuration. Secrets must never be added to this file. */
 (function configureRouteSaver(){
   'use strict';
 
-  var injectedKey='__TOMTOM_API_KEY__';
-  if(injectedKey==='__TOMTOM_API_KEY__')injectedKey='';
-
   var existing=window.RouteSaverConfig||{};
   window.RouteSaverConfig=Object.assign({
-    tomtomApiKey:injectedKey,
+    tomtomProxyUrl:'',
     tomtomTrafficEnabled:false,
-    tomtomKeySource:injectedKey?'github-pages-secret':'not-configured'
+    tomtomKeySource:'server-proxy'
   },existing);
 
-  var finalKey=String(window.RouteSaverConfig.tomtomApiKey||'').trim();
-  window.RouteSaverConfig.tomtomApiKey=finalKey;
-  window.RouteSaverConfig.tomtomTrafficEnabled=Boolean(finalKey);
-  if(finalKey&&window.RouteSaverConfig.tomtomKeySource==='not-configured'){
-    window.RouteSaverConfig.tomtomKeySource='runtime-override';
-  }
-
-  document.documentElement.dataset.tomtomTraffic=finalKey?'configured':'not-configured';
+  var proxy=String(window.RouteSaverConfig.tomtomProxyUrl||'').trim();
+  window.RouteSaverConfig.tomtomProxyUrl=proxy;
+  window.RouteSaverConfig.tomtomTrafficEnabled=Boolean(proxy);
+  document.documentElement.dataset.tomtomTraffic=proxy?'configured':'not-configured';
 })();
 
 /* Public-beta labels live here so the calculator stays untouched while the
-   commercial offer is validated separately. This script is loaded after the
-   page markup, therefore no extra listener is required. */
+   commercial offer is validated separately. */
 (function alignPublicBetaLabels(){
   var status=document.querySelector('.topright .beta');
   var plans=document.querySelector('.topright a[href="plus.html"]');

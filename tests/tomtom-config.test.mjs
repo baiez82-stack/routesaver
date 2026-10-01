@@ -21,29 +21,20 @@ function execute(source, initialConfig = {}) {
   return context;
 }
 
-test('repository version keeps TomTom disabled until deployment injects a key', async () => {
+test('repository version contains no TomTom key and stays disabled without a proxy', async () => {
   const source = await readFile(configUrl, 'utf8');
-  assert.match(source, /__TOMTOM_API_KEY__/);
+  assert.doesNotMatch(source, /tomtomApiKey|__TOMTOM_API_KEY__/);
   const context = execute(source);
-  assert.equal(context.window.RouteSaverConfig.tomtomApiKey, '');
+  assert.equal(context.window.RouteSaverConfig.tomtomProxyUrl, '');
   assert.equal(context.window.RouteSaverConfig.tomtomTrafficEnabled, false);
   assert.equal(context.document.documentElement.dataset.tomtomTraffic, 'not-configured');
 });
 
-test('deployment-injected TomTom key enables live traffic configuration', async () => {
-  const source = (await readFile(configUrl, 'utf8'))
-    .replace("'__TOMTOM_API_KEY__'", JSON.stringify('test-domain-restricted-key'));
-  const context = execute(source);
-  assert.equal(context.window.RouteSaverConfig.tomtomApiKey, 'test-domain-restricted-key');
-  assert.equal(context.window.RouteSaverConfig.tomtomTrafficEnabled, true);
-  assert.equal(context.window.RouteSaverConfig.tomtomKeySource, 'github-pages-secret');
-  assert.equal(context.document.documentElement.dataset.tomtomTraffic, 'configured');
-});
-
-test('an explicit runtime override remains supported', async () => {
+test('an HTTPS proxy runtime override enables live traffic without exposing a key', async () => {
   const source = await readFile(configUrl, 'utf8');
-  const context = execute(source, { tomtomApiKey: 'runtime-key' });
-  assert.equal(context.window.RouteSaverConfig.tomtomApiKey, 'runtime-key');
+  const context = execute(source, { tomtomProxyUrl: 'https://routesaver-api.example/api/tomtom' });
+  assert.equal(context.window.RouteSaverConfig.tomtomProxyUrl, 'https://routesaver-api.example/api/tomtom');
   assert.equal(context.window.RouteSaverConfig.tomtomTrafficEnabled, true);
-  assert.equal(context.window.RouteSaverConfig.tomtomKeySource, 'runtime-override');
+  assert.equal(context.window.RouteSaverConfig.tomtomKeySource, 'server-proxy');
+  assert.equal(context.document.documentElement.dataset.tomtomTraffic, 'configured');
 });
