@@ -8,7 +8,7 @@ export const billingConfig = {
     vatNumber: null,
     fiscalAddress: null,
     sourceDocumentDate: '2024-04-30',
-    supportEmail: null,
+    supportEmail: 'dovesibaeccociqua@gmail.com',
   },
   tax: {
     regime: 'forfettario',
