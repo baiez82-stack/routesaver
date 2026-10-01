@@ -9,11 +9,13 @@ on:
       - "billing/**"
       - "tests/**"
       - "assets/merchant.mjs"
+      - "assets/route-core.js"
       - "assets/routing-config.js"
       - "privacy.html"
       - "terms.html"
       - "data/**"
       - "scripts/**"
+      - ".github/workflows/pages.yml"
       - ".github/workflows/validate.yml"
   pull_request:
     branches: [main]
@@ -23,11 +25,13 @@ on:
       - "billing/**"
       - "tests/**"
       - "assets/merchant.mjs"
+      - "assets/route-core.js"
       - "assets/routing-config.js"
       - "privacy.html"
       - "terms.html"
       - "data/**"
       - "scripts/**"
+      - ".github/workflows/pages.yml"
       - ".github/workflows/validate.yml"
   workflow_dispatch:
 
@@ -70,6 +74,7 @@ jobs:
           print("Static files, launch pages and JSON are valid")
           PY
           node --check /tmp/routesaver-app.js
+          node --check assets/route-core.js
           node --check assets/routing-config.js
           node --check assets/merchant.mjs
           node --check billing/config.mjs
