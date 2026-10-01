@@ -39,5 +39,5 @@ test('homepage bootstrap exposes public-beta labels', async () => {
   const script = await load('assets/routing-config.js');
   assert.match(script, /BETA GRATUITA/);
   assert.match(script, /Beta pubblica gratuita/);
-  assert.match(script, /plans\.textContent = 'Piani'/);
+  assert.match(script, /plans\.textContent\s*=\s*'Piani'/);
 });

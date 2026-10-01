@@ -24,6 +24,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Inject TomTom traffic key
+        env:
+          TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          path = Path("assets/routing-config.js")
+          text = path.read_text(encoding="utf-8")
+          marker = "'__TOMTOM_API_KEY__'"
+          if marker not in text:
+              raise SystemExit("TomTom deployment marker not found")
+
+          key = os.environ.get("TOMTOM_API_KEY", "").strip()
+          text = text.replace(marker, json.dumps(key), 1)
+          path.write_text(text, encoding="utf-8")
+
+          if key:
+              print("TomTom traffic key injected into the Pages artifact.")
+          else:
+              print("::warning::TOMTOM_API_KEY is not configured; live traffic remains disabled.")
+          PY
+
       - name: Validate static app
         run: |
           python - <<'PY'
@@ -39,6 +64,78 @@ jobs:
                   json.load(f)
           PY
           node --check /tmp/routesaver-app.js
+          node --check assets/routing-config.js
+          node --test tests/*.test.*
+
+      - name: Verify TomTom traffic connection
+        env:
+          TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+
+          key = os.environ.get("TOMTOM_API_KEY", "").strip()
+          if not key:
+              print("TomTom check skipped: TOMTOM_API_KEY is not configured.")
+              raise SystemExit(0)
+
+          origin = "https://baiez82-stack.github.io"
+          base = "https://api.tomtom.com/routing/1/calculateRoute/45.4384,10.9916:45.4642,9.1900/json"
+          query = urllib.parse.urlencode({
+              "key": key,
+              "traffic": "true",
+              "departAt": "now",
+              "travelMode": "car",
+              "routeType": "fastest",
+              "computeTravelTimeFor": "all",
+              "maxAlternatives": "0",
+              "routeRepresentation": "polyline",
+          })
+          request = urllib.request.Request(
+              base + "?" + query,
+              headers={
+                  "Accept": "application/json",
+                  "Origin": origin,
+                  "Referer": origin + "/routesaver/",
+                  "User-Agent": "RouteSaver-Deploy-Check/1.0",
+              },
+          )
+
+          try:
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  payload = json.load(response)
+                  cors = response.headers.get("Access-Control-Allow-Origin")
+          except urllib.error.HTTPError as error:
+              detail = error.read().decode("utf-8", errors="replace")[:400]
+              raise SystemExit(f"TomTom connection failed: HTTP {error.code} - {detail}")
+          except Exception as error:
+              raise SystemExit(f"TomTom connection failed: {type(error).__name__}: {error}")
+
+          routes = payload.get("routes") or []
+          if not routes:
+              raise SystemExit("TomTom returned no routes")
+          summary = routes[0].get("summary") or {}
+          required = ("lengthInMeters", "travelTimeInSeconds", "trafficDelayInSeconds")
+          missing = [field for field in required if not isinstance(summary.get(field), (int, float))]
+          if missing:
+              raise SystemExit("TomTom response missing: " + ", ".join(missing))
+          if cors not in ("*", origin):
+              raise SystemExit(f"TomTom CORS does not allow the RouteSaver origin: {cors!r}")
+
+          print(
+              "TomTom traffic connection verified:",
+              round(summary["lengthInMeters"] / 1000, 1),
+              "km,",
+              round(summary["travelTimeInSeconds"] / 60),
+              "min, delay",
+              round(summary["trafficDelayInSeconds"] / 60),
+              "min",
+          )
+          PY
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
