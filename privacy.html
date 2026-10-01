@@ -4,74 +4,115 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0f172a">
-<title>Privacy · RouteSaver Beta</title>
+<link rel="icon" href="assets/routesaver-icon.svg" type="image/svg+xml">
+<title>Privacy · RouteSaver</title>
+<meta name="description" content="Informativa privacy della beta pubblica gratuita di RouteSaver.">
 <style>
 body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#eef4ff,#f8fafc 280px,#f5f7fb);color:#0f172a}
-main{max-width:820px;margin:auto;padding:28px 16px 70px}.card{background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:24px;box-shadow:0 14px 38px rgba(15,23,42,.07);margin-bottom:16px}
-h1{font-size:clamp(34px,7vw,48px);letter-spacing:-1.4px;margin:0 0 10px}h2{font-size:20px;margin:0 0 10px}p,li{line-height:1.6;color:#334155}.badge{display:inline-block;background:#ecfdf5;color:#166534;border:1px solid #bbf7d0;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:850;margin-bottom:14px}
-a{color:#166534}.btn{display:inline-block;text-decoration:none;background:#0f172a;color:#fff;border-radius:13px;padding:11px 14px;font-weight:850}.note{font-size:13px;color:#64748b}.warning{background:#fff7ed;border-color:#fed7aa}
+main{max-width:860px;margin:auto;padding:28px 16px 70px}.card{background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:24px;box-shadow:0 14px 38px rgba(15,23,42,.07);margin-bottom:16px}
+h1{font-size:clamp(34px,7vw,48px);letter-spacing:-1.4px;margin:0 0 10px}h2{font-size:20px;margin:0 0 10px}h3{font-size:16px;margin:18px 0 6px}p,li{line-height:1.62;color:#334155}.badge{display:inline-block;background:#ecfdf5;color:#166534;border:1px solid #bbf7d0;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:850;margin-bottom:14px}
+a{color:#166534}.btn{display:inline-block;text-decoration:none;background:#0f172a;color:#fff;border-radius:13px;padding:11px 14px;font-weight:850}.note{font-size:13px;color:#64748b}.warning{background:#fff7ed;border-color:#fed7aa}.identity{display:grid;grid-template-columns:170px 1fr;gap:8px 14px}.identity b{color:#0f172a}.identity span{color:#475569}.compact li{margin-bottom:8px}
+@media(max-width:620px){main{padding:16px 12px 50px}.card{padding:19px}.identity{grid-template-columns:1fr;gap:2px}.identity span{margin-bottom:9px}}
 </style>
 </head>
 <body><main>
 <section class="card">
-<div class="badge">BETA PRIVATA DI TEST</div>
+<div class="badge">BETA PUBBLICA GRATUITA</div>
 <h1>Privacy di RouteSaver</h1>
-<p>RouteSaver è progettato per funzionare con il minimo numero possibile di dati personali. In questa beta non è richiesto un account, non esiste un profilo utente e non sono integrati strumenti pubblicitari o di profilazione.</p>
+<p>Questa informativa descrive il funzionamento attuale della beta gratuita di RouteSaver. Non è richiesto un account, non sono attivi pagamenti e non sono integrati strumenti pubblicitari, Meta Pixel o sistemi proprietari di profilazione.</p>
 <a class="btn" href="index.html">Torna a RouteSaver</a>
 </section>
 
 <section class="card">
-<h2>Dati salvati sul dispositivo</h2>
-<p>Tipo di veicolo, consumo, prezzo inserito, minuti extra accettati e dati EV possono essere salvati nel <strong>localStorage del browser</strong>. Queste preferenze restano sul dispositivo. Dalla pagina principale puoi usare “Cancella dati salvati sul dispositivo”.</p>
+<h2>Titolare e contatti</h2>
+<div class="identity">
+<b>Titolare</b><span>Samuele Baietta</span>
+<b>Progetto</b><span>RouteSaver</span>
+<b>Contatto privacy</b><span><a href="mailto:dovesibaeccociqua@gmail.com?subject=Privacy%20RouteSaver">dovesibaeccociqua@gmail.com</a></span>
+</div>
+<p class="note">I dati fiscali completi saranno pubblicati prima dell’apertura di un servizio commerciale a pagamento.</p>
 </section>
 
 <section class="card">
-<h2>Posizione</h2>
-<p>La posizione GPS viene richiesta solo se premi volontariamente <strong>“Usa posizione”</strong>. RouteSaver non la richiede automaticamente e non mantiene un proprio database con la cronologia dei tuoi percorsi.</p>
+<h2>Quali dati tratta la beta</h2>
+<h3>Preferenze salvate sul dispositivo</h3>
+<p>Tipo di veicolo, consumo, prezzo inserito, minuti extra accettati, dati batteria e alcune opzioni di confronto possono essere salvati nel <strong>localStorage del browser</strong>. Restano sul dispositivo utilizzato e possono essere rimossi dalla pagina principale con “Cancella preferenze”. RouteSaver non crea con questi dati un profilo server dell’utente.</p>
+
+<h3>Posizione e luoghi cercati</h3>
+<p>La posizione GPS viene richiesta soltanto quando premi volontariamente <strong>“Usa posizione”</strong>. Partenza, destinazione, coordinate e area mostrata sulla mappa vengono trasmesse ai servizi cartografici necessari a rispondere alla richiesta. RouteSaver non mantiene un proprio archivio della cronologia dei percorsi.</p>
+
+<h3>Dati tecnici di accesso</h3>
+<p>Il sito è pubblicato tramite GitHub Pages. Come avviene normalmente per un servizio di hosting, il fornitore può trattare dati tecnici quali indirizzo IP, data e ora, pagina richiesta, browser e informazioni necessarie alla sicurezza e all’erogazione del sito.</p>
+
+<h3>Email e candidature alla beta</h3>
+<p>Quando scrivi all’indirizzo di contatto o usi un pulsante “Founding Member” o “Business Pilot”, il tuo programma di posta invia soltanto i dati che decidi di inserire, ad esempio nome, email, azienda, numero di veicoli e caso d’uso. L’invio non crea un ordine e non comporta alcun pagamento.</p>
 </section>
 
 <section class="card">
-<h2>Partenza, destinazione e servizi cartografici</h2>
-<p>Se il gestore abilita il servizio traffico TomTom, il browser invia a TomTom le coordinate di partenza e destinazione per calcolare percorsi e tempi aggiornati. In assenza del collegamento, o se la richiesta fallisce, il traffico viene indicato come non disponibile. I link di navigazione inviano i punti del viaggio a Google Maps, Waze o Mappe Apple solo quando li apri; Google Maps può ricevere anche punti di passaggio. Il file GPX è generato sul dispositivo.</p>
-<p>Per cercare i luoghi, calcolare i percorsi e mostrare la mappa il browser comunica con servizi esterni basati su OpenStreetMap, attualmente Photon, Nominatim, Valhalla, OSRM e il servizio di tile OpenStreetMap. Per fornire il servizio questi soggetti possono ricevere dati tecnicamente necessari alla richiesta, come indirizzo IP, termini di ricerca, coordinate di partenza/destinazione e area geografica visualizzata sulla mappa.</p><p>L'autocompletamento degli indirizzi interroga Photon solo dopo almeno 3 caratteri e con un breve ritardo tra una digitazione e la richiesta. Questo significa che il testo parziale digitato nel campo può essere inviato al servizio di geocoding per mostrare i suggerimenti.</p>
-<p>La beta non invia questi dati a un database proprietario RouteSaver.</p>
+<h2>Finalità e basi giuridiche</h2>
+<ul class="compact">
+<li><strong>Fornire il calcolo richiesto:</strong> geocodifica, confronto dei percorsi, visualizzazione della mappa e generazione dei link di navigazione. Base giuridica: esecuzione del servizio richiesto dall’utente e attività svolte su sua richiesta.</li>
+<li><strong>Funzionamento e sicurezza della beta:</strong> gestione tecnica, prevenzione di abusi, diagnosi degli errori e continuità del servizio. Base giuridica: legittimo interesse a rendere disponibile e proteggere la beta.</li>
+<li><strong>Rispondere a email e candidature:</strong> gestione delle richieste informative, selezione dei tester e valutazione dei pilot. Base giuridica: attività richieste dall’interessato e legittimo interesse a gestire le comunicazioni ricevute.</li>
+<li><strong>Adempimenti obbligatori:</strong> gestione di eventuali richieste delle autorità o obblighi previsti dalla legge. Base giuridica: obbligo legale.</li>
+</ul>
+<p>Non vengono utilizzati i dati di viaggio per pubblicità comportamentale, vendita di dati personali o ranking sponsorizzati.</p>
 </section>
 
 <section class="card">
-<h2>Dati del veicolo</h2>
-<p>Il catalogo Marca → Modello è generato esclusivamente dai dati ufficiali della <strong>European Environment Agency (EEA)</strong> sul monitoraggio delle nuove autovetture registrate nell'Unione europea. RouteSaver utilizza una copia aggregata locale del catalogo: quando scegli la tua auto, il browser non invia la scelta all'EEA.</p>
-<p>Il catalogo parte dai dati EEA 2025 per marca, nome commerciale e alimentazione. Quando l'EEA rende disponibile un riferimento real-world OBFCM compatibile, RouteSaver usa il divario osservato tra consumo reale e WLTP per il medesimo produttore/alimentazione per correggere il valore del modello. Il dato OBFCM utilizzato come correzione non è una misura diretta del singolo allestimento e nell'interfaccia viene indicato il numero di veicoli su cui si basa il riferimento.</p>
-<p>Per EV e plug-in, quando l'EEA rende disponibili sia consumo elettrico sia autonomia elettrica WLTP, RouteSaver ricava anche una capacità energetica equivalente per il calcolo del viaggio. Questo valore serve a stimare autonomia e necessità di ricarica, ma non va interpretato come capacità lorda/netta certificata dal costruttore ed è sempre modificabile dall'utente.</p>
-<p>Per stimare il consumo del singolo viaggio, RouteSaver combina questa baseline con classi stradali e velocità di riferimento del percorso (urbano, extraurbano, autostrada/strade veloci). L'ulteriore adattamento al percorso è un modello interno RouteSaver e non costituisce un dato certificato EEA.</p>
+<h2>Servizi cartografici e destinatari</h2>
+<p>Per offrire le funzioni richieste, il browser può comunicare direttamente con servizi esterni. Questi soggetti ricevono i dati tecnicamente necessari, compreso l’indirizzo IP e, a seconda della funzione, termini di ricerca o coordinate.</p>
+<ul class="compact">
+<li><strong>GitHub Pages:</strong> hosting del sito e sicurezza dell’infrastruttura.</li>
+<li><strong>Photon e Nominatim:</strong> ricerca e risoluzione dei luoghi.</li>
+<li><strong>Valhalla e OSRM:</strong> calcolo dei percorsi alternativi.</li>
+<li><strong>OpenStreetMap:</strong> sfondo cartografico e dati della mappa.</li>
+<li><strong>Overpass:</strong> ricerca delle colonnine in prossimità del percorso.</li>
+<li><strong>TomTom:</strong> solo quando il gestore abilita la relativa configurazione per traffico e routing.</li>
+<li><strong>Transitous/MOTIS:</strong> soltanto quando attivi il confronto facoltativo con treno e bus.</li>
+<li><strong>Google Maps, Waze e Mappe Apple:</strong> soltanto quando scegli di aprire il percorso nel relativo servizio.</li>
+</ul>
+<p>Ogni fornitore applica le proprie condizioni e informative. Alcuni fornitori possono trattare dati in Paesi esterni allo Spazio economico europeo secondo i meccanismi indicati nelle rispettive informative.</p>
 </section>
 
 <section class="card">
-<h2>Dati carburante e distributori</h2>
-<p>I riferimenti sui prezzi carburante e gli impianti lungo il percorso sono ricavati dagli open data del <strong>Ministero delle Imprese e del Made in Italy (MIMIT)</strong>. RouteSaver mantiene una copia tecnica aggiornata dei dataset pubblici di anagrafica impianti e prezzi comunicati al Ministero; la ricerca dei distributori avviene nel browser e non invia il tuo percorso al MIMIT.</p>
-<p>Fonte: MIMIT, prezzi praticati e anagrafica impianti. Licenza dichiarata dal Ministero: IODL 2.0.</p>
-</section>
-
-<section class="card">
-<h2>Colonnine di ricarica</h2>
-<p>Per proporre una sosta di ricarica EV o plug-in, RouteSaver può interrogare servizi Overpass basati su OpenStreetMap in prossimità del punto del percorso in cui la ricarica è stimata come utile. La richiesta può quindi contenere coordinate approssimative del punto di sosta e l'indirizzo IP del dispositivo. RouteSaver non registra queste richieste in un proprio database.</p>
-<p>Potenza, connettori, operatore, accesso e altre informazioni dipendono dai dati disponibili in OpenStreetMap e possono non essere aggiornati. Prezzo e disponibilità della colonnina non sono trattati come dati live.</p>
+<h2>Dati del veicolo, carburanti e fonti locali</h2>
+<p>Il catalogo Marca → Modello è ricavato dai dati della <strong>European Environment Agency (EEA)</strong> e viene distribuito come copia aggregata locale. La scelta del veicolo non viene inviata all’EEA.</p>
+<p>Prezzi e impianti carburante provengono dagli open data del <strong>Ministero delle Imprese e del Made in Italy (MIMIT)</strong>. La ricerca dei distributori avviene sulla copia tecnica presente nel sito e non invia il percorso al MIMIT.</p>
+<p>Per EV e plug-in, eventuali capacità batteria o consumi precompilati sono stime tecniche derivate dai dati disponibili e restano modificabili dall’utente.</p>
 </section>
 
 <section class="card">
 <h2>Trasporto pubblico</h2>
-<p>Quando attivi il confronto Auto vs Treno/Bus, RouteSaver interroga <strong>Transitous/MOTIS</strong> con coordinate approssimative di partenza e destinazione, data/ora del viaggio, numero di viaggiatori e opzioni di routing. La richiesta parte direttamente dal browser. Transitous dichiara di conservare nei log tecnici indirizzo IP, orario, URL richiesto e User-Agent fino a 2 giorni per debug e prevenzione abusi.</p>
-<p>RouteSaver usa Transitous soltanto nella beta non commerciale. Le tariffe dei biglietti non sono sempre disponibili; se inserisci manualmente un prezzo, questo viene salvato solo nel localStorage del browser insieme alle altre preferenze e non viene inviato a Transitous.</p>
+<p>Quando attivi il confronto Auto vs Treno/Bus, il browser invia a Transitous/MOTIS coordinate approssimative di partenza e destinazione, data e ora, numero di viaggiatori e opzioni di routing. La tariffa inserita manualmente viene salvata soltanto nel localStorage del browser.</p>
+<p>Transitous/MOTIS è usato esclusivamente nella beta gratuita e non commerciale. La funzione dovrà essere sostituita o regolata con un accordo compatibile prima di un utilizzo commerciale.</p>
 </section>
 
 <section class="card">
-<h2>Cookie, analytics e pubblicità</h2>
-<p>Questa beta non integra Google Analytics, Meta Pixel, reti pubblicitarie o strumenti di profilazione. Non vengono usati cookie pubblicitari. Il salvataggio locale delle preferenze serve esclusivamente al funzionamento dell'app.</p>
+<h2>Conservazione</h2>
+<ul class="compact">
+<li><strong>Preferenze locali:</strong> restano nel browser finché non vengono cancellate dall’utente, dal browser o dal dispositivo.</li>
+<li><strong>Richieste email generiche:</strong> per il tempo necessario a rispondere e gestire la richiesta.</li>
+<li><strong>Candidature Founding o Business Pilot:</strong> fino a 12 mesi dall’ultimo contatto, salvo instaurazione di un rapporto, obblighi di legge o richiesta di cancellazione precedente.</li>
+<li><strong>Log tecnici dei fornitori:</strong> secondo i tempi stabiliti dai rispettivi gestori; RouteSaver non controlla direttamente i log dei servizi pubblici esterni.</li>
+</ul>
+</section>
+
+<section class="card">
+<h2>Cookie, analytics e profilazione</h2>
+<p>La beta non integra Google Analytics, Meta Pixel, reti pubblicitarie o sistemi proprietari di profilazione. Il localStorage viene usato per ricordare preferenze funzionali. I servizi esterni aperti volontariamente dall’utente possono applicare proprie tecnologie e informative.</p>
+<p>La raccomandazione del percorso è un calcolo automatico basato sui parametri del viaggio, ma non produce effetti giuridici né decisioni analogamente significative sulla persona.</p>
+</section>
+
+<section class="card">
+<h2>Diritti dell’interessato</h2>
+<p>Puoi chiedere accesso, rettifica, cancellazione, limitazione, opposizione e, quando applicabile, portabilità dei dati scrivendo a <a href="mailto:dovesibaeccociqua@gmail.com?subject=Diritti%20privacy%20RouteSaver">dovesibaeccociqua@gmail.com</a>. Poiché i dati di viaggio restano normalmente nel browser e non sono associati a un account, RouteSaver potrebbe non disporre di dati server da identificare o cancellare.</p>
+<p>Resta possibile presentare reclamo al Garante per la protezione dei dati personali.</p>
 </section>
 
 <section class="card warning">
-<h2>Gestore e stato dell'informativa</h2>
-<p>Il progetto è gestito da <strong data-merchant></strong>. La beta non raccoglie dati di fatturazione. Prima di attivare i pagamenti, saranno specificati contatto privacy, dati richiesti per la fatturazione, finalità, basi giuridiche, destinatari e tempi di conservazione. I dati fiscali non saranno salvati tra le preferenze locali di viaggio.</p>
-<p>Questa pagina descrive il funzionamento tecnico della <strong>beta privata</strong>. Prima di una pubblicazione commerciale aperta al pubblico, l'informativa dovrà essere completata con i dati del titolare del trattamento, i contatti privacy, le basi giuridiche e una verifica documentale dei fornitori utilizzati.</p>
-<p class="note">Ultimo aggiornamento: 30 settembre 2026.</p>
+<h2>Stato dell’informativa</h2>
+<p>Questa informativa riguarda la configurazione attuale della <strong>beta pubblica gratuita</strong>. Prima di attivare account, pagamenti, analytics, infrastrutture commerciali o nuovi fornitori, l’informativa dovrà essere aggiornata e verificata rispetto al funzionamento effettivo del servizio.</p>
+<p class="note">Ultimo aggiornamento: 1 ottobre 2026.</p>
 </section>
-</main><script type="module" src="assets/merchant.mjs"></script></body></html>
+</main></body></html>
