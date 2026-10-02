@@ -12,7 +12,7 @@ test('same endpoints, different roads: different Google pass-throughs and route 
  const a={lat:45,lon:10},b={lat:45.12,lon:10.6};
  const one=core.navigation(base,a,b),two=core.navigation(other,a,b);
  assert.notEqual(one.google,two.google);assert.notEqual(core.routeId(coords),core.routeId(other.coords));
- assert.equal(one.waze,two.waze);assert.equal(one.apple,two.apple);
+ assert.equal('waze' in one,false);assert.equal('apple' in one,false);
  const waypoints=new URL(one.google).searchParams.get('waypoints').split('|');assert.ok(waypoints.length<=3);
  for(const point of core.anchors(coords,3))assert.ok(coords.includes(point));
 });

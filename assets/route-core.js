@@ -20,7 +20,7 @@
     var from=valid([a.lon,a.lat])?[a.lon,a.lat]:coords[0],to=valid([b.lon,b.lat])?[b.lon,b.lat]:coords[coords.length-1];
     var via=anchors(coords,3),q=new URLSearchParams({api:'1',origin:pair(from),destination:pair(to),travelmode:'driving'});
     if(via.length)q.set('waypoints',via.map(pair).join('|'));
-    return {google:'https://www.google.com/maps/dir/?'+q,waze:'https://www.waze.com/ul?'+new URLSearchParams({ll:pair(to),navigate:'yes',utm_source:'routesaver'}),apple:'https://maps.apple.com/?'+new URLSearchParams({saddr:pair(from),daddr:pair(to),dirflg:'d'}),waypoints:via.length};
+    return {google:'https://www.google.com/maps/dir/?'+q,waypoints:via.length};
   }
   function gpx(route){
     if(!route.coords||route.coords.length<2||!route.coords.every(valid))throw new Error('Traccia non disponibile');
