@@ -35,6 +35,16 @@
       best=Math.min(best,Math.hypot(ax+t*dx,ay+t*dy));
     }return best;
   }
+  function progress(point,coords){
+    if(!valid(point)||!coords||coords.length<2)return null;
+    var cos=Math.cos(point[1]*Math.PI/180),scale=111.195,best={distanceKm:Infinity,alongKm:0,point:coords[0],index:0},along=0;
+    for(var i=1;i<coords.length;i++){
+      var a=coords[i-1],b=coords[i],ax=(a[0]-point[0])*cos*scale,ay=(a[1]-point[1])*scale,bx=(b[0]-point[0])*cos*scale,by=(b[1]-point[1])*scale;
+      var dx=bx-ax,dy=by-ay,t=Math.max(0,Math.min(1,-(ax*dx+ay*dy)/(dx*dx+dy*dy||1))),d=Math.hypot(ax+t*dx,ay+t*dy),seg=distance(a,b);
+      if(d<best.distanceKm)best={distanceKm:d,alongKm:along+seg*t,point:[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t],index:i-1};
+      along+=seg;
+    }return best;
+  }
   function toll(route){
     if(Number.isFinite(route.tollOverride)&&route.tollOverride>=0)return {amount:route.tollOverride,source:'Inserito da te',known:true};
     if(Number.isFinite(route.tollKm)&&route.tollKm>=0)return {amount:route.tollKm*.078,source:route.tollKm===0?'Nessun tratto a pedaggio rilevato':'Stima sui km a pedaggio · 0,078 €/km',known:true};
@@ -97,10 +107,11 @@
     var tollKm=0;tollMask.forEach(function(i){tollKm+=ds[i+1]-ds[i];});
     var countries=sections.filter(function(x){return x.sectionType==='COUNTRY';});
     if(tollKm>0&&(!countries.length||countries.some(function(x){return x.countryCode!=='ITA';})))specialToll=true;
+    var instructions=((raw.guidance&&raw.guidance.instructions)||[]).map(function(x){return {offsetM:Number(x.routeOffsetInMeters)||0,message:x.message||x.combinedMessage||'Prosegui sulla traccia',point:x.point&&Number.isFinite(x.point.longitude)&&Number.isFinite(x.point.latitude)?[x.point.longitude,x.point.latitude]:null,maneuver:x.maneuver||''};}).sort(function(a,b){return a.offsetM-b.offsetM;});
     var free=s.noTrafficTravelTimeInSeconds,delay=Number.isFinite(free)?Math.max(0,s.travelTimeInSeconds-free):s.trafficDelayInSeconds;
     var hasTraffic=Number.isFinite(delay)&&delay>=0;
     return {km:s.lengthInMeters/1000,sec:s.travelTimeInSeconds,freeFlowSec:Number.isFinite(free)&&free>0?free:null,coords:coords,live:true,
-      tollKm:specialToll?null:tollKm,id:routeId(coords),traffic:{status:hasTraffic?'live':'unavailable',delaySec:hasTraffic?delay:0,fetchedAt:fetchedAt},provider:'TomTom',roadMixSource:'estimated'};
+      tollKm:specialToll?null:tollKm,id:routeId(coords),instructions:instructions,traffic:{status:hasTraffic?'live':'unavailable',delaySec:hasTraffic?delay:0,fetchedAt:fetchedAt},provider:'TomTom',roadMixSource:'estimated'};
   }
   async function tomtomRoutes(a,b,proxyUrl,fetcher,options){
     if(!/^https:\/\//.test(proxyUrl))throw new Error('Proxy traffico non configurato');
@@ -118,5 +129,5 @@
     routes=routes.filter(function(r,i){return !routes.slice(0,i).some(function(x){return x.id===r.id;});}).sort(function(a,b){return a.sec-b.sec;});
     return {fast:routes[0],smart:routes[1],cheap:routes[2],extra:routes.slice(3),source:'TomTom',trafficStatus:'live'};
   }
-  return {valid:valid,distance:distance,cumulative:cumulative,routeId:routeId,anchors:anchors,navigation:navigation,gpx:gpx,lineDistance:lineDistance,toll:toll,traffic:traffic,congestionCost:congestionCost,energyCost:energyCost,rank:rank,tomtomRoute:tomtomRoute,tomtomRoutes:tomtomRoutes};
+  return {valid:valid,distance:distance,cumulative:cumulative,routeId:routeId,anchors:anchors,navigation:navigation,gpx:gpx,lineDistance:lineDistance,progress:progress,toll:toll,traffic:traffic,congestionCost:congestionCost,energyCost:energyCost,rank:rank,tomtomRoute:tomtomRoute,tomtomRoutes:tomtomRoutes};
 });

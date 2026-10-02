@@ -41,6 +41,8 @@ test('homepage bootstrap exposes public-beta labels', async () => {
   assert.match(html, /id="includeNoToll"/);
   assert.match(html, /Traffico live non disponibile: nessun percorso consigliato/);
   assert.match(html, /Conserva il percorso · GPX/);
+  assert.match(html, /Avvia navigazione RouteSaver/);
+  assert.match(html, /Stai uscendo dal percorso conveniente/);
   assert.doesNotMatch(html, /Waze · ricalcola|Mappe Apple · ricalcola/);
   assert.match(script, /BETA GRATUITA/);
   assert.match(script, /Beta pubblica gratuita/);

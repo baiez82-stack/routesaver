@@ -31,7 +31,9 @@ export function buildTomTomUrl(query, key) {
     routeType: 'fastest',
     computeTravelTimeFor: 'all',
     maxAlternatives,
-    routeRepresentation: 'polyline'
+    routeRepresentation: 'polyline',
+    instructionsType: 'text',
+    language: 'it-IT'
   });
   for (const type of ['tollRoad', 'tollVignette', 'ferry', 'carTrain', 'traffic', 'country']) params.append('sectionType', type);
   if (query.avoid === 'tollRoads') params.set('avoid', 'tollRoads');

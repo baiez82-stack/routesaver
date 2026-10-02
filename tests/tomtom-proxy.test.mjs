@@ -7,6 +7,8 @@ test('proxy builds a fixed traffic-aware TomTom request', () => {
   assert.equal(url.searchParams.get('key'), 'secret');
   assert.equal(url.searchParams.get('traffic'), 'true');
   assert.equal(url.searchParams.get('departAt'), 'now');
+  assert.equal(url.searchParams.get('instructionsType'), 'text');
+  assert.equal(url.searchParams.get('language'), 'it-IT');
   assert.equal(url.searchParams.getAll('sectionType').length, 6);
 });
 

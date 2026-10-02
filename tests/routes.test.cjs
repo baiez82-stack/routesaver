@@ -21,6 +21,10 @@ test('GPX preserves every original point, without sampling',()=>{
  assert.match(gpx,/lat="45.12" lon="10.6"/);assert.throws(()=>core.gpx({coords:[]}));
  assert.equal(core.navigation({coords:[]},{},{}),null);
 });
+test('GPS progress is projected on the chosen RouteSaver trace',()=>{
+ const p=core.progress([10.301,45.061],coords);assert.ok(p.distanceKm<.2);assert.ok(p.alongKm>0);assert.ok(p.alongKm<base.km);
+ const far=core.progress([11,46],coords);assert.ok(far.distanceKm>10);assert.equal(core.progress([10,45],[]),null);
+});
 test('traffic affects fuel cost but never adds the delay to ETA twice',()=>{
  const route={...base,sec:4800,traffic:live(1200)},normal=cost(base),jam=cost(route);
  assert.equal(route.sec,4800);assert.ok(Math.abs(jam.total-normal.total-(1200/3600*.8*2))<1e-9);
@@ -59,10 +63,11 @@ test('real recommendations require live traffic on every alternative',()=>{
  assert.equal(core.rank([{route:withTraffic,cost:cost(withTraffic)}],10,{requireLiveTraffic:true}).complete,true);
  assert.equal(core.rank([{route:unavailable,cost:cost(unavailable)}],10).complete,true);
 });
-function raw(sections=[]){return {summary:{lengthInMeters:50000,travelTimeInSeconds:2400,noTrafficTravelTimeInSeconds:1800},legs:[{points:coords.map(p=>({longitude:p[0],latitude:p[1]}))}],sections};}
+function raw(sections=[]){return {summary:{lengthInMeters:50000,travelTimeInSeconds:2400,noTrafficTravelTimeInSeconds:1800},legs:[{points:coords.map(p=>({longitude:p[0],latitude:p[1]}))}],sections,guidance:{instructions:[{routeOffsetInMeters:1200,message:'Svolta a destra',point:{longitude:10.1,latitude:45.02},maneuver:'TURN_RIGHT'}]}};}
 test('TomTom geometry/time are from one response; toll sections are unioned and foreign rates unknown',()=>{
  const sections=[{sectionType:'COUNTRY',countryCode:'ITA'},{sectionType:'TOLL_ROAD',startPointIndex:1,endPointIndex:4},{sectionType:'TOLL_ROAD',startPointIndex:2,endPointIndex:4}];
  const r=core.tomtomRoute(raw(sections),Date.now());assert.equal(r.sec,2400);assert.equal(r.traffic.delaySec,600);assert.equal(r.freeFlowSec,1800);
+ assert.equal(r.instructions[0].message,'Svolta a destra');assert.equal(r.instructions[0].offsetM,1200);
  const ds=core.cumulative(coords);assert.ok(Math.abs(r.tollKm-(ds[4]-ds[1]))<1e-9);
  sections[0].countryCode='FRA';assert.equal(core.tomtomRoute(raw(sections),Date.now()).tollKm,null);
  assert.equal(core.tomtomRoute(raw([{sectionType:'FERRY'}]),Date.now()).tollKm,null);
