@@ -28,6 +28,6 @@
       ?'Traffico live TomTom configurato'
       :'Traffico live non ancora configurato';
   }
-  if(plans)plans.textContent='Piani';
+  if(plans)plans.remove();
   if(footer)footer.textContent='RouteSaver · Beta pubblica gratuita';
 })();

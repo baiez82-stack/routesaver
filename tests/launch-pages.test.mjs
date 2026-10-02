@@ -4,14 +4,12 @@ import assert from 'node:assert/strict';
 
 const load = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
-test('plans page presents non-binding beta offers without a payment form', async () => {
+test('Plus is a public development placeholder without offers or payments', async () => {
   const html = await load('plus.html');
-  assert.match(html, /BETA PUBBLICA GRATUITA/);
-  assert.match(html, /PRIMI 100 FOUNDING MEMBER/);
-  assert.match(html, /€19,99/);
-  assert.match(html, /€99/);
-  assert.match(html, /mailto:dovesibaeccociqua@gmail\.com/);
-  assert.match(html, /Nessun pagamento attivo/);
+  assert.match(html, /IN SVILUPPO/);
+  assert.match(html, /non è ancora disponibile al pubblico/i);
+  assert.match(html, /non sono attivi pagamenti o abbonamenti/i);
+  assert.doesNotMatch(html, /FOUNDING MEMBER|€19,99|€99|Business Pilot/i);
   assert.doesNotMatch(html, /<form\b/i);
   assert.doesNotMatch(html, /<input[^>]+(?:card|carta|iban)/i);
 });
@@ -46,5 +44,5 @@ test('homepage bootstrap exposes public-beta labels', async () => {
   assert.doesNotMatch(html, /Waze · ricalcola|Mappe Apple · ricalcola/);
   assert.match(script, /BETA GRATUITA/);
   assert.match(script, /Beta pubblica gratuita/);
-  assert.match(script, /plans\.textContent\s*=\s*'Piani'/);
+  assert.match(script, /if\(plans\)plans\.remove\(\)/);
 });
