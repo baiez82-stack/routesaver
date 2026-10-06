@@ -43,6 +43,7 @@ test('homepage bootstrap exposes public-beta labels', async () => {
   assert.match(html, /Range prudenziale/);
   assert.match(html, /Apri in Google Maps/);
   assert.match(html, /Opzioni avanzate · Beta/);
+  assert.match(html, /route-core\.js\?v=20261006b/);
   assert.match(html, /Navigazione RouteSaver · Beta/);
   assert.match(html, /Stai uscendo dal percorso conveniente/);
   assert.doesNotMatch(html, /Waze · ricalcola|Mappe Apple · ricalcola/);
