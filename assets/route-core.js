@@ -96,6 +96,16 @@
     var best=complete?eligible.reduce(function(a,b){return b.cost.total<a.cost.total-.01||(Math.abs(b.cost.total-a.cost.total)<.01&&b.route.sec<a.route.sec)?b:a;}):fastest;
     return {fastest:fastest,best:best,complete:complete};
   }
+  function uncertainty(cost,options){
+    options=options||{};
+    var basePct=Math.max(0,Number(options.basePct)||0),routePct=Math.max(0,Number(options.routePct)||0);
+    var energy=Math.max(0,Number(cost&&cost.energy)||0),margin=energy*Math.min(.4,basePct+routePct);
+    return {margin:margin,low:Math.max(0,(Number(cost&&cost.total)||0)-margin),high:(Number(cost&&cost.total)||0)+margin};
+  }
+  function savingsRange(reference,target,referenceOptions,targetOptions){
+    var a=uncertainty(reference,referenceOptions),b=uncertainty(target,targetOptions);
+    return {low:a.low-b.high,high:a.high-b.low,central:(Number(reference.total)||0)-(Number(target.total)||0)};
+  }
   function tomtomRoute(raw,fetchedAt){
     var s=raw.summary||{},coords=[];
     (raw.legs||[]).forEach(function(l){(l.points||[]).forEach(function(p){coords.push([p.longitude,p.latitude]);});});
@@ -129,5 +139,5 @@
     routes=routes.filter(function(r,i){return !routes.slice(0,i).some(function(x){return x.id===r.id;});}).sort(function(a,b){return a.sec-b.sec;});
     return {fast:routes[0],smart:routes[1],cheap:routes[2],extra:routes.slice(3),source:'TomTom',trafficStatus:'live'};
   }
-  return {valid:valid,distance:distance,cumulative:cumulative,routeId:routeId,anchors:anchors,navigation:navigation,gpx:gpx,lineDistance:lineDistance,progress:progress,toll:toll,traffic:traffic,congestionCost:congestionCost,energyCost:energyCost,rank:rank,tomtomRoute:tomtomRoute,tomtomRoutes:tomtomRoutes};
+  return {valid:valid,distance:distance,cumulative:cumulative,routeId:routeId,anchors:anchors,navigation:navigation,gpx:gpx,lineDistance:lineDistance,progress:progress,toll:toll,traffic:traffic,congestionCost:congestionCost,energyCost:energyCost,rank:rank,uncertainty:uncertainty,savingsRange:savingsRange,tomtomRoute:tomtomRoute,tomtomRoutes:tomtomRoutes};
 });

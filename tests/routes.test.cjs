@@ -37,6 +37,14 @@ test('congestion can change the cheapest eligible route',()=>{
  const limited=core.rank([{route:fast,cost:cost(fast)},{route:slow,cost:cost(slow)}],4);
  assert.equal(limited.best.route,fast);
 });
+test('prudential range widens with less certain consumption data',()=>{
+ const a={total:20,energy:12},b={total:16,energy:10};
+ const narrow=core.savingsRange(a,b,{basePct:.08,routePct:.05},{basePct:.08,routePct:.05});
+ const wide=core.savingsRange(a,b,{basePct:.20,routePct:.10},{basePct:.20,routePct:.10});
+ assert.equal(narrow.central,4);assert.equal(wide.central,4);
+ assert.ok(wide.low<narrow.low);assert.ok(wide.high>narrow.high);
+ assert.ok(core.uncertainty(a,{basePct:.1,routePct:.05}).low>=0);
+});
 test('missing tolls never masquerade as zero cost or produce a savings claim',()=>{
  const unknown={...base,tollKm:null},data=[{route:unknown,cost:cost(unknown)},{route:base,cost:cost(base)}];
  assert.equal(core.rank(data,10).complete,false);assert.equal(data[0].save,null);
