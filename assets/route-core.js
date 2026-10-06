@@ -103,8 +103,15 @@
     return {margin:margin,low:Math.max(0,(Number(cost&&cost.total)||0)-margin),high:(Number(cost&&cost.total)||0)+margin};
   }
   function savingsRange(reference,target,referenceOptions,targetOptions){
-    var a=uncertainty(reference,referenceOptions),b=uncertainty(target,targetOptions);
-    return {low:a.low-b.high,high:a.high-b.low,central:(Number(reference.total)||0)-(Number(target.total)||0)};
+    referenceOptions=referenceOptions||{};targetOptions=targetOptions||{};
+    var central=(Number(reference.total)||0)-(Number(target.total)||0),aEnergy=Math.max(0,Number(reference.energy)||0),bEnergy=Math.max(0,Number(target.energy)||0);
+    // The same vehicle's base-consumption error is largely correlated and
+    // therefore applies to the energy-cost difference, not twice to both trips.
+    var basePct=Math.max(Number(referenceOptions.basePct)||0,Number(targetOptions.basePct)||0);
+    var correlated=Math.abs(aEnergy-bEnergy)*basePct;
+    var routeSpecific=Math.hypot(aEnergy*(Number(referenceOptions.routePct)||0),bEnergy*(Number(targetOptions.routePct)||0));
+    var margin=correlated+routeSpecific;
+    return {low:central-margin,high:central+margin,central:central,margin:margin};
   }
   function tomtomRoute(raw,fetchedAt){
     var s=raw.summary||{},coords=[];

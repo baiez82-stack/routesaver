@@ -43,6 +43,7 @@ test('prudential range widens with less certain consumption data',()=>{
  const wide=core.savingsRange(a,b,{basePct:.20,routePct:.10},{basePct:.20,routePct:.10});
  assert.equal(narrow.central,4);assert.equal(wide.central,4);
  assert.ok(wide.low<narrow.low);assert.ok(wide.high>narrow.high);
+ assert.ok(wide.margin<core.uncertainty(a,{basePct:.20,routePct:.10}).margin+core.uncertainty(b,{basePct:.20,routePct:.10}).margin);
  assert.ok(core.uncertainty(a,{basePct:.1,routePct:.05}).low>=0);
 });
 test('missing tolls never masquerade as zero cost or produce a savings claim',()=>{
