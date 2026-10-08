@@ -1,98 +1,98 @@
 {
-  "updated_at": "2026-10-07 08:28 UTC",
-  "dataset_date": "07-10-2026",
+  "updated_at": "2026-10-08 08:28 UTC",
+  "dataset_date": "08-10-2026",
   "source": "Ministero delle Imprese e del Made in Italy (MIMIT)",
   "source_url": "https://www.mimit.gov.it/images/stories/carburanti/MediaRegionaleStradale.csv",
   "license": "IODL 2.0",
   "note": "Prezzi medi regionali stradali MIMIT. Benzina e gasolio in modalita SELF.",
   "regions": {
     "ABRUZZO": {
-      "gasolio": 2.261,
-      "benzina": 2.043
+      "gasolio": 2.26,
+      "benzina": 2.041
     },
     "BASILICATA": {
-      "gasolio": 2.269,
-      "benzina": 2.065
+      "gasolio": 2.274,
+      "benzina": 2.067
     },
     "BOLZANO": {
-      "gasolio": 2.288,
-      "benzina": 2.07
+      "gasolio": 2.28,
+      "benzina": 2.068
     },
     "CALABRIA": {
-      "gasolio": 2.271,
-      "benzina": 2.052
+      "gasolio": 2.277,
+      "benzina": 2.051
     },
     "CAMPANIA": {
-      "gasolio": 2.259,
+      "gasolio": 2.262,
       "benzina": 2.057
     },
     "EMILIA ROMAGNA": {
-      "gasolio": 2.265,
-      "benzina": 2.043
+      "gasolio": 2.263,
+      "benzina": 2.04
     },
     "FRIULI VENEZIA GIULIA": {
-      "gasolio": 2.271,
-      "benzina": 2.035
+      "gasolio": 2.268,
+      "benzina": 2.034
     },
     "LAZIO": {
       "gasolio": 2.245,
-      "benzina": 2.021
+      "benzina": 2.018
     },
     "LIGURIA": {
-      "gasolio": 2.26,
-      "benzina": 2.025
+      "gasolio": 2.262,
+      "benzina": 2.023
     },
     "LOMBARDIA": {
-      "gasolio": 2.261,
-      "benzina": 2.033
+      "gasolio": 2.262,
+      "benzina": 2.03
     },
     "MARCHE": {
-      "gasolio": 2.252,
-      "benzina": 2.036
+      "gasolio": 2.251,
+      "benzina": 2.032
     },
     "MOLISE": {
-      "gasolio": 2.264,
-      "benzina": 2.041
+      "gasolio": 2.262,
+      "benzina": 2.04
     },
     "PIEMONTE": {
-      "gasolio": 2.262,
-      "benzina": 2.036
+      "gasolio": 2.264,
+      "benzina": 2.033
     },
     "PUGLIA": {
-      "gasolio": 2.258,
-      "benzina": 2.044
+      "gasolio": 2.26,
+      "benzina": 2.041
     },
     "SARDEGNA": {
-      "gasolio": 2.274,
-      "benzina": 2.049
+      "gasolio": 2.275,
+      "benzina": 2.045
     },
     "SICILIA": {
-      "gasolio": 2.264,
-      "benzina": 2.046
+      "gasolio": 2.26,
+      "benzina": 2.043
     },
     "TOSCANA": {
-      "gasolio": 2.272,
-      "benzina": 2.043
+      "gasolio": 2.27,
+      "benzina": 2.04
     },
     "TRENTO": {
       "gasolio": 2.274,
-      "benzina": 2.052
+      "benzina": 2.051
     },
     "UMBRIA": {
-      "gasolio": 2.251,
-      "benzina": 2.038
+      "gasolio": 2.254,
+      "benzina": 2.036
     },
     "VALLE D'AOSTA": {
-      "gasolio": 2.268,
-      "benzina": 2.038
+      "gasolio": 2.276,
+      "benzina": 2.035
     },
     "VENETO": {
-      "gasolio": 2.253,
-      "benzina": 2.034
+      "gasolio": 2.252,
+      "benzina": 2.032
     }
   },
   "national": {
-    "benzina": 2.043,
+    "benzina": 2.041,
     "gasolio": 2.264
   }
 }
